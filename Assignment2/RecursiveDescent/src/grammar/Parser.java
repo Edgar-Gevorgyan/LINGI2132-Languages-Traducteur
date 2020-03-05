@@ -42,24 +42,21 @@ public class Parser {
 	public boolean parse(String[] input) {
 		try {
 			Lexer lex = new Lexer(input);
-			return parserE(lex) && lex.done();
+			parserE(lex);
+			return lex.done();
 		}catch (Exception e){
 			//System.out.println(e.getMessage());
 			return false;
 		}
 	}
 
-	private boolean parserE(Lexer lex) throws Exception {
+	private void parserE(Lexer lex) throws Exception {
 		parserT(lex);
 		parserEprime(lex);
-		return true;
 	}
 
 	private void parserEprime(Lexer lex) throws Exception {
-		if (lex.done()){
-			return;
-		}
-		if(lex.token().equals(OR)){
+		if(!lex.done() && lex.token().equals(OR)){
 			lex.mustBe(OR);
 			parserT(lex);
 			parserEprime(lex);
@@ -72,10 +69,7 @@ public class Parser {
 	}
 
 	private void parserTprime(Lexer lex) throws Exception {
-		if (lex.done()){
-			return;
-		}
-		if(lex.token().equals(AND)){
+		if(!lex.done() && lex.token().equals(AND)){
 			lex.mustBe(AND);
 			parserF(lex);
 			parserTprime(lex);
@@ -83,20 +77,18 @@ public class Parser {
 	}
 
 	private void parserF(Lexer lex) throws Exception {
-		if (lex.token().equals(NOT)){
-			lex.mustBe(NOT);
-			parserF(lex);
-		}
-		else if(lex.token().equals(LEFTPAR)){
-			lex.mustBe(LEFTPAR);
-			parserE(lex);
-			lex.mustBe(RIGHTPAR);
-		}
-		else if(lex.token().equals(ID)){
-			lex.mustBe(ID);
-		}
-		else {
-			throw new Exception("error parserF() " + lex.token());
+		switch (lex.token()) {
+			case NOT:
+				lex.mustBe(NOT);
+				parserF(lex);
+				break;
+			case LEFTPAR:
+				lex.mustBe(LEFTPAR);
+				parserE(lex);
+				lex.mustBe(RIGHTPAR);
+				break;
+			default:
+				lex.mustBe(ID);
 		}
 
 	}
