@@ -38,10 +38,8 @@ public class Parser {
 		}
 	}
 
-	private int l = 0;
 	//modify this  
 	public boolean parse(String[] input) {
-		l = input.length;
 		try {
 			Lexer lex = new Lexer(input);
 			return parserE(lex) && lex.done();
@@ -58,7 +56,7 @@ public class Parser {
 	}
 
 	private void parserEprime(Lexer lex) throws Exception {
-		if (lex.idx >= l){
+		if (lex.done()){
 			return;
 		}
 		if(lex.token().equals(OR)){
@@ -74,7 +72,7 @@ public class Parser {
 	}
 
 	private void parserTprime(Lexer lex) throws Exception {
-		if (lex.idx >= l){
+		if (lex.done()){
 			return;
 		}
 		if(lex.token().equals(AND)){
