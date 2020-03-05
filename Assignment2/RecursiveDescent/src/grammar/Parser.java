@@ -46,7 +46,7 @@ public class Parser {
 			Lexer lex = new Lexer(input);
 			return parserE(lex) && lex.done();
 		}catch (Exception e){
-			System.out.println(e.getMessage());
+			//System.out.println(e.getMessage());
 			return false;
 		}
 	}
