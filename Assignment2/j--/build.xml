@@ -43,7 +43,7 @@
         <mkdir dir="${CLASS_DIR}" />
         <javac srcdir="${SRC_DIR}"
                destdir="${CLASS_DIR}"
-               includes="jminusminus/**"
+               includes="jminusminus/**,lingi2132/**"
 	           excludes="jminusminus/JavaCCMain.java"
 	       includeantruntime="false"
                debug="on">
