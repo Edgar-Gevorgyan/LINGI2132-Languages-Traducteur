@@ -65,7 +65,7 @@ public class Generator extends GlobalGenerator {
 		output.addNoArgInstruction(ISUB); // b - a
 		output.addNoArgInstruction(ISTORE_1); // b = b - a
 		output.addLabel("endIf");
-		// Branching instruction
+		// Branching instruction 
 		output.addNoArgInstruction(ILOAD_1);
 		output.addNoArgInstruction(ICONST_0);
 		output.addBranchInstruction(IFNE, "statement");
