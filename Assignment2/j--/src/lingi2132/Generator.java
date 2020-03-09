@@ -45,6 +45,7 @@ public class Generator extends GlobalGenerator {
 		output.addNoArgInstruction(RETURN);
 		
 		/* Method gcd */
+		mods.add("public");
 		mods.add("static");
 		output.addMethod(mods, "gcd", "(I,I)I", null, false);
 		output.addBranchInstruction(GOTO, "out");
