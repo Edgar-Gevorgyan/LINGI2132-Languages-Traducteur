@@ -54,10 +54,16 @@ public class Generator extends GlobalGenerator {
 		output.addNoArgInstruction(ILOAD_1);
 		output.addBranchInstruction(IFLE, "updateB");
 		// Update a
-		// ...
+		output.addNoArgInstruction(ILOAD_0); // a
+		output.addNoArgInstruction(ILOAD_1); // b
+		output.addNoArgInstruction(ISUB); // a - b
+		output.addNoArgInstruction(ISTORE_0); // a = a - b
 		output.addLabel("updateB");
 		// Update b
-		// ...
+		output.addNoArgInstruction(ILOAD_1); // b
+		output.addNoArgInstruction(ILOAD_0); // a
+		output.addNoArgInstruction(ISUB); // b - a
+		output.addNoArgInstruction(ISTORE_1); // b = b - a
 		output.addLabel("endIf");
 		// Branching instruction
 		output.addNoArgInstruction(ILOAD_1);
