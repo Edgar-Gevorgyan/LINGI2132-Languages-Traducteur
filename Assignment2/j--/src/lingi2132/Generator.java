@@ -73,7 +73,7 @@ public class Generator extends GlobalGenerator {
 		output.addBranchInstruction(IFNE, "statement");
 		// Return
 		output.addNoArgInstruction(ILOAD_0); // Maybe error because we reload the initial value ? And should use the value a
-		
+		output.addNoArgInstruction(IRETURN);
 		
 		// Write
 		output.write();
