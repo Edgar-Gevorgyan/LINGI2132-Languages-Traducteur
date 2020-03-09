@@ -58,6 +58,7 @@ public class Generator extends GlobalGenerator {
 		output.addNoArgInstruction(ILOAD_1); // b
 		output.addNoArgInstruction(ISUB); // a - b
 		output.addNoArgInstruction(ISTORE_0); // a = a - b
+		output.addBranchInstruction(GOTO, "endIf");
 		output.addLabel("updateB");
 		// Update b
 		output.addNoArgInstruction(ILOAD_1); // b
@@ -65,13 +66,16 @@ public class Generator extends GlobalGenerator {
 		output.addNoArgInstruction(ISUB); // b - a
 		output.addNoArgInstruction(ISTORE_1); // b = b - a
 		output.addLabel("endIf");
-		// Branching instruction 
+		// Branching instruction
+		output.addLabel("out");
 		output.addNoArgInstruction(ILOAD_1);
 		output.addNoArgInstruction(ICONST_0);
 		output.addBranchInstruction(IFNE, "statement");
-		output.addLabel("out");
 		// Return
 		output.addNoArgInstruction(ILOAD_0); // Maybe error because we reload the initial value ? And should use the value a
 		
+		
+		// Write
+		output.write();
 	}
 }
