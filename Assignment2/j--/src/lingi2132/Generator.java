@@ -36,7 +36,7 @@ public class Generator extends GlobalGenerator {
 		// mods.add("super"); ???? ADD ????
 		
 		/* Class */
-		output.addClass(mods, "ClassToGenerate", "java/lang/Object", null, false); // null for last argument ?
+		output.addClass(mods, "packageOfClassToGenerate/ClassToGenerate", "java/lang/Object", null, false); // null for last argument ?
 		
 		/* Constructor */
 		output.addMethod(mods, "<init>", "()V", null, false);
@@ -45,7 +45,6 @@ public class Generator extends GlobalGenerator {
 		output.addNoArgInstruction(RETURN);
 		
 		/* Method gcd */
-		mods.add("public");
 		mods.add("static");
 		output.addMethod(mods, "gcd", "(I,I)I", null, false);
 		output.addBranchInstruction(GOTO, "out");
