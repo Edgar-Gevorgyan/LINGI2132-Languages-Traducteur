@@ -79,6 +79,7 @@ class Scanner {
         reserved.put(THIS.image(), THIS);
         reserved.put(TRUE.image(), TRUE);
         reserved.put(VOID.image(), VOID);
+        reserved.put(DO.image(), DO);
         reserved.put(WHILE.image(), WHILE);
 
         // Prime the pump.

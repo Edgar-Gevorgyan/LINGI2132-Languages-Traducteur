@@ -654,6 +654,12 @@ public class Parser {
             JExpression test = parExpression();
             JStatement statement = statement();
             return new JWhileStatement(line, test, statement);
+        } else if (have(DO)) {
+            JStatement statement = statement();
+            mustBe(WHILE);
+            JExpression test = parExpression();
+            mustBe(SEMI);
+            return new JDoWhileStatement(line , test ,statement);
         } else if (have(RETURN)) {
             if (have(SEMI)) {
                 return new JReturnStatement(line, null);
