@@ -143,10 +143,10 @@ SKIP: {" "|"\t"|"\n"|"\r"|"\f"}
 SKIP: {<SINGLE_LINE_COMMENT: "//" (~["\n","\r"])* ("\n"|"\r"|"\r\n")>}
 
 // Multi-line comments -- ignored
-MORE: { "/*": IN_MULTI_LINE_COMMENTS }
-<IN_MULTI_LINE_COMMENTS>
-SPECIAL_TOKEN: { <MULTI_LINE_COMMENTS: "*/" > : DEFAULT }
-<IN_MULTI_LINE_COMMENTS>
+MORE: { "/*": IN_MULTI_LINE_COMMENT }
+<IN_MULTI_LINE_COMMENT>
+SPECIAL_TOKEN: { <MULTI_LINE_COMMENT: "*/" > : DEFAULT }
+<IN_MULTI_LINE_COMMENT>
 MORE: { < ~[] > }
 
 // Reserved words

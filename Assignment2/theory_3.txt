@@ -1,0 +1,5 @@
+https://cs.stackexchange.com/questions/73993/how-to-determine-if-an-automata-dfa-accepts-an-infinite-or-finite-language
+
+En gros, ça sert à rien de tester tous les strings de + de 2n
+
+Si il existe un string de taille n <= k <= 2n-1 alors c'est qu'on boucle à un endroit. Dans ce cas, comme on boucle, on sait représenter une infinité de mots, et on a un langage infini
