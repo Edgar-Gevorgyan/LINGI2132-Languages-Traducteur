@@ -1,0 +1,120 @@
+STEP 1
+E ::= E + T
+E ::= E - T
+E ::= T
+
+T ::= T x F 
+T ::= T / F 
+T ::= F
+
+F ::= (E) 
+F ::= id
+
+STEP 2
+
+E ::= TE'
+E'::= +TE'
+E'::= -TE'
+E'::= epsilon
+
+T ::= FT'
+T'::= xFT'
+T'::= /FT'
+T'::= epsilon
+
+F ::= (E) 
+F ::= id
+______________________________________________
+INIT :
+frist(+) = {+}
+first(-) = {-}
+first(x) = {x}
+first(/) = {/}
+first(() = {(}
+first()) = {)}
+first(id) = {id}
+first(E) = {}
+first(E') = {epsilon}
+first(T) = {}
+first(T') = {epsilon}
+first(F) = {}
+
+ITERATION 1:
+
+first(E) = {}
+first(E') = {+, -, epsilon}
+first(T) = {}
+first(T') = {x, /, epsilon}
+first(F) = {(, id}
+
+ITERATION 2:
+
+first(E) = {}
+first(E') = {+, -, epsilon}
+first(T) = {(, id}
+first(T') = {x, /, epsilon}
+first(F) = {(, id}
+
+ITERATION 3:
+
+first(E) = {(, id}
+first(E') = {+, -, epsilon}
+first(T) = {(, id}
+first(T') = {x, /, epsilon}
+first(F) = {(, id}
+______________________________________________
+
+E ::= TE'
+E'::= +TE'
+E'::= -TE'
+E'::= epsilon
+
+T ::= FT'
+T'::= xFT'
+T'::= /FT'
+T'::= epsilon
+
+F ::= (E) 
+F ::= id
+______________________________________________
+
+INIT :
+
+follow(E) = {#}
+follow(E') = {}
+follow(T) = {}
+follow(T') = {}
+follow(F) = {}
+
+ITERATION 1:
+
+follow(E) = {),#}
+follow(E') = {#}
+follow(T) = {+, -, #}
+follow(T') = {+, -, #}
+follow(F) = {x, /}
+
+ITERATION 2:
+
+follow(E) = {),#}
+follow(E') = {),#}
+follow(T) = {+, -, ), #}
+follow(T') = {+, -, #}
+follow(F) = {x, /,+, -, #}
+
+ITERATION 3:
+
+follow(E) = {),#}
+follow(E') = {),#}
+follow(T) = {+, -, ), #}
+follow(T') = {+, -, ), #}
+follow(F) = {x, /,+, -, ), #}
+______________________________________________
+
+
+
+
+
+
+
+
