@@ -38,7 +38,7 @@ public class Regex {
 	}
 	
 	//modify this 
-	public boolean parse(String[] input) {
+	public boolean parse(String[] input){
 		try {
 			Lexer lex = new Lexer(input);
 			parser0(lex);
@@ -56,7 +56,7 @@ public class Regex {
 		}
 		else if(lex.token().equals(Alphabet.C)){
 			lex.mustBe(Alphabet.C);
-			parser2(lex);
+			parser7(lex);
 			
 		}
 		else {
@@ -65,18 +65,14 @@ public class Regex {
 	}
 	
 	private void parser1(Lexer lex) throws Exception{
-		if (lex.token().equals(Alphabet.A)){
-			lex.mustBe(Alphabet.A);
-			parser3(lex);
-		}
-		else if(lex.token().equals(Alphabet.B)){
+		if(!lex.done() && lex.token().equals(Alphabet.B)){
 			lex.mustBe(Alphabet.B);
-			parser1(lex);
+			parser2(lex);
 			
 		}
-		else if(lex.token().equals(Alphabet.C)){
+		else if(!lex.done() && lex.token().equals(Alphabet.C)){
 			lex.mustBe(Alphabet.C);
-			parser1(lex);
+			parser6(lex);
 			
 		}
 		else {
@@ -85,9 +81,19 @@ public class Regex {
 	}
 	
 	private void parser2(Lexer lex) throws Exception{
-		if(lex.token().equals(Alphabet.C)){
+		if(!lex.done() && lex.token().equals(Alphabet.A)){
+			lex.mustBe(Alphabet.A);
+			parser3(lex);
+			
+		}
+		else if(!lex.done() && lex.token().equals(Alphabet.B)){
+			lex.mustBe(Alphabet.B);
+			parser5(lex);
+			
+		}
+		else if(!lex.done() && lex.token().equals(Alphabet.C)){
 			lex.mustBe(Alphabet.C);
-			parser2(lex);
+			parser6(lex);
 			
 		}
 		else {
@@ -113,12 +119,39 @@ public class Regex {
 		}
 		else if(lex.token().equals(Alphabet.C)){
 			lex.mustBe(Alphabet.C);
-			parser2(lex);
+			parser7(lex);
 			
 		}
 		else {
 			throw new Exception();
 		}
 	}
-	
+	private void parser5(Lexer lex) throws Exception{
+		if(!lex.done() && lex.token().equals(Alphabet.B)){
+			lex.mustBe(Alphabet.B);
+			parser5(lex);
+			
+		}
+		else if(!lex.done() && lex.token().equals(Alphabet.C)){
+			lex.mustBe(Alphabet.C);
+			parser6(lex);
+			
+		}
+		else {
+			return;
+		}
+	}
+	private void parser6(Lexer lex) throws Exception{
+		if(!lex.done() && lex.token().equals(Alphabet.C)){
+			lex.mustBe(Alphabet.C);
+			parser6(lex);
+			
+		}
+		else {
+			return;
+		}
+	}
+	private void parser7(Lexer lex) throws Exception{
+		return;
+	}
 }
