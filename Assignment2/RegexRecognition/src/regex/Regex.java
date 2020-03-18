@@ -65,22 +65,6 @@ public class Regex {
 	}
 	
 	private void parser1(Lexer lex) throws Exception{
-		if(!lex.done() && lex.token().equals(Alphabet.B)){
-			lex.mustBe(Alphabet.B);
-			parser2(lex);
-			
-		}
-		else if(!lex.done() && lex.token().equals(Alphabet.C)){
-			lex.mustBe(Alphabet.C);
-			parser6(lex);
-			
-		}
-		else {
-			return;
-		}
-	}
-	
-	private void parser2(Lexer lex) throws Exception{
 		if(!lex.done() && lex.token().equals(Alphabet.A)){
 			lex.mustBe(Alphabet.A);
 			parser3(lex);
@@ -88,7 +72,7 @@ public class Regex {
 		}
 		else if(!lex.done() && lex.token().equals(Alphabet.B)){
 			lex.mustBe(Alphabet.B);
-			parser5(lex);
+			parser1(lex);
 			
 		}
 		else if(!lex.done() && lex.token().equals(Alphabet.C)){
@@ -124,21 +108,6 @@ public class Regex {
 		}
 		else {
 			throw new Exception();
-		}
-	}
-	private void parser5(Lexer lex) throws Exception{
-		if(!lex.done() && lex.token().equals(Alphabet.B)){
-			lex.mustBe(Alphabet.B);
-			parser5(lex);
-			
-		}
-		else if(!lex.done() && lex.token().equals(Alphabet.C)){
-			lex.mustBe(Alphabet.C);
-			parser6(lex);
-			
-		}
-		else {
-			return;
 		}
 	}
 	private void parser6(Lexer lex) throws Exception{
