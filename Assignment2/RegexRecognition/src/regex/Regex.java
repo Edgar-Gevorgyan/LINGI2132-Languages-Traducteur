@@ -1,7 +1,7 @@
 package regex;
 
 
-import regex.Alphabet;;
+import regex.Alphabet;
 
 public class Regex {
 	class Lexer {
@@ -56,7 +56,7 @@ public class Regex {
 		}
 		else if(lex.token().equals(Alphabet.C)){
 			lex.mustBe(Alphabet.C);
-			parser7(lex);
+			parser2(lex);
 			
 		}
 		else {
@@ -67,7 +67,7 @@ public class Regex {
 	private void parser1(Lexer lex) throws Exception{
 		if(!lex.done() && lex.token().equals(Alphabet.A)){
 			lex.mustBe(Alphabet.A);
-			parser3(lex);
+			parser7(lex);
 			
 		}
 		else if(!lex.done() && lex.token().equals(Alphabet.B)){
@@ -77,43 +77,20 @@ public class Regex {
 		}
 		else if(!lex.done() && lex.token().equals(Alphabet.C)){
 			lex.mustBe(Alphabet.C);
-			parser6(lex);
+			parser3(lex);
 			
 		}
 		else {
 			return;
 		}
 	}
-	
+	private void parser2(Lexer lex) throws Exception{
+		return;
+	}
 	private void parser3(Lexer lex) throws Exception{
-		if(lex.token().equals(Alphabet.B)){
-			lex.mustBe(Alphabet.B);
-			parser4(lex);
-			
-		}
-		else {
-			throw new Exception();
-		}
-	}
-	
-	private void parser4(Lexer lex) throws Exception{
-		if (lex.token().equals(Alphabet.A)){
-			lex.mustBe(Alphabet.A);
-			parser3(lex);
-		}
-		else if(lex.token().equals(Alphabet.C)){
-			lex.mustBe(Alphabet.C);
-			parser7(lex);
-			
-		}
-		else {
-			throw new Exception();
-		}
-	}
-	private void parser6(Lexer lex) throws Exception{
 		if(!lex.done() && lex.token().equals(Alphabet.C)){
 			lex.mustBe(Alphabet.C);
-			parser6(lex);
+			parser3(lex);
 			
 		}
 		else {
@@ -121,6 +98,29 @@ public class Regex {
 		}
 	}
 	private void parser7(Lexer lex) throws Exception{
-		return;
+		if(lex.token().equals(Alphabet.B)){
+			lex.mustBe(Alphabet.B);
+			parser8(lex);
+			
+		}
+		else {
+			throw new Exception();
+		}
 	}
+	
+	private void parser8(Lexer lex) throws Exception{
+		if (lex.token().equals(Alphabet.A)){
+			lex.mustBe(Alphabet.A);
+			parser7(lex);
+		}
+		else if(lex.token().equals(Alphabet.C)){
+			lex.mustBe(Alphabet.C);
+			parser2(lex);
+			
+		}
+		else {
+			throw new Exception();
+		}
+	}
+	
 }
