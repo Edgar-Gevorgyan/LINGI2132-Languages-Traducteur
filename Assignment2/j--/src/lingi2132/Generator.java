@@ -16,14 +16,16 @@ public class Generator extends GlobalGenerator {
 		
 		ArrayList<String> mods = new ArrayList<>();
 		mods.add("public");
-		mods.add("super");
-
 		
 		/* Class */
 		output.addClass(mods, "packageOfClassToGenerate/ClassToGenerate", "java/lang/Object", null, false); // null for last argument ?
 		
 		mods.clear();
 		mods.add("public");
+		
+		String in =  output.createLabel();
+		String out = output.createLabel();
+		String updateB = output.createLabel();
 		
 		/* Constructor */
 		output.addMethod(mods, "<init>", "()V", null, false);
@@ -34,26 +36,26 @@ public class Generator extends GlobalGenerator {
 		/* Method gcd */
 		mods.add("static");
 		output.addMethod(mods, "gcd", "(II)I", null, false);
-		output.addLabel("in");
+		output.addLabel(in);
 		output.addNoArgInstruction(ILOAD_1);
-		output.addBranchInstruction(IFEQ, "out");
+		output.addBranchInstruction(IFEQ, out);
 		output.addNoArgInstruction(ILOAD_0);
 		output.addNoArgInstruction(ILOAD_1);
-		output.addBranchInstruction(IF_ICMPLE, "updateB");
+		output.addBranchInstruction(IF_ICMPLE, updateB);
 		output.addNoArgInstruction(ILOAD_0);
 		output.addNoArgInstruction(ILOAD_1);
 		output.addNoArgInstruction(ISUB);
 		output.addNoArgInstruction(ISTORE_0);
-		output.addBranchInstruction(GOTO, "in");
+		output.addBranchInstruction(GOTO, in);
 		
-		output.addLabel("updateB");
+		output.addLabel(updateB);
 		output.addNoArgInstruction(ILOAD_1);
 		output.addNoArgInstruction(ILOAD_0);
 		output.addNoArgInstruction(ISUB);
 		output.addNoArgInstruction(ISTORE_1);
-		output.addBranchInstruction(GOTO, "in");
+		output.addBranchInstruction(GOTO, in);
 		
-		output.addLabel("out");
+		output.addLabel(out);
 		output.addNoArgInstruction(ILOAD_0);
 		output.addNoArgInstruction(IRETURN);
 		
