@@ -24,6 +24,10 @@ public class ConditionnalOr {
 	public static boolean tt() {
 		return true || true;
 	}
+	
+	public static boolean test1() {
+		return false && true || true;
+	}
 
     public static void main(String[] args) {
     	/*
@@ -33,6 +37,7 @@ public class ConditionnalOr {
         System.out.println(ft());
         System.out.println(tf());
         System.out.println(tt());
+        System.out.println(test1());
     }
 
 }

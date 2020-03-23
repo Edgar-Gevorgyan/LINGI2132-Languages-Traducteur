@@ -174,6 +174,7 @@ TOKEN:
 | < TRUE: "true" >
 | < VOID: "void" >
 | < WHILE: "while" >
+| < DO: "do" >
 }
 
 // Operators (these could be combined with the reserved words)
@@ -683,6 +684,11 @@ private JStatement statement(): {
         test = parExpression() 
         body = statement()
         { statement = new JWhileStatement( line, test, body ); } |
+        <DO> { line = token.beginLine; }
+        body = statement()
+        <WHILE>
+        test = parExpression()
+        { statement = new JDoWhileStatement( line, test, body ); } |
         <RETURN> { line = token.beginLine; }
         [ 
             expr = expression() 

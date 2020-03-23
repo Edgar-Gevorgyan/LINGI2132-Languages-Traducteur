@@ -29,37 +29,38 @@ public interface JavaCCParserConstants {
   int TRUE = 31;
   int VOID = 32;
   int WHILE = 33;
-  int PLUS = 34;
-  int ASSIGN = 35;
-  int DEC = 36;
-  int EQUAL = 37;
-  int GT = 38;
-  int INC = 39;
-  int LAND = 40;
-  int LOR = 41;
-  int LE = 42;
-  int LNOT = 43;
-  int MINUS = 44;
-  int PLUS_ASSIGN = 45;
-  int STAR = 46;
-  int LPAREN = 47;
-  int RPAREN = 48;
-  int LCURLY = 49;
-  int RCURLY = 50;
-  int LBRACK = 51;
-  int RBRACK = 52;
-  int SEMI = 53;
-  int COMMA = 54;
-  int DOT = 55;
-  int IDENTIFIER = 56;
-  int LETTER = 57;
-  int DIGIT = 58;
-  int NON_ZERO_DIGIT = 59;
-  int INT_LITERAL = 60;
-  int CHAR_LITERAL = 61;
-  int STRING_LITERAL = 62;
-  int ESC = 63;
-  int ERROR = 64;
+  int DO = 34;
+  int PLUS = 35;
+  int ASSIGN = 36;
+  int DEC = 37;
+  int EQUAL = 38;
+  int GT = 39;
+  int INC = 40;
+  int LAND = 41;
+  int LOR = 42;
+  int LE = 43;
+  int LNOT = 44;
+  int MINUS = 45;
+  int PLUS_ASSIGN = 46;
+  int STAR = 47;
+  int LPAREN = 48;
+  int RPAREN = 49;
+  int LCURLY = 50;
+  int RCURLY = 51;
+  int LBRACK = 52;
+  int RBRACK = 53;
+  int SEMI = 54;
+  int COMMA = 55;
+  int DOT = 56;
+  int IDENTIFIER = 57;
+  int LETTER = 58;
+  int DIGIT = 59;
+  int NON_ZERO_DIGIT = 60;
+  int INT_LITERAL = 61;
+  int CHAR_LITERAL = 62;
+  int STRING_LITERAL = 63;
+  int ESC = 64;
+  int ERROR = 65;
 
   int DEFAULT = 0;
   int IN_MULTI_LINE_COMMENT = 1;
@@ -99,6 +100,7 @@ public interface JavaCCParserConstants {
     "\"true\"",
     "\"void\"",
     "\"while\"",
+    "\"do\"",
     "\"+\"",
     "\"=\"",
     "\"--\"",

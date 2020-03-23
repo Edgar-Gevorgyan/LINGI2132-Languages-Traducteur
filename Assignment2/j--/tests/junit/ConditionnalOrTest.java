@@ -11,5 +11,6 @@ public class ConditionnalOrTest extends TestCase{
 		this.assertEquals(ConditionnalOr.ft(), true);
 		this.assertEquals(ConditionnalOr.tf(), true);
 		this.assertEquals(ConditionnalOr.tt(), true);
+		this.assertEquals(ConditionnalOr.test1(), true);
 	}
 }
