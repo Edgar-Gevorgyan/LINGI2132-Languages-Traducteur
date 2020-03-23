@@ -5,7 +5,6 @@ public interface JavaCCParserConstants {
 
   int EOF = 0;
   int SINGLE_LINE_COMMENT = 6;
-  int MULTI_LINE_COMMENT = 8;
   int ABSTRACT = 10;
   int BOOLEAN = 11;
   int CHAR = 12;

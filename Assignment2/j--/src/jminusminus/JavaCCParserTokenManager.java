@@ -829,20 +829,11 @@ static final long[] jjtoToken = {
    0x71fffffffffffc01L, 0x1L, 
 };
 static final long[] jjtoSkip = {
-   0x17eL, 0x0L, 
-};
-static final long[] jjtoSpecial = {
-   0x100L, 0x0L, 
-};
-static final long[] jjtoMore = {
-   0x280L, 0x0L, 
+   0x3feL, 0x0L, 
 };
 protected SimpleCharStream input_stream;
 private final int[] jjrounds = new int[21];
 private final int[] jjstateSet = new int[42];
-StringBuffer image;
-int jjimageLen;
-int lengthOfMatch;
 protected char curChar;
 public JavaCCParserTokenManager(SimpleCharStream stream){
    if (SimpleCharStream.staticFlag)
@@ -918,40 +909,35 @@ public Token getNextToken()
    {        
       jjmatchedKind = 0;
       matchedToken = jjFillToken();
-      matchedToken.specialToken = specialToken;
       return matchedToken;
    }
-   image = null;
-   jjimageLen = 0;
 
-   for (;;)
+   switch(curLexState)
    {
-     switch(curLexState)
-     {
-       case 0:
-         try { input_stream.backup(0);
-            while (curChar <= 32 && (0x100003600L & (1L << curChar)) != 0L)
-               curChar = input_stream.BeginToken();
-         }
-         catch (java.io.IOException e1) { continue EOFLoop; }
-         jjmatchedKind = 0x7fffffff;
-         jjmatchedPos = 0;
-         curPos = jjMoveStringLiteralDfa0_0();
-         if (jjmatchedPos == 0 && jjmatchedKind > 64)
-         {
-            jjmatchedKind = 64;
-         }
-         break;
-       case 1:
-         jjmatchedKind = 0x7fffffff;
-         jjmatchedPos = 0;
-         curPos = jjMoveStringLiteralDfa0_1();
-         if (jjmatchedPos == 0 && jjmatchedKind > 9)
-         {
-            jjmatchedKind = 9;
-         }
-         break;
-     }
+     case 0:
+       try { input_stream.backup(0);
+          while (curChar <= 32 && (0x100003600L & (1L << curChar)) != 0L)
+             curChar = input_stream.BeginToken();
+       }
+       catch (java.io.IOException e1) { continue EOFLoop; }
+       jjmatchedKind = 0x7fffffff;
+       jjmatchedPos = 0;
+       curPos = jjMoveStringLiteralDfa0_0();
+       if (jjmatchedPos == 0 && jjmatchedKind > 64)
+       {
+          jjmatchedKind = 64;
+       }
+       break;
+     case 1:
+       jjmatchedKind = 0x7fffffff;
+       jjmatchedPos = 0;
+       curPos = jjMoveStringLiteralDfa0_1();
+       if (jjmatchedPos == 0 && jjmatchedKind > 9)
+       {
+          jjmatchedKind = 9;
+       }
+       break;
+   }
      if (jjmatchedKind != 0x7fffffff)
      {
         if (jjmatchedPos + 1 < curPos)
@@ -959,41 +945,16 @@ public Token getNextToken()
         if ((jjtoToken[jjmatchedKind >> 6] & (1L << (jjmatchedKind & 077))) != 0L)
         {
            matchedToken = jjFillToken();
-           matchedToken.specialToken = specialToken;
        if (jjnewLexState[jjmatchedKind] != -1)
          curLexState = jjnewLexState[jjmatchedKind];
            return matchedToken;
         }
-        else if ((jjtoSkip[jjmatchedKind >> 6] & (1L << (jjmatchedKind & 077))) != 0L)
+        else
         {
-           if ((jjtoSpecial[jjmatchedKind >> 6] & (1L << (jjmatchedKind & 077))) != 0L)
-           {
-              matchedToken = jjFillToken();
-              if (specialToken == null)
-                 specialToken = matchedToken;
-              else
-              {
-                 matchedToken.specialToken = specialToken;
-                 specialToken = (specialToken.next = matchedToken);
-              }
-              SkipLexicalActions(matchedToken);
-           }
-           else 
-              SkipLexicalActions(null);
          if (jjnewLexState[jjmatchedKind] != -1)
            curLexState = jjnewLexState[jjmatchedKind];
            continue EOFLoop;
         }
-        jjimageLen += jjmatchedPos + 1;
-      if (jjnewLexState[jjmatchedKind] != -1)
-        curLexState = jjnewLexState[jjmatchedKind];
-        curPos = 0;
-        jjmatchedKind = 0x7fffffff;
-        try {
-           curChar = input_stream.readChar();
-           continue;
-        }
-        catch (java.io.IOException e1) { }
      }
      int error_line = input_stream.getEndLine();
      int error_column = input_stream.getEndColumn();
@@ -1015,16 +976,7 @@ public Token getNextToken()
         error_after = curPos <= 1 ? "" : input_stream.GetImage();
      }
      throw new TokenMgrError(EOFSeen, curLexState, error_line, error_column, error_after, curChar, TokenMgrError.LEXICAL_ERROR);
-   }
   }
 }
 
-void SkipLexicalActions(Token matchedToken)
-{
-   switch(jjmatchedKind)
-   {
-      default :
-         break;
-   }
-}
 }

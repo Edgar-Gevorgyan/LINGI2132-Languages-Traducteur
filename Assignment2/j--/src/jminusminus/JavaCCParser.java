@@ -1809,6 +1809,17 @@ class JavaCCParser implements JavaCCParserConstants {
     finally { jj_save(10, xla); }
   }
 
+  final private boolean jj_3R_96() {
+    if (jj_scan_token(FALSE)) return true;
+    return false;
+  }
+
+  final private boolean jj_3R_114() {
+    if (jj_scan_token(COMMA)) return true;
+    if (jj_3R_113()) return true;
+    return false;
+  }
+
   final private boolean jj_3R_95() {
     if (jj_scan_token(TRUE)) return true;
     return false;
@@ -2605,17 +2616,6 @@ class JavaCCParser implements JavaCCParserConstants {
 
   final private boolean jj_3R_97() {
     if (jj_scan_token(NULL)) return true;
-    return false;
-  }
-
-  final private boolean jj_3R_96() {
-    if (jj_scan_token(FALSE)) return true;
-    return false;
-  }
-
-  final private boolean jj_3R_114() {
-    if (jj_scan_token(COMMA)) return true;
-    if (jj_3R_113()) return true;
     return false;
   }
 
