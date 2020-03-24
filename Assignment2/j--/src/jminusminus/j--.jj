@@ -688,6 +688,7 @@ private JStatement statement(): {
         body = statement()
         <WHILE>
         test = parExpression()
+        <SEMI>
         { statement = new JDoWhileStatement( line, test, body ); } |
         <RETURN> { line = token.beginLine; }
         [ 

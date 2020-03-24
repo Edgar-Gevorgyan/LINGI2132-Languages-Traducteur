@@ -586,6 +586,7 @@ class JavaCCParser implements JavaCCParserConstants {
         body = statement();
         jj_consume_token(WHILE);
         test = parExpression();
+        jj_consume_token(SEMI);
           statement = new JDoWhileStatement( line, test, body );
         break;
       case RETURN:
@@ -1824,18 +1825,6 @@ class JavaCCParser implements JavaCCParserConstants {
     return false;
   }
 
-  final private boolean jj_3_2() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_scan_token(32)) {
-    jj_scanpos = xsp;
-    if (jj_3R_23()) return true;
-    }
-    if (jj_scan_token(IDENTIFIER)) return true;
-    if (jj_scan_token(LPAREN)) return true;
-    return false;
-  }
-
   final private boolean jj_3R_54() {
     Token xsp;
     xsp = jj_scanpos;
@@ -1849,6 +1838,18 @@ class JavaCCParser implements JavaCCParserConstants {
   final private boolean jj_3R_60() {
     if (jj_scan_token(PLUS)) return true;
     if (jj_3R_53()) return true;
+    return false;
+  }
+
+  final private boolean jj_3_2() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_scan_token(32)) {
+    jj_scanpos = xsp;
+    if (jj_3R_23()) return true;
+    }
+    if (jj_scan_token(IDENTIFIER)) return true;
+    if (jj_scan_token(LPAREN)) return true;
     return false;
   }
 
@@ -2050,14 +2051,14 @@ class JavaCCParser implements JavaCCParserConstants {
     return false;
   }
 
-  final private boolean jj_3R_42() {
-    if (jj_scan_token(DOT)) return true;
-    if (jj_scan_token(IDENTIFIER)) return true;
+  final private boolean jj_3R_73() {
+    if (jj_scan_token(DEC)) return true;
     return false;
   }
 
-  final private boolean jj_3R_73() {
-    if (jj_scan_token(DEC)) return true;
+  final private boolean jj_3R_42() {
+    if (jj_scan_token(DOT)) return true;
+    if (jj_scan_token(IDENTIFIER)) return true;
     return false;
   }
 
