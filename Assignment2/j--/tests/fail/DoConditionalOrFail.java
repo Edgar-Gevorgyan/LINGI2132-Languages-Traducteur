@@ -9,7 +9,7 @@ import java.lang.System;
 public class DoConditionalOrFail {
 
     public static void main(String[] args) {
-        System.out.println(false || || false);
+        boolean a = true || || true;
     }
 
 }

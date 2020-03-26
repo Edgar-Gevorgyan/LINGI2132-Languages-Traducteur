@@ -1383,7 +1383,7 @@ private JExpression multiplicativeExpression(): {
         )*
     } 
     catch ( ParseException e ) { 
-        recoverFromError( new int[] { SEMI, EOF }, e ); 
+        recoverFromError( new int[] { SEMI, EOF }, e );
     }
     { return lhs; }
 }
