@@ -1157,7 +1157,7 @@ private JExpression assignmentExpression(): {
 }
 {
     try {
-        lhs = conditionalExpression() { line = lhs.line(); }
+        lhs = conditionalExpression() { line = token.beginLine; }
         [       
             <ASSIGN> 
             rhs = assignmentExpression()
@@ -1189,7 +1189,7 @@ private JExpression conditionalExpression(): {
 }
 {
 	try {
-		lhs = conditionalOrExpression() { line = lhs.line(); }
+		lhs = conditionalOrExpression() { line = token.beginLine; }
 	}
 	catch ( ParseException e ) {
 		recoverFromError( new int[] { SEMI, EOF }, e );
@@ -1214,7 +1214,7 @@ private JExpression conditionalOrExpression(): {
 }
 {
 	try {
-		lhs = conditionalAndExpression() { line = lhs.line(); }
+		lhs = conditionalAndExpression() { line = token.beginLine; }
 		(
 			<LOR>
 			rhs = conditionalAndExpression()
@@ -1244,7 +1244,7 @@ private JExpression conditionalAndExpression(): {
 }
 {
     try {
-        lhs = equalityExpression() { line = lhs.line(); }
+        lhs = equalityExpression() { line = token.beginLine; }
         ( 
             <LAND>
             rhs = equalityExpression()
@@ -1274,7 +1274,7 @@ private JExpression equalityExpression(): {
 }
 {
     try {
-        lhs = relationalExpression() { line = lhs.line(); }
+        lhs = relationalExpression() { line = token.beginLine; }
         ( 
             <EQUAL> 
             rhs = relationalExpression()
@@ -1306,7 +1306,7 @@ private JExpression relationalExpression(): {
 }
 {
     try {
-        lhs = additiveExpression() { line = lhs.line(); }
+        lhs = additiveExpression() { line = token.beginLine; }
         [ 
             <GT> 
             rhs = additiveExpression()
@@ -1342,7 +1342,7 @@ private JExpression additiveExpression(): {
 }
 {
     try {
-        lhs = multiplicativeExpression() { line = lhs.line(); } 
+        lhs = multiplicativeExpression() { line = token.beginLine; } 
         ( 
             <PLUS> 
             rhs = multiplicativeExpression()
@@ -1375,7 +1375,7 @@ private JExpression multiplicativeExpression(): {
 }
 {
     try {
-        lhs = unaryExpression() { line = lhs.line(); }
+        lhs = unaryExpression() { line = token.beginLine; }
         ( 
             <STAR> 
             rhs = unaryExpression()
