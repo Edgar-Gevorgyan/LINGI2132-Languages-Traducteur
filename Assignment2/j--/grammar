@@ -32,6 +32,7 @@ blockStatement ::= localVariableDeclarationStatement
 statement ::= block
             | IF parExpression statement [ELSE statement]
             | WHILE parExpression statement 
+            | DO statement WHILE parExpression SEMI
             | RETURN [expression] SEMI
             | SEMI 
             | statementExpression SEMI
@@ -69,8 +70,13 @@ statementExpression ::= expression // but must have side-effect, eg i++
 
 expression ::= assignmentExpression
 
-assignmentExpression ::= conditionalAndExpression  // must be a valid lhs
+assignmentExpression ::= conditionalExpression  // must be a valid lhs
                            [(ASSIGN | PLUS_ASSIGN) assignmentExpression]
+                           
+conditionalExpression ::= conditionalOrExpression
+
+conditionalOrExpression ::= conditionalAndExpression // level 11
+                               {LOR equalityExpression}
 
 conditionalAndExpression ::= equalityExpression // level 10
                                {LAND equalityExpression}
