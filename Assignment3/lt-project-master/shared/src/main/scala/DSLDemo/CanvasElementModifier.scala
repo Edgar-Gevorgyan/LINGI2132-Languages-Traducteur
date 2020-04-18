@@ -5,7 +5,11 @@ trait CanvasElementModifier[ApplyOn <: Shape] {
 }
 
 case class Color(c: String) extends CanvasElementModifier[Shape] {
-  override def change(x: Shape): Unit = x.colorShape(c)
+  override def change(x: Shape): Unit = x.color(c)
+}
+
+case class StrokeWidth(sW: Int) extends CanvasElementModifier[Shape] {
+  override def change(x: Shape): Unit = x.strokeWidth(sW)
 }
 
 case class Width(w: Int) extends CanvasElementModifier[Shape] {
