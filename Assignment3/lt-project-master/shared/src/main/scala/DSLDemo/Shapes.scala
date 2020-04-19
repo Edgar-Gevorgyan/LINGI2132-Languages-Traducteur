@@ -19,8 +19,8 @@ sealed trait Shape {
 sealed trait ShapeAttributes {
   var color: String = "red"
   var strokeWidth: Int = 1
-  def color(c: String):Unit = color = c
-  def strokeWidth(sW: Int):Unit = strokeWidth = sW
+  def color(c: String): Unit = color = c
+  def strokeWidth(sW: Int): Unit = strokeWidth = sW
 }
 
 sealed trait SingleShape extends Shape with ShapeAttributes {
