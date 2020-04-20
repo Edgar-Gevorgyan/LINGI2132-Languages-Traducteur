@@ -84,11 +84,20 @@ class ComposedShapeTest extends AnyFunSuite with Matchers {
   }
 
   test("ewaa"){
-    var c = Circle(2,2,2)
+    val c = Circle(2,2,2)
     val l:Array[Circle] = Array(Circle(0,0,0),Circle(1,1,1),c)
     l(2).radius shouldBe 2
     c.radius = 10
     l(2).radius shouldBe 10
   }
 
+  test("should trow error"){
+    val circles = Array.fill(4)(Circle(50, 0, 0))
+    val rectangles = Array.tabulate(5)(i => Rectangle(i*10, i*10, 10, 30))
+    val compo = rectangles(0) + circles(0)
+    intercept[Exception] {
+      compo change Width(30)
+    }
+    rectangles(0).width shouldBe 30
+  }
 }
