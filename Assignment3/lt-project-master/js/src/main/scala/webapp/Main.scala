@@ -76,7 +76,7 @@ object Main {
     val s = anotherSuperGroup(0)
 
     // Take care that some property change should not compile, like this one
-    //(rectangles(0) + circles(0)) change Width(30) //TODO : compile ==> problem but in ComposedShapeTest it's trow error
+    // (rectangles(0) + circles(0)) change Width(30) //TODO : compile ==> problem but in ComposedShapeTest it's trow error
     // because Circles have no width
 
     // You can have a nice draw function to draw all of this on the canvas

@@ -91,6 +91,7 @@ class ComposedShapeTest extends AnyFunSuite with Matchers {
     l(2).radius shouldBe 10
   }
 
+  /*
   test("should trow error"){
     val circles = Array.fill(4)(Circle(50, 0, 0))
     val rectangles = Array.tabulate(5)(i => Rectangle(i*10, i*10, 10, 30))
@@ -100,4 +101,5 @@ class ComposedShapeTest extends AnyFunSuite with Matchers {
     }
     rectangles(0).width shouldBe 30
   }
+   */
 }

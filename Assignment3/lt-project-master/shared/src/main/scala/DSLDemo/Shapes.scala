@@ -11,9 +11,9 @@ sealed trait Shape {
   def strokeWidth(sW : Int) : Unit
 }
 object Shape {
-  implicit def ArrayRectangle2ComposedShape(shapes:Array[Rectangle]):ComposedShape = ComposedShape(shapes.toList)
-  implicit def ArrayCircle2ComposedShape(shapes:Array[Circle]):ComposedShape = ComposedShape(shapes.toList)
-  implicit def Iterable2ComposedShape(shapes: List[Shape]):ComposedShape = ComposedShape(shapes)
+  implicit def ArrayRectangle2ComposedShape(shapes:Array[Rectangle]): ComposedShape = ComposedShape(shapes.toList)
+  implicit def ArrayCircle2ComposedShape(shapes:Array[Circle]): ComposedShape = ComposedShape(shapes.toList)
+  implicit def Iterable2ComposedShape(shapes: List[Shape]): ComposedShape = ComposedShape(shapes)
 }
 
 sealed trait ShapeAttributes {
