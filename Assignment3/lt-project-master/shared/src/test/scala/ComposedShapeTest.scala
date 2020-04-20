@@ -6,6 +6,8 @@ import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.matchers.should.Matchers
 
 import scala.util.Random
+//added
+import ComposedShapeImplicits._
 
 class ComposedShapeTest extends AnyFunSuite with Matchers {
 
@@ -40,6 +42,55 @@ class ComposedShapeTest extends AnyFunSuite with Matchers {
       newG(i) shouldBe expected(i)
       assert(g(i) != newG(i))
     }
+  }
+
+  // added
+  test("implicit"){
+    val g = newRectangleList()
+    val offSet = Random.nextInt(20)
+    val expected = g.map(_.y - offSet)
+    g.moveY(-offSet)
+    for (i <- g.indices)
+      g(i).y shouldBe expected(i)
+  }
+
+  test("implicit2"){
+    val g = newRectangleList()
+    val expected = "blue"
+    g change Color("blue")
+    for (i <- g.indices)
+      g(i).color shouldBe expected
+  }
+
+  test("implicit3") {
+    val rl = newRectangleList()
+    val cl = newCircleList()
+    val g = rl ++ cl
+    var counter = 0
+    g.foreach(x => counter += 1)
+    counter shouldBe rl.length + cl.length
+  }
+
+  test("implicit4") {
+    val rl = newRectangleList()
+    val cl = newCircleList()
+    val g = rl and cl
+    var counter = 0
+    g.foreach(x => counter += 1)
+    counter shouldBe 2
+  }
+  test("implicit5") {
+    val circles = Array.fill(4)(Circle(50, 0, 0)).toList
+    val rectangles = Array.tabulate(5)(i => Rectangle(i*10, i*10, 10, 30))
+    circles.moveX(20)
+  }
+
+  test("ewaa"){
+    var c = Circle(2,2,2)
+    val l:Array[Circle] = Array(Circle(0,0,0),Circle(1,1,1),c)
+    l(2).radius shouldBe 2
+    c.radius = 10
+    l(2).radius shouldBe 10
   }
 
 }

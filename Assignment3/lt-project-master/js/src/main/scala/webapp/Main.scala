@@ -4,6 +4,8 @@ import DSLDemo._
 import org.scalajs.dom.{html, document}
 import org.scalajs.dom
 
+//added
+import ComposedShapeImplicits._
 object Main {
 
   def main(args: Array[String]): Unit = {
@@ -13,7 +15,7 @@ object Main {
     val w = 300
     canvas.width = w
     canvas.height = w
-    scalaJSDemo(canvas)
+    useMySuperDSL(canvas)
 
   }
 
@@ -22,15 +24,18 @@ object Main {
     val w = 300
     c.width = w
     c.height = w
-
+    ctx.beginPath()
     ctx.strokeStyle = "red"
     ctx.lineWidth = 3
-    ctx.beginPath()
+
     ctx.moveTo(w/3, 0)
     ctx.lineTo(w/3, w/3)
     ctx.moveTo(w*2/3, 0)
     ctx.lineTo(w*2/3, w/3)
+    ctx.stroke()
+    ctx.beginPath()
     ctx.moveTo(w, w/2)
+    ctx.strokeStyle = "blue"
     ctx.arc(w/2, w/2, w/2, 0, 3.14)
 
     ctx.stroke()
@@ -39,14 +44,15 @@ object Main {
   /*
    * TODO: When you've done the first part, you should be able to uncomment this
    *       method and call it without problems :-)
-   *
+   */
   def useMySuperDSL(canvas: html.Canvas): Unit = {
     // After you've done the first part of the project, everything should
     // compile and do the expected behaviour
     val canvasy = new Canvasy(canvas)
 
-    val circles = Array.fill(4)(Circle(50, 0, 0))
-    val rectangles = Array.tabulate(5)(i => Rectangle(i*10, i*10, 10, 30))
+    val circles = Array.fill(4)(Circle(50, 0, 0)).toList // TODO : remove .toList !!!! see test implicit5 in ComposedShapeTest
+    // radius == 0 thus it's normal no circle at output
+    val rectangles = Array.tabulate(5)(i => Rectangle(i*10, i*10, 10, 30)).toList
 
     canvasy += circles
     canvasy += rectangles
@@ -82,6 +88,6 @@ object Main {
     // You can have a nice draw function to draw all of this on the canvas
     canvasy.draw()
   }
-  */
+
 
 }

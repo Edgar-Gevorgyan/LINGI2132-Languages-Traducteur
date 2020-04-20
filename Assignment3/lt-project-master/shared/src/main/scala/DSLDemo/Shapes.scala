@@ -1,10 +1,9 @@
 package DSLDemo
-import ComposedShapeImplicits._
 
 object ComposedShapeImplicits {
-  implicit def Iterable2ComposedShape(shapes: Iterable[Shape]):ComposedShape = ComposedShape(shapes)
+  implicit def Array2ComposedShape(shapes: Array[Shape]):ComposedShape = ComposedShape(shapes.toList)
+  implicit def Iterable2ComposedShape(shapes: Iterable[Shape]):ComposedShape = ComposedShape(shapes.toList)
 }
-
 
 sealed trait Shape {
   def and(s: Shape) : ComposedShape = ComposedShape(List(this, s))
@@ -31,9 +30,8 @@ sealed trait SingleShape extends Shape with ShapeAttributes {
   override def change(property: CanvasElementModifier[Shape]): Unit = property.change(this)
 }
 
-case class ComposedShape(sh: Iterable[Shape]) extends Shape {
-  val shapes: List[Shape] = sh.toList
-  def ++(cs: ComposedShape) : ComposedShape = ComposedShape(this.shapes ::: cs.shapes)
+case class ComposedShape(shapes: List[Shape]) extends Shape {
+  def ++(cs: ComposedShape) : ComposedShape = ComposedShape(this.shapes ++ cs.shapes)
   def map(f: Shape => Shape) : ComposedShape = ComposedShape(this.shapes.map(f))
   def flatMap(f: Shape => IterableOnce[Shape]) : ComposedShape = ComposedShape(this.shapes.flatMap(f))
   def foreach[B](f: Shape => B) : Unit = shapes.foreach(f)
