@@ -4,9 +4,6 @@ import DSLDemo._
 import org.scalajs.dom.{html, document}
 import org.scalajs.dom
 
-//added
-import ComposedShapeImplicits._
-
 object Main {
 
   def main(args: Array[String]): Unit = {
@@ -25,18 +22,15 @@ object Main {
     val w = 300
     c.width = w
     c.height = w
-    ctx.beginPath()
+
     ctx.strokeStyle = "red"
     ctx.lineWidth = 3
-
+    ctx.beginPath()
     ctx.moveTo(w/3, 0)
     ctx.lineTo(w/3, w/3)
     ctx.moveTo(w*2/3, 0)
     ctx.lineTo(w*2/3, w/3)
-    ctx.stroke()
-    ctx.beginPath()
     ctx.moveTo(w, w/2)
-    ctx.strokeStyle = "blue"
     ctx.arc(w/2, w/2, w/2, 0, 3.14)
 
     ctx.stroke()
@@ -51,8 +45,7 @@ object Main {
     // compile and do the expected behaviour
     val canvasy = new Canvasy(canvas)
 
-    val circles = Array.fill(4)(Circle(50, 0, 0))
-    // radius == 0 thus it's normal no circle at output
+    val circles = Array.fill(4)(Circle(50, 0, 0))// radius == 0 thus it's normal no circle at output
     val rectangles = Array.tabulate(5)(i => Rectangle(i*10, i*10, 10, 30))
 
     canvasy += circles
@@ -83,12 +76,11 @@ object Main {
     val s = anotherSuperGroup(0)
 
     // Take care that some property change should not compile, like this one
-    // (rectangles(0) + circles(0)) change Width(30)
+    // (rectangles(0) + circles(0)) change Width(30) TODO : compile ==> problem
     // because Circles have no width
 
     // You can have a nice draw function to draw all of this on the canvas
     canvasy.draw()
   }
-
 
 }

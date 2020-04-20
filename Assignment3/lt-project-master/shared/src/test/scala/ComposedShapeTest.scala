@@ -6,8 +6,6 @@ import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.matchers.should.Matchers
 
 import scala.util.Random
-//added
-import ComposedShapeImplicits._
 
 class ComposedShapeTest extends AnyFunSuite with Matchers {
 

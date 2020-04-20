@@ -1,10 +1,5 @@
 package DSLDemo
 
-object ComposedShapeImplicits {
-  implicit def ArrayRectangle2ComposedShape(shapes:Array[Rectangle]):ComposedShape = ComposedShape(shapes.toList)
-  implicit def ArrayCircle2ComposedShape(shapes:Array[Circle]):ComposedShape = ComposedShape(shapes.toList)
-  implicit def Iterable2ComposedShape(shapes: List[Shape]):ComposedShape = ComposedShape(shapes)
-}
 
 sealed trait Shape {
   def and(s: Shape) : ComposedShape = ComposedShape(List(this, s))
@@ -14,6 +9,11 @@ sealed trait Shape {
   def moveY(v: Int): Unit
   def color(c: String) : Unit
   def strokeWidth(sW : Int) : Unit
+}
+object Shape {
+  implicit def ArrayRectangle2ComposedShape(shapes:Array[Rectangle]):ComposedShape = ComposedShape(shapes.toList)
+  implicit def ArrayCircle2ComposedShape(shapes:Array[Circle]):ComposedShape = ComposedShape(shapes.toList)
+  implicit def Iterable2ComposedShape(shapes: List[Shape]):ComposedShape = ComposedShape(shapes)
 }
 
 sealed trait ShapeAttributes {
