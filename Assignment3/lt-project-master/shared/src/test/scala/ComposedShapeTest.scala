@@ -80,9 +80,9 @@ class ComposedShapeTest extends AnyFunSuite with Matchers {
     counter shouldBe 2
   }
   test("implicit5") {
-    val circles = Array.fill(4)(Circle(50, 0, 0)).toList
+    val circles: Array[Circle] = Array(Circle(50, 0, 0),Circle(50, 0, 0),Circle(50, 0, 0),Circle(50, 0, 0))
     val rectangles = Array.tabulate(5)(i => Rectangle(i*10, i*10, 10, 30))
-    circles.moveX(20)
+    val cc = circles and rectangles
   }
 
   test("ewaa"){

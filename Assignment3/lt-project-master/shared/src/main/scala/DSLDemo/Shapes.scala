@@ -1,8 +1,9 @@
 package DSLDemo
 
 object ComposedShapeImplicits {
-  implicit def Array2ComposedShape(shapes: Array[Shape]):ComposedShape = ComposedShape(shapes.toList)
-  implicit def Iterable2ComposedShape(shapes: Iterable[Shape]):ComposedShape = ComposedShape(shapes.toList)
+  implicit def ArrayRectangle2ComposedShape(shapes:Array[Rectangle]):ComposedShape = ComposedShape(shapes.toList)
+  implicit def ArrayCircle2ComposedShape(shapes:Array[Circle]):ComposedShape = ComposedShape(shapes.toList)
+  implicit def Iterable2ComposedShape(shapes: List[Shape]):ComposedShape = ComposedShape(shapes)
 }
 
 sealed trait Shape {

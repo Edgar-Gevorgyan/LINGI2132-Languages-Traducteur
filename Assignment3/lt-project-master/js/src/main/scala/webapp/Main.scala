@@ -6,6 +6,7 @@ import org.scalajs.dom
 
 //added
 import ComposedShapeImplicits._
+
 object Main {
 
   def main(args: Array[String]): Unit = {
@@ -50,9 +51,9 @@ object Main {
     // compile and do the expected behaviour
     val canvasy = new Canvasy(canvas)
 
-    val circles = Array.fill(4)(Circle(50, 0, 0)).toList // TODO : remove .toList !!!! see test implicit5 in ComposedShapeTest
+    val circles = Array.fill(4)(Circle(50, 0, 0))
     // radius == 0 thus it's normal no circle at output
-    val rectangles = Array.tabulate(5)(i => Rectangle(i*10, i*10, 10, 30)).toList
+    val rectangles = Array.tabulate(5)(i => Rectangle(i*10, i*10, 10, 30))
 
     canvasy += circles
     canvasy += rectangles
