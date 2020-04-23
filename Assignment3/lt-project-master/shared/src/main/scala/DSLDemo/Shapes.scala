@@ -44,6 +44,10 @@ case class ComposedShape(shapes: List[Shape]) extends Shape {
   override def strokeWidth(sW: Int): Unit = this.foreach(s => s.strokeWidth(sW))
 }
 
-case class Rectangle(var x: Int, var y: Int, var width: Int, var height: Int) extends SingleShape
+case class Rectangle(var x: Int, var y: Int, var width: Int, var height: Int) extends SingleShape{
+  def change(property: CanvasElementModifier[Rectangle])(dummy: Int = 1): Unit = property.change(this)
+}
 
-case class Circle(var x: Int, var y: Int, var radius: Int) extends SingleShape
+case class Circle(var x: Int, var y: Int, var radius: Int) extends SingleShape{
+  def change(property: CanvasElementModifier[Circle])(dummy: Int = 1): Unit = property.change(this)
+}
