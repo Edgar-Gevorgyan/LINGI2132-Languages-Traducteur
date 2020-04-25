@@ -1,7 +1,7 @@
 package webapp
 
+import DSL.Utils.Timer
 import DSL._
-import DSL.Utils._
 import org.scalajs.dom
 import org.scalajs.dom.{document, html}
 
@@ -15,19 +15,14 @@ object Main {
     document.body.appendChild(canvas)
 
     val w = 300
-    canvas.width = w
+    canvas.width = 500
     canvas.height = w
 
-    val inch = new ArrowListener
-    inch.onChange(Key.UP){
-      scalaJSDemo(canvas)
-    }
+    val canvasy = new Canvasy(canvas)
+    canvasy.makeGrid(50)
 
-    inch.onChange(Key.DOWN){
-      appendPar(document.body,"ewaaa")
-    }
-
-
+    Timer.after(1000)(canvasy.clear())
+    Timer.after(1500)(canvasy.makeGrid(100,"red",wall = true))
   }
 
 
@@ -100,7 +95,7 @@ object Main {
     // because Circles have no width
     //(rectangles(0) + rectangles(1)) change Width(30)
     //circles(0) change Width(30)
-    rectangles change Width(30) // TODO : must work
+    rectangles(0) + rectangles change Width(30) // TODO : must work
 
 
 

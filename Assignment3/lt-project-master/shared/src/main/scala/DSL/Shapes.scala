@@ -10,6 +10,7 @@ sealed trait Shape {
   def color(c: String) : Unit
   def strokeWidth(sW : Int) : Unit
   def change(property: CanvasElementModifier[A]): Unit
+  def fill(f: Boolean): Unit
 }
 object Shape {
   implicit def ArrayRectangle2ComposedShape(shapes:Array[Rectangle]): ComposedShape[Rectangle] = ComposedShape(shapes.toList)
@@ -21,8 +22,10 @@ object Shape {
 sealed trait ShapeAttributes {
   var color: String = "red"
   var strokeWidth: Int = 1
+  var filled: Boolean = false
   def color(c: String): Unit = color = c
   def strokeWidth(sW: Int): Unit = strokeWidth = sW
+  def fill(f: Boolean): Unit = filled = f
 }
 
 sealed trait SingleShape extends Shape with ShapeAttributes {
@@ -45,6 +48,7 @@ case class ComposedShape[MyType <: Shape](l: List[MyType]) extends Shape {
   override def moveY(v: Int): Unit = this.foreach(s => s.moveY(v))
   override def color(c: String): Unit = this.foreach(s => s.color(c))
   override def strokeWidth(sW: Int): Unit = this.foreach(s => s.strokeWidth(sW))
+  override def fill(f: Boolean): Unit = this.foreach(s => s.fill(f))
   override def change(property: CanvasElementModifier[A]): Unit = this.foreach(s => property.change(s))
 }
 
