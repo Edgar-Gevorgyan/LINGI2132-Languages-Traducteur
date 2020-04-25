@@ -36,8 +36,10 @@ sealed trait SingleShape extends Shape with ShapeAttributes {
 case class ComposedShape[MyType <: Shape](l: List[MyType]) extends Shape {
   type A = MyType
   def apply(i: Int): MyType = l(i)
-  def map(f: MyType => Shape) : ComposedShape[Shape] = ComposedShape(this.l.map(f))
-  def flatMap(f: MyType => Iterable[MyType]) : ComposedShape[MyType] = ComposedShape(this.l.flatMap(f))
+  def and(s: ComposedShape[MyType] ) : ComposedShape[MyType] = ComposedShape(this.l++s.l)
+  def +(s: ComposedShape[MyType] ) : ComposedShape[MyType] = this.and(s)
+  def map[OutType <: Shape](f: MyType => OutType) : ComposedShape[OutType] = ComposedShape(this.l.map(f))
+  def flatMap[OutType <: Shape](f: MyType => Iterable[OutType]) : ComposedShape[OutType] = ComposedShape(this.l.flatMap(f))
   def foreach[B](f: MyType => B) : Unit = l.foreach(f)
   override def moveX(v: Int): Unit = this.foreach(s => s.moveX(v))
   override def moveY(v: Int): Unit = this.foreach(s => s.moveY(v))
