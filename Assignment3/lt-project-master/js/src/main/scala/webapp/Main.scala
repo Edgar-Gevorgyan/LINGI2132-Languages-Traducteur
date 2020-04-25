@@ -78,8 +78,8 @@ object Main {
     // Take care that some property change should not compile, like this one
     // (rectangles(0) + circles(0)) change Width(30)
     // because Circles have no width
-    (rectangles(0) + rectangles(1)) change Width(30)
-    circles(0) change Width(30)
+    //(rectangles(0) + rectangles(1)) change Width(30)
+    //circles(0) change Width(30)
     rectangles change Width(30) // TODO : must work
 
 

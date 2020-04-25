@@ -14,6 +14,8 @@ sealed trait Shape {
 object Shape {
   implicit def ArrayRectangle2ComposedShape(shapes:Array[Rectangle]): ComposedShape[Rectangle] = ComposedShape(shapes.toList)
   implicit def ArrayCircle2ComposedShape(shapes:Array[Circle]): ComposedShape[Circle] = ComposedShape(shapes.toList)
+  implicit def IterableRectangle2ComposedShape(shapes:Iterable[Rectangle]): ComposedShape[Rectangle] = ComposedShape(shapes.toList)
+  implicit def IterableCircle2ComposedShape(shapes:Iterable[Circle]): ComposedShape[Circle] = ComposedShape(shapes.toList)
 }
 
 sealed trait ShapeAttributes {
@@ -34,8 +36,8 @@ sealed trait SingleShape extends Shape with ShapeAttributes {
 case class ComposedShape[MyType <: Shape](l: List[MyType]) extends Shape {
   type A = MyType
   def apply(i: Int): MyType = l(i)
-  def map[OutType <: Shape](f: MyType => OutType) : ComposedShape[OutType] = ComposedShape(this.l.map(f))
-  def flatMap[OutType <: Shape](f: MyType => Iterable[OutType]) : ComposedShape[OutType] = ComposedShape(this.l.flatMap(f))
+  def map(f: MyType => Shape) : ComposedShape[Shape] = ComposedShape(this.l.map(f))
+  def flatMap(f: MyType => Iterable[MyType]) : ComposedShape[MyType] = ComposedShape(this.l.flatMap(f))
   def foreach[B](f: MyType => B) : Unit = l.foreach(f)
   override def moveX(v: Int): Unit = this.foreach(s => s.moveX(v))
   override def moveY(v: Int): Unit = this.foreach(s => s.moveY(v))
@@ -46,10 +48,18 @@ case class ComposedShape[MyType <: Shape](l: List[MyType]) extends Shape {
 
 case class Rectangle(var x: Int, var y: Int, var width: Int, var height: Int) extends SingleShape{
   type A = Rectangle
+  def and(s: Rectangle) : ComposedShape[Rectangle] = ComposedShape(List(this, s))
+  def +(s: Rectangle) : ComposedShape[Rectangle] = this.and(s)
+  def and(s: ComposedShape[Rectangle] ) : ComposedShape[Rectangle] = ComposedShape(this::s.l)
+  def +(s: ComposedShape[Rectangle] ) : ComposedShape[Rectangle] = this.and(s)
 }
 
 case class Circle(var x: Int, var y: Int, var radius: Int) extends SingleShape{
   type A = Circle
+  def and(s: Circle) : ComposedShape[Circle] = ComposedShape(List(this, s))
+  def +(s: Circle) : ComposedShape[Circle] = this.and(s)
+  def and(s: ComposedShape[Circle]) : ComposedShape[Circle] = ComposedShape(this::s.l)
+  def +(s: ComposedShape[Circle]) : ComposedShape[Circle] = this.and(s)
 }
 
 
