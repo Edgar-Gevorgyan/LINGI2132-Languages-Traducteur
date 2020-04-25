@@ -96,4 +96,13 @@ class ComposedShapeTest extends AnyFunSuite with Matchers {
     r change Width(30)
   }
 
+  test("ultime map"){
+    val rl = newRectangleList()
+    val g = ComposedShape(rl)
+    val cs = g.map(s => Circle(s.x,s.y,1))
+    cs change Radius(10)
+    for (i <- cs)
+      i.radius shouldBe 10
+  }
+
 }
