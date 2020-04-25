@@ -1,7 +1,7 @@
 package webapp
 
-import DSL.Utils.Timer
 import DSL._
+import DSL.Utils._
 import org.scalajs.dom
 import org.scalajs.dom.{document, html}
 
@@ -18,11 +18,9 @@ object Main {
     canvas.width = 500
     canvas.height = w
 
-    val canvasy = new Canvasy(canvas)
-    canvasy.makeGrid(50)
-
-    Timer.after(1000)(canvasy.clear())
-    Timer.after(1500)(canvasy.makeGrid(100,"red",wall = true))
+    KeyListener.onChange(Key.UP){scalaJSDemo(canvas)}
+    KeyListener.onChange(Key.DOWN){appendPar(document.body,"ee")}
+    Timer.after(3000){KeyListener.clear()}
   }
 
 

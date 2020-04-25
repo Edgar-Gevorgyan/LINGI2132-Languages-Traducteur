@@ -10,7 +10,7 @@ object Key{
   val DOWN: Int = 40
 }
 
-class KeyListener {
+object KeyListener {
   private var keyListener: List[dom.KeyboardEvent => Unit] = List()
   document.onkeydown = {(e: dom.KeyboardEvent) => keyListener.foreach(l => l(e))}
 
@@ -18,7 +18,7 @@ class KeyListener {
     val fun: dom.KeyboardEvent => Unit = (e: dom.KeyboardEvent) => if(e.keyCode == key) b
     keyListener = fun::keyListener
   }
-}
-object KeyListener{
-  def apply(): KeyListener = new KeyListener
+  def clear(): Unit = {
+    keyListener = List()
+  }
 }
