@@ -1,20 +1,40 @@
 package webapp
 
-import DSLDemo._
-import org.scalajs.dom.{html, document}
+import DSL._
+import DSL.Utils._
 import org.scalajs.dom
+import org.scalajs.dom.{document, html}
+
 
 object Main {
 
+
   def main(args: Array[String]): Unit = {
+
     val canvas = document.createElement("canvas").asInstanceOf[html.Canvas]
     document.body.appendChild(canvas)
 
     val w = 300
     canvas.width = w
     canvas.height = w
-    useMySuperDSL(canvas)
 
+    val inch = new ArrowListener
+    inch.onChange(Key.UP){
+      scalaJSDemo(canvas)
+    }
+
+    inch.onChange(Key.DOWN){
+      appendPar(document.body,"ewaaa")
+    }
+
+
+  }
+
+
+  def appendPar(targetNode: dom.Node, text: String): Unit = {
+    val parNode = document.createElement("p")
+    parNode.textContent = text
+    targetNode.appendChild(parNode)
   }
 
   def scalaJSDemo(c: html.Canvas): Unit = {
@@ -45,7 +65,7 @@ object Main {
     // compile and do the expected behaviour
     val canvasy = new Canvasy(canvas)
 
-    val circles = Array.fill(4)(Circle(50, 0, 0))// radius == 0 thus it's normal no circle at output
+    val circles = Array.fill(4)(Circle(50, 0, 10))// radius == 0 thus it's normal no circle at output
     val rectangles = Array.tabulate(5)(i => Rectangle(i*10, i*10, 10, 30))
 
     canvasy += circles
