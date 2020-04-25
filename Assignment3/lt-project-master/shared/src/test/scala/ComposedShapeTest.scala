@@ -91,15 +91,20 @@ class ComposedShapeTest extends AnyFunSuite with Matchers {
     l(2).radius shouldBe 10
   }
 
-  /*
+  test("Rectangle width") {
+    val r = Rectangle(1*10, 1*10, 10, 30)
+    r change Width(30)
+  }
+
+
   test("should trow error"){
     val circles = Array.fill(4)(Circle(50, 0, 0))
     val rectangles = Array.tabulate(5)(i => Rectangle(i*10, i*10, 10, 30))
     val compo = rectangles(0) + circles(0)
     intercept[Exception] {
-      compo change Width(30)
+      (rectangles(0) + rectangles(1)) change Width(30)
     }
     rectangles(0).width shouldBe 30
   }
-   */
+
 }
