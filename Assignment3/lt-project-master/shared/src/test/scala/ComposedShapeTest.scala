@@ -1,4 +1,4 @@
-import DSLDemo._
+import DSL._
 
 import common.Common._
 

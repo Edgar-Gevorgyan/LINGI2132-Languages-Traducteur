@@ -52,20 +52,75 @@ case class ComposedShape[MyType <: Shape](l: List[MyType]) extends Shape {
   override def change(property: CanvasElementModifier[A]): Unit = this.foreach(s => property.change(s))
 }
 
-case class Rectangle(var x: Int, var y: Int, var width: Int, var height: Int) extends SingleShape{
+case class Rectangle(var x: Int, var y: Int, var width: Int, var height: Int) extends SingleShape with Ordered[Rectangle]{
   type A = Rectangle
   def and(s: Rectangle) : ComposedShape[Rectangle] = ComposedShape(List(this, s))
   def +(s: Rectangle) : ComposedShape[Rectangle] = this.and(s)
   def and(s: ComposedShape[Rectangle] ) : ComposedShape[Rectangle] = ComposedShape(this::s.l)
   def +(s: ComposedShape[Rectangle] ) : ComposedShape[Rectangle] = this.and(s)
+  override def compare(that: Rectangle): Int = {
+    if (this.x == that.x && this.y == that.y && this.width == that.width){
+      this.height - that.height
+    } else if (this.x == that.x && this.y == that.y) {
+      this.width - that.width
+    } else if (this.x == that.x) {
+      this.y - that.y
+    } else {
+      this.x - that.x
+    }
+  }
 }
 
-case class Circle(var x: Int, var y: Int, var radius: Int) extends SingleShape{
+case class Circle(var x: Int, var y: Int, var radius: Int) extends SingleShape with Ordered[Circle]{
   type A = Circle
   def and(s: Circle) : ComposedShape[Circle] = ComposedShape(List(this, s))
   def +(s: Circle) : ComposedShape[Circle] = this.and(s)
   def and(s: ComposedShape[Circle]) : ComposedShape[Circle] = ComposedShape(this::s.l)
   def +(s: ComposedShape[Circle]) : ComposedShape[Circle] = this.and(s)
+  override def compare(that: Circle): Int = {
+    if (this.x == that.x && this.y == that.y){
+      this.radius - that.radius
+    } else if (this.x == that.x) {
+      this.y - that.y
+    } else {
+      this.x - that.x
+    }
+  }
+}
+
+case class Grid(unit: Int,nb_row: Int, nb_col: Int,color: String, wall: Boolean, wallColor: String){
+  var grid: ComposedShape[Rectangle] = ComposedShape(Nil)
+  for(i <- 0 until nb_row){
+    for(j <-  0 until nb_col){
+      val rec = Rectangle(unit*j,unit*i,unit,unit)
+      rec change Color(color)
+      if(wall && (i == 0 || i == nb_row-1 || j == 0 || j == nb_col-1)) {
+        rec change Fill(true)
+        rec change Color(wallColor)
+      }
+      grid = rec + grid
+    }
+  }
+  def addObstacle(unitX: Int, unitY: Int, color: String): Unit ={
+    grid = for(rec <- grid) yield
+      if(rec == Rectangle(unit*unitX,unit*unitY,unit,unit)){
+        rec change Color(color)
+        rec change Fill(true)
+        rec
+      } else {
+        rec
+      }
+  }
+  def removeObstacle(unitX: Int, unitY: Int): Unit ={
+    grid = for(rec <- grid) yield
+      if(rec == Rectangle(unit*unitX,unit*unitY,unit,unit)){
+        rec change Color(color)
+        rec change Fill(false)
+        rec
+      } else {
+        rec
+      }
+  }
 }
 
 

@@ -1,7 +1,6 @@
 package webapp
 
 import DSL._
-import DSL.Utils._
 import org.scalajs.dom
 import org.scalajs.dom.{document, html}
 
@@ -18,13 +17,25 @@ object Main {
     canvas.width = 500
     canvas.height = w
 
-    KeyListener.onChange(Key.UP){scalaJSDemo(canvas)}
-    KeyListener.onChange(Key.DOWN){appendPar(document.body,"ee")}
-    Timer.after(3000){KeyListener.clear()}
+    // --------- example usage Timer ---------
+    //val id = atEach(1000) execute appendPar(document.body,"ee")
+    //after(3001) execute Timer.remove(id)
+    // --------- example usage KeyListener ---------
+    //KeyListener.onChange(Key.UP){scalaJSDemo(canvas)}
+    //val i = KeyListener.onChange(Key.DOWN){appendPar(document.body,"ee")}
+    //KeyListener.onChange(Key.RIGHT){KeyListener.remove(i)}
+    //after(3000) execute KeyListener.clear()
+    var canvasy = Canvasy(canvas)
+    // --------- example usage Grid ---------
+    //canvasy.makeGrid(50)
+    //canvasy.addObstacle(0,0,"red")
+    //canvasy.addObstacle(5,4,"red")
+    //anvasy.removeObstacle(5,4)
+    //canvasy.drawGrid()
   }
 
 
-  def appendPar(targetNode: dom.Node, text: String): Unit = {
+  def appendPar(targetNode: dom.Node, text: String): Unit = {// just to test on browser
     val parNode = document.createElement("p")
     parNode.textContent = text
     targetNode.appendChild(parNode)

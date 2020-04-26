@@ -1,5 +1,5 @@
 package common
-import DSLDemo._
+import DSL._
 import scala.util.Random
 
 object Common {

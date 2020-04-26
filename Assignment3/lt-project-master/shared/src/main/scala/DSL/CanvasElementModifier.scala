@@ -13,7 +13,7 @@ case class StrokeWidth(sW: Int) extends CanvasElementModifier[Shape] {
 }
 
 case class Fill(f: Boolean) extends CanvasElementModifier[Shape] {
-  override def change(x: Shape): Unit = x.fill(true)
+  override def change(x: Shape): Unit = x.fill(f)
 }
 
 case class Width(w: Int) extends CanvasElementModifier[Rectangle] {
