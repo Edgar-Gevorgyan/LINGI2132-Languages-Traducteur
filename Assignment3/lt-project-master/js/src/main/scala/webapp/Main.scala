@@ -1,5 +1,6 @@
 package webapp
 
+import DSL.Utils.{Image, after}
 import DSL._
 import org.scalajs.dom
 import org.scalajs.dom.{document, html}
@@ -33,8 +34,9 @@ object Main {
     //anvasy.removeObstacle(5,4)
     //canvasy.drawGrid()
     // --------- example usage Image ---------
-    //val i = Image("IMG/ground.png")
-    //canvasy.drawImg(i,0,0)
+    val i = Image("IMG/ground.png")
+    //canvasy.drawImg(i,0,0) // WORK
+    after(300) execute canvasy.drawImg(i,0,0) // TODO :: Don't work
   }
 
 
