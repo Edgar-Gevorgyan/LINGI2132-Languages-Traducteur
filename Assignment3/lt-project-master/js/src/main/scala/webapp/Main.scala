@@ -1,6 +1,6 @@
 package webapp
 
-import DSL.Utils.{Image, after}
+import DSL.Utils._
 import DSL._
 import org.scalajs.dom
 import org.scalajs.dom.{document, html}
@@ -20,7 +20,9 @@ object Main {
     canvas.height = w
     var canvasy = Canvasy(canvas)
     // --------- example usage Timer ---------
-    //val id = atEach(1000) execute appendPar(document.body,"ee")
+    atEach(1000) execute appendPar(document.body,"ee")
+    atEach(500) execute appendPar(document.body,"ewa")
+    after(5000) execute Timer.remove()
     //after(3001) execute Timer.remove(id)
     // --------- example usage KeyListener ---------
     //KeyListener.onChange(Key.UP){scalaJSDemo(canvas)}
@@ -34,9 +36,9 @@ object Main {
     //anvasy.removeObstacle(5,4)
     //canvasy.drawGrid()
     // --------- example usage Image ---------
-    val i = Image("IMG/ground.png")
+    //val i = Image("IMG/ground.png")
     //canvasy.drawImg(i,0,0) // WORK
-    after(300) execute canvasy.drawImg(i,0,0) // TODO :: Don't work
+    //after(300) execute canvasy.drawImg(i,0,0) // TODO :: Don't work
   }
 
 

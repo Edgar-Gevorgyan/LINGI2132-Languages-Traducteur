@@ -11,7 +11,7 @@ class Image(src: String) {
 }
 
 object Image{
-  def apply(src: String): Image = new Image(src)
+  def apply(src: => String): Image = new Image(src)
   def draw(img: Image, unitX: Int, unitY: Int, ctx: CanvasRenderingContext2D): Unit = {
     img.image.onload = {_: Event =>  ctx.drawImage(img.image, unitX, unitY)}
   }
