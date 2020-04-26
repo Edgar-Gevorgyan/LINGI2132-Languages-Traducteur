@@ -11,12 +11,13 @@ object Main {
   def main(args: Array[String]): Unit = {
 
     val canvas = document.createElement("canvas").asInstanceOf[html.Canvas]
+    val ctx = canvas.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
     document.body.appendChild(canvas)
 
-    val w = 300
-    canvas.width = 500
+    val w = 608
+    canvas.width = w
     canvas.height = w
-
+    var canvasy = Canvasy(canvas)
     // --------- example usage Timer ---------
     //val id = atEach(1000) execute appendPar(document.body,"ee")
     //after(3001) execute Timer.remove(id)
@@ -25,13 +26,15 @@ object Main {
     //val i = KeyListener.onChange(Key.DOWN){appendPar(document.body,"ee")}
     //KeyListener.onChange(Key.RIGHT){KeyListener.remove(i)}
     //after(3000) execute KeyListener.clear()
-    var canvasy = Canvasy(canvas)
     // --------- example usage Grid ---------
     //canvasy.makeGrid(50)
     //canvasy.addObstacle(0,0,"red")
     //canvasy.addObstacle(5,4,"red")
     //anvasy.removeObstacle(5,4)
     //canvasy.drawGrid()
+    // --------- example usage Image ---------
+    //val i = Image("IMG/ground.png")
+    //canvasy.drawImg(i,0,0)
   }
 
 

@@ -1,5 +1,6 @@
 package DSL
 
+import DSL.Utils._
 import org.scalajs.dom
 import org.scalajs.dom.html
 import org.scalajs.dom.html.Canvas
@@ -40,6 +41,8 @@ class Canvasy(canvas: html.Canvas) {
     }
     ctx.stroke()
   }
+
+  def drawImg(img: Image, unitX: Int, unitY: Int): Unit = Image.draw(img,unitX,unitY,ctx)
 
   def clear(): Unit = {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
