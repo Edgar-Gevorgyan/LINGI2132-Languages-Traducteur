@@ -44,7 +44,7 @@ sealed trait SingleShape extends Shape with ShapeAttributes {
   override def change(property: CanvasElementModifier[A]): Unit = property.change(this.asInstanceOf[A])
 }
 
-case class ComposedShape[MyType <: Shape](l: List[MyType]) extends Shape {
+case class ComposedShape[MyType <: Shape](l: List[MyType]) extends Shape { // TODO regler couille du +
   type A = MyType
   def apply(i: Int): MyType = l(i)
   def and(s: ComposedShape[MyType] ) : ComposedShape[MyType] = ComposedShape(this.l++s.l)
