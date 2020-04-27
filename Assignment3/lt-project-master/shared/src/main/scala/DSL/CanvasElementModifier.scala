@@ -16,14 +16,14 @@ case class Fill(f: Boolean) extends CanvasElementModifier[Shape] {
   override def change(x: Shape): Unit = x.fill(f)
 }
 
-case class Width(w: Int) extends CanvasElementModifier[Rectangle] {
+case class Width(w: Double) extends CanvasElementModifier[Rectangle] {
   override def change(x: Rectangle): Unit = x.width = w
 }
 
-case class Height(h: Int) extends CanvasElementModifier[Rectangle] {
+case class Height(h: Double) extends CanvasElementModifier[Rectangle] {
   override def change(x: Rectangle): Unit = x.height = h
 }
 
-case class Radius(r: Int) extends CanvasElementModifier[Circle] {
+case class Radius(r: Double) extends CanvasElementModifier[Circle] {
   override def change(x: Circle): Unit = x.radius = r
 }

@@ -10,9 +10,9 @@ class Image(src: String) { // TODO permettre de reshape
   val image: HTMLImageElement = dom.document.createElement("img").asInstanceOf[HTMLImageElement]
   image.src = src
   image.onload = {_: Event =>  loaded = true}
-  def draw(unitX: Int, unitY: Int, ctx: CanvasRenderingContext2D): Unit = {
-    if(this.loaded) ctx.drawImage(image, unitX, unitY)
-    else image.onload = {_: Event =>  ctx.drawImage(image, unitX, unitY)}
+  def draw(x: Double, y: Double, ctx: CanvasRenderingContext2D): Unit = {
+    if(this.loaded) ctx.drawImage(image, x, y)
+    else image.onload = {_: Event =>  ctx.drawImage(image, x, y)}
   }
 }
 

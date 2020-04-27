@@ -12,7 +12,6 @@ object Main {
   def main(args: Array[String]): Unit = {
 
     val canvas = document.createElement("canvas").asInstanceOf[html.Canvas]
-    val ctx = canvas.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
     document.body.appendChild(canvas)
 
     val w = 608
@@ -42,25 +41,26 @@ object Main {
 
     //****************SNAKE****************
     snakeGame(canvas)
-    // TODO :: ATTENTION permettre de mettre les position en double au lieu de int PARTOUT
+    //val box = 64
+    //canvasy.setUnit(box)
+    //canvasy.makeGrid()
+    //canvasy.drawGrid()
   }
 
   def snakeGame(canvas: html.Canvas): Unit = {
-    // TODO :: incoherence avec les unite rendre le tout plus consistent if faut fixer les unité 1 fois le reste doit se faire auto
     val canvasy = Canvasy(canvas)
     val box = 32
     canvasy.setUnit(box)
-    //canvasy.makeGrid(box) // TODO avec le setUnit ne plus avoir besoin du unit en parametre
+    //canvasy.makeGrid() // TODO permettre de faire des maillage de different taille
 
     val ground = Image("IMG/ground.png")
 
-    var snake = Array[Rectangle](Rectangle(9*box,10*box,box,box))
+    var snake = Array[Rectangle](Rectangle(9,10,1,1)) // TODO faire un Square qui herite de Rectangle
 
     var foodX = Math.floor(Math.random()*17+1).asInstanceOf[Int]
     var foodY = Math.floor(Math.random()*15+3).asInstanceOf[Int]
 
     var score = 0
-
     var d = "init"
     KeyListener.onChange(Key.LEFT){if(d != "RIGHT") d = "LEFT"}
     KeyListener.onChange(Key.RIGHT){if(d != "LEFT") d = "RIGHT"}
@@ -75,15 +75,16 @@ object Main {
       snake change Fill(true)
       canvasy.draw(snake)
 
-      val food = Circle(foodX*box + box/2, foodY*box + box/2, box/2 - 3)// TODO afficher par defaut au milieu de la case
+
+      val food = Circle(foodX + 0.5, foodY + 0.5, 0.5) // attention 1/2 retourne 0 (division entiere)
       food change Color("blue")
       food change Fill(true)
       canvasy.draw(food)
 
-      var snakeX = snake(0).x / box
-      var snakeY = snake(0).y / box
 
-      //appendPar(document.body,snakeX.toString + snakeY)
+      var snakeX = snake(0).x
+      var snakeY = snake(0).y
+
 
       if (d eq "LEFT") snakeX -= 1
       if (d eq "UP") snakeY -= 1
@@ -98,7 +99,7 @@ object Main {
         snake = snake.take(snake.length - 1)
       }
 
-      val newHead = Rectangle(snakeX*box,snakeY*box,box,box)
+      val newHead = Rectangle(snakeX,snakeY,1,1)
 
       if (snakeX < 1 || snakeX > 17  || snakeY < 3 || snakeY > 17 || snake.contains(newHead)) {
         Timer.remove()
@@ -106,7 +107,7 @@ object Main {
 
       snake +:= newHead
 
-      canvasy.drawText(score.toString, 2 , 2)
+      canvasy.drawText(score.toString, 2 , 1.6)
     }
   }
 

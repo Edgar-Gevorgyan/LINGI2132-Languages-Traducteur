@@ -10,7 +10,7 @@ class Canvasy(canvas: html.Canvas) {
   private var shapes: List[Shape] = List()
   private var unit: Int = 1
   private var wall: Boolean = false
-  private var grid: Grid = Grid(0,0,0,"black",wall = false,"red")// only for initialization
+  private var grid: Grid = Grid(0,0,"black",wall = false,"red")// only for initialization
 
   def +=(s:Shape): Unit = shapes = shapes ++ List(s)
 
@@ -24,7 +24,7 @@ class Canvasy(canvas: html.Canvas) {
       case Rectangle(x,y,width,height) =>
         ctx.strokeStyle = shape.asInstanceOf[Rectangle].color
         ctx.lineWidth = shape.asInstanceOf[Rectangle].strokeWidth
-        ctx.rect(x, y, width, height)
+        ctx.rect(x*unit, y*unit, width*unit, height*unit)
         if(shape.asInstanceOf[Rectangle].filled){
           ctx.fillStyle = ctx.strokeStyle
           ctx.fill()
@@ -32,7 +32,7 @@ class Canvasy(canvas: html.Canvas) {
       case Circle(x,y,radius) =>
         ctx.strokeStyle = shape.asInstanceOf[Circle].color
         ctx.lineWidth = shape.asInstanceOf[Circle].strokeWidth
-        ctx.arc(x, y, radius, 0, 2 * Math.PI)
+        ctx.arc(x*unit, y*unit, radius*unit, 0, 2 * Math.PI)
         if(shape.asInstanceOf[Circle].filled){
           ctx.fillStyle = ctx.strokeStyle
           ctx.fill()
@@ -42,9 +42,9 @@ class Canvasy(canvas: html.Canvas) {
     ctx.stroke()
   }
 
-  def drawImg(img: Image, unitX: Int, unitY: Int): Unit = img.draw(unitX*unit,unitY*unit,ctx)
+  def drawImg(img: Image, unitX: Double, unitY: Double): Unit = img.draw(unitX*unit,unitY*unit,ctx)
 
-  def drawText(txt: String, unitX: Int, unitY: Int): Unit = {
+  def drawText(txt: String, unitX: Double, unitY: Double): Unit = { // TODO permettre de personnaliser le texte
     ctx.font = "30px Arial"
     ctx.fillText(txt, unitX*unit,unitY*unit)
   }
@@ -52,15 +52,14 @@ class Canvasy(canvas: html.Canvas) {
   def clear(): Unit = ctx.clearRect(0, 0, canvas.width, canvas.height)
   def setUnit(unit: Int): Unit = this.unit = unit
 
-  def makeGrid(unit: Int, color: String = "black", wall: Boolean = false, wallColor: String = "black"): Unit ={
+  def makeGrid(color: String = "black", wall: Boolean = false, wallColor: String = "black"): Unit ={
     this.wall = wall
-    this.unit = unit
     val nb_row = Math.floor(canvas.height / unit).asInstanceOf[Int]
     val nb_col = Math.floor(canvas.width / unit).asInstanceOf[Int]
-    grid = Grid(unit, nb_row, nb_col, color, wall, wallColor)
+    grid = Grid(nb_row, nb_col, color, wall, wallColor)
   }
-  def addObstacle(unitX: Int, unitY: Int, color: String = "black"): Unit = grid.addObstacle(unitX,unitY,color)
-  def removeObstacle(unitX: Int, unitY: Int): Unit = grid.removeObstacle(unitX, unitY)
+  def fillGridCase(unitX: Int, unitY: Int, color: String = "black"): Unit = grid.fillGridCase(unitX,unitY,color)
+  def unFillGridCase(unitX: Int, unitY: Int): Unit = grid.unFillGridCase(unitX, unitY)
   def drawGrid(): Unit = draw(grid.grid)
 }
 
