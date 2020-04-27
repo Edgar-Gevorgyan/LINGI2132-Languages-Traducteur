@@ -8,8 +8,8 @@ import org.scalajs.dom.html.Canvas
 class Canvasy(canvas: html.Canvas) {
   private val ctx = canvas.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
   private var shapes: List[Shape] = List()
+  private var unit: Int = 1
   private var wall: Boolean = false
-  private var unit: Int = 10
   private var grid: Grid = Grid(0,0,0,"black",wall = false,"red")// only for initialization
 
   def +=(s:Shape): Unit = shapes = shapes ++ List(s)
@@ -42,11 +42,10 @@ class Canvasy(canvas: html.Canvas) {
     ctx.stroke()
   }
 
-  def drawImg(img: Image, unitX: Int, unitY: Int): Unit = Image.draw(img,unitX,unitY,ctx)
+  def drawImg(img: Image, unitX: Int, unitY: Int): Unit = Image.draw(img,unitX*unit,unitY*unit,ctx)
 
-  def clear(): Unit = {
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
-  }
+  def clear(): Unit = ctx.clearRect(0, 0, canvas.width, canvas.height)
+  def setUnit(unit: Int): Unit = this.unit = unit
 
   def makeGrid(unit: Int, color: String = "black", wall: Boolean = false, wallColor: String = "black"): Unit ={
     this.wall = wall

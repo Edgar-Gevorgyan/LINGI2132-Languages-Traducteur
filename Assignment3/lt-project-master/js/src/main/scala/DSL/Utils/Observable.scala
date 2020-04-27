@@ -30,10 +30,11 @@ object Key{
   val X:    Int = 88
   val Y:    Int = 89
   val Z:    Int = 90
-  val LEF:  Int = 37
+  val LEFT: Int = 37
   val UP:   Int = 38
   val RIGHT:Int = 39
   val DOWN: Int = 40
+  val SPACE:Int = 32
 }
 
 object KeyListener {

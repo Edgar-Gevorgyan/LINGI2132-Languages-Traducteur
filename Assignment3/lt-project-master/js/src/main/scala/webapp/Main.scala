@@ -12,17 +12,16 @@ object Main {
   def main(args: Array[String]): Unit = {
 
     val canvas = document.createElement("canvas").asInstanceOf[html.Canvas]
-    val ctx = canvas.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
     document.body.appendChild(canvas)
 
     val w = 608
     canvas.width = w
     canvas.height = w
-    var canvasy = Canvasy(canvas)
+    //var canvasy = Canvasy(canvas)
     // --------- example usage Timer ---------
-    atEach(1000) execute appendPar(document.body,"ee")
-    atEach(500) execute appendPar(document.body,"ewa")
-    after(5000) execute Timer.remove()
+    //atEach(1000) execute appendPar(document.body,"ee")
+    //atEach(500) execute appendPar(document.body,"ewa")
+    //after(5000) execute Timer.remove()
     //after(3001) execute Timer.remove(id)
     // --------- example usage KeyListener ---------
     //KeyListener.onChange(Key.UP){scalaJSDemo(canvas)}
@@ -39,6 +38,49 @@ object Main {
     //val i = Image("IMG/ground.png")
     //canvasy.drawImg(i,0,0) // WORK
     //after(300) execute canvasy.drawImg(i,0,0) // TODO :: Don't work
+
+    //****************SNAKE****************
+    val canvasy = Canvasy(canvas)
+    val box = 32
+    canvasy.setUnit(box)
+    canvasy.makeGrid(box)
+
+    var snake = Array[Rectangle](Rectangle(9*box,10*box,box,box))
+
+    var d = "init"
+    KeyListener.onChange(Key.LEFT){if(d != "RIGHT") d = "LEFT"}
+    KeyListener.onChange(Key.RIGHT){if(d != "LEFT") d = "RIGHT"}
+    KeyListener.onChange(Key.UP){if(d != "DOWN") d = "UP"}
+    KeyListener.onChange(Key.DOWN){if(d != "UP") d = "DOWN"}
+    KeyListener.onChange(Key.SPACE){appendPar(document.body,d)}
+
+    atEach(200) execute{
+      canvasy.clear()
+      canvasy.drawGrid()
+
+      snake change Fill(true)
+      canvasy.draw(snake)
+
+      var snakeX = snake(0).x / box
+      var snakeY = snake(0).y / box
+
+      //appendPar(document.body,snakeX.toString + snakeY)
+
+      if (d eq "LEFT") snakeX -= 1
+      if (d eq "UP") snakeY -= 1
+      if (d eq "RIGHT") snakeX += 1
+      if (d eq "DOWN") snakeY += 1
+
+      snake = snake.take(snake.length - 1)
+
+      val newHead = Rectangle(snakeX*box,snakeY*box,box,box)
+
+
+
+      snake +:= newHead
+
+
+    }
   }
 
 
