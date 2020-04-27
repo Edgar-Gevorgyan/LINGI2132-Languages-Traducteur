@@ -13,19 +13,19 @@ object Timer{
   }
 }
 
-class atEach(interval : Double){
-  def execute(work : => Unit) :SetIntervalHandle = {
+class atEach(interval: Double){
+  def execute(work: => Unit): SetIntervalHandle = {
     val tmp = RawTimers.setInterval(() => work , interval)
     Timer.stackIntervalHandle = tmp :: Timer.stackIntervalHandle
     tmp
   }
 }
 object atEach{
-  def apply(interval : Double): atEach = new atEach(interval)
+  def apply(interval: Double): atEach = new atEach(interval)
 }
 
-class after(timeout : Double){
-  def execute(work : => Unit) :SetTimeoutHandle = {
+class after(timeout: Double){
+  def execute(work: => Unit) :SetTimeoutHandle = {
     val tmp = RawTimers.setTimeout(() => work , timeout)
     Timer.stackTimeoutHandle = tmp :: Timer.stackTimeoutHandle
     tmp
@@ -33,5 +33,5 @@ class after(timeout : Double){
 }
 
 object after{
-  def apply(timeout: Double): after = new after(timeout : Double)
+  def apply(timeout: Double): after = new after(timeout: Double)
 }

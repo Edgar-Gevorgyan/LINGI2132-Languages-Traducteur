@@ -3,12 +3,12 @@ package DSL
 
 sealed trait Shape {
   type A <: Shape
-  def and(s: Shape) : ComposedShape[Shape] = ComposedShape(List(this, s))
-  def +(s: Shape) : ComposedShape[Shape] = this.and(s)
+  def and(s: Shape): ComposedShape[Shape] = ComposedShape(List(this, s))
+  def +(s: Shape): ComposedShape[Shape] = this.and(s)
   def moveX(v: Int): Unit
   def moveY(v: Int): Unit
-  def color(c: String) : Unit
-  def strokeWidth(sW : Int) : Unit
+  def color(c: String): Unit
+  def strokeWidth(sW : Int): Unit
   def change(property: CanvasElementModifier[A]): Unit
   def fill(f: Boolean): Unit
 }
@@ -39,11 +39,11 @@ sealed trait SingleShape extends Shape with ShapeAttributes {
 case class ComposedShape[MyType <: Shape](l: List[MyType]) extends Shape {
   type A = MyType
   def apply(i: Int): MyType = l(i)
-  def and(s: ComposedShape[MyType] ) : ComposedShape[MyType] = ComposedShape(this.l++s.l)
-  def +(s: ComposedShape[MyType] ) : ComposedShape[MyType] = this.and(s)
-  def map[OutType <: Shape](f: MyType => OutType) : ComposedShape[OutType] = ComposedShape(this.l.map(f))
-  def flatMap[OutType <: Shape](f: MyType => Iterable[OutType]) : ComposedShape[OutType] = ComposedShape(this.l.flatMap(f))
-  def foreach[B](f: MyType => B) : Unit = l.foreach(f)
+  def and(s: ComposedShape[MyType]): ComposedShape[MyType] = ComposedShape(this.l++s.l)
+  def +(s: ComposedShape[MyType]): ComposedShape[MyType] = this.and(s)
+  def map[OutType <: Shape](f: MyType => OutType): ComposedShape[OutType] = ComposedShape(this.l.map(f))
+  def flatMap[OutType <: Shape](f: MyType => Iterable[OutType]): ComposedShape[OutType] = ComposedShape(this.l.flatMap(f))
+  def foreach[B](f: MyType => B): Unit = l.foreach(f)
   override def moveX(v: Int): Unit = this.foreach(s => s.moveX(v))
   override def moveY(v: Int): Unit = this.foreach(s => s.moveY(v))
   override def color(c: String): Unit = this.foreach(s => s.color(c))
@@ -54,10 +54,10 @@ case class ComposedShape[MyType <: Shape](l: List[MyType]) extends Shape {
 
 case class Rectangle(var x: Int, var y: Int, var width: Int, var height: Int) extends SingleShape with Ordered[Rectangle]{
   type A = Rectangle
-  def and(s: Rectangle) : ComposedShape[Rectangle] = ComposedShape(List(this, s))
-  def +(s: Rectangle) : ComposedShape[Rectangle] = this.and(s)
-  def and(s: ComposedShape[Rectangle] ) : ComposedShape[Rectangle] = ComposedShape(this::s.l)
-  def +(s: ComposedShape[Rectangle] ) : ComposedShape[Rectangle] = this.and(s)
+  def and(s: Rectangle): ComposedShape[Rectangle] = ComposedShape(List(this, s))
+  def +(s: Rectangle): ComposedShape[Rectangle] = this.and(s)
+  def and(s: ComposedShape[Rectangle]): ComposedShape[Rectangle] = ComposedShape(this::s.l)
+  def +(s: ComposedShape[Rectangle]): ComposedShape[Rectangle] = this.and(s)
   override def compare(that: Rectangle): Int = {
     if (this.x == that.x && this.y == that.y && this.width == that.width){
       this.height - that.height
@@ -73,10 +73,10 @@ case class Rectangle(var x: Int, var y: Int, var width: Int, var height: Int) ex
 
 case class Circle(var x: Int, var y: Int, var radius: Int) extends SingleShape with Ordered[Circle]{
   type A = Circle
-  def and(s: Circle) : ComposedShape[Circle] = ComposedShape(List(this, s))
-  def +(s: Circle) : ComposedShape[Circle] = this.and(s)
-  def and(s: ComposedShape[Circle]) : ComposedShape[Circle] = ComposedShape(this::s.l)
-  def +(s: ComposedShape[Circle]) : ComposedShape[Circle] = this.and(s)
+  def and(s: Circle): ComposedShape[Circle] = ComposedShape(List(this, s))
+  def +(s: Circle): ComposedShape[Circle] = this.and(s)
+  def and(s: ComposedShape[Circle]): ComposedShape[Circle] = ComposedShape(this::s.l)
+  def +(s: ComposedShape[Circle]): ComposedShape[Circle] = this.and(s)
   override def compare(that: Circle): Int = {
     if (this.x == that.x && this.y == that.y){
       this.radius - that.radius
@@ -88,13 +88,13 @@ case class Circle(var x: Int, var y: Int, var radius: Int) extends SingleShape w
   }
 }
 
-case class Grid(unit: Int, nb_row: Int, nb_col: Int,color: String, wall: Boolean, wallColor: String){
+case class Grid(unit: Int, nb_row: Int, nb_col: Int, color: String, wall: Boolean, wallColor: String){
   var grid: ComposedShape[Rectangle] = ComposedShape(Nil)
-  for(i <- 0 until nb_row){
-    for(j <-  0 until nb_col){
-      val rec = Rectangle(unit*j,unit*i,unit,unit)
+  for (i <- 0 until nb_row){
+    for (j <-  0 until nb_col){
+      val rec = Rectangle(unit * j, unit * i, unit, unit)
       rec change Color(color)
-      if(wall && (i == 0 || i == nb_row-1 || j == 0 || j == nb_col-1)) {
+      if (wall && (i == 0 || i == nb_row-1 || j == 0 || j == nb_col-1)) {
         rec change Fill(true)
         rec change Color(wallColor)
       }
@@ -102,8 +102,8 @@ case class Grid(unit: Int, nb_row: Int, nb_col: Int,color: String, wall: Boolean
     }
   }
   def addObstacle(unitX: Int, unitY: Int, color: String): Unit ={
-    grid = for(rec <- grid) yield
-      if(rec == Rectangle(unit*unitX,unit*unitY,unit,unit)){
+    grid = for (rec <- grid) yield
+      if (rec == Rectangle(unit * unitX, unit * unitY, unit, unit)){
         rec change Color(color)
         rec change Fill(true)
         rec
@@ -112,8 +112,8 @@ case class Grid(unit: Int, nb_row: Int, nb_col: Int,color: String, wall: Boolean
       }
   }
   def removeObstacle(unitX: Int, unitY: Int): Unit ={
-    grid = for(rec <- grid) yield
-      if(rec == Rectangle(unit*unitX,unit*unitY,unit,unit)){
+    grid = for (rec <- grid) yield
+      if (rec == Rectangle(unit * unitX, unit * unitY, unit, unit)){
         rec change Color(color)
         rec change Fill(false)
         rec

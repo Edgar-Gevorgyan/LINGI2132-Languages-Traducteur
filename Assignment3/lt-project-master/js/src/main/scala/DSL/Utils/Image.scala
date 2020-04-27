@@ -11,7 +11,7 @@ class Image(src: String) { // TODO permettre de reshape
   image.src = src
   image.onload = {_: Event =>  loaded = true}
   def draw(unitX: Int, unitY: Int, ctx: CanvasRenderingContext2D): Unit = {
-    if(this.loaded) ctx.drawImage(image, unitX, unitY)
+    if (this.loaded) ctx.drawImage(image, unitX, unitY)
     else image.onload = {_: Event =>  ctx.drawImage(image, unitX, unitY)}
   }
 }

@@ -10,7 +10,7 @@ class Canvasy(canvas: html.Canvas) {
   private var shapes: List[Shape] = List()
   private var unit: Int = 1
   private var wall: Boolean = false
-  private var grid: Grid = Grid(0,0,0,"black",wall = false,"red")// only for initialization
+  private var grid: Grid = Grid(0, 0, 0, "black", wall=false, "red")// only for initialization
 
   def +=(s:Shape): Unit = shapes = shapes ++ List(s)
 
@@ -18,18 +18,18 @@ class Canvasy(canvas: html.Canvas) {
   def draw(): Unit = {
     shapes.foreach(x => draw(x))
   }
-  def draw(shape:Shape):Unit = {
+  def draw(shape: Shape): Unit = {
     ctx.beginPath()
     shape match {
-      case Rectangle(x,y,width,height) =>
+      case Rectangle(x, y, width, height) =>
         ctx.strokeStyle = shape.asInstanceOf[Rectangle].color
         ctx.lineWidth = shape.asInstanceOf[Rectangle].strokeWidth
         ctx.rect(x, y, width, height)
-        if(shape.asInstanceOf[Rectangle].filled){
+        if (shape.asInstanceOf[Rectangle].filled){
           ctx.fillStyle = ctx.strokeStyle
           ctx.fill()
         }
-      case Circle(x,y,radius) =>
+      case Circle(x, y, radius) =>
         ctx.strokeStyle = shape.asInstanceOf[Circle].color
         ctx.lineWidth = shape.asInstanceOf[Circle].strokeWidth
         ctx.arc(x, y, radius, 0, 2 * Math.PI)
@@ -46,7 +46,7 @@ class Canvasy(canvas: html.Canvas) {
 
   def drawText(txt: String, unitX: Int, unitY: Int): Unit = {
     ctx.font = "30px Arial"
-    ctx.fillText(txt, unitX*unit,unitY*unit)
+    ctx.fillText(txt, unitX * unit, unitY * unit)
   }
 
   def clear(): Unit = ctx.clearRect(0, 0, canvas.width, canvas.height)
