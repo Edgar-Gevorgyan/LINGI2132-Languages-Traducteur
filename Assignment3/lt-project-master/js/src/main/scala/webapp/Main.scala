@@ -50,14 +50,16 @@ object Main {
     val canvasy = Canvasy(canvas)
     val box = 32
     canvasy.setUnit(box)
-    //canvasy.makeGrid(box) // TODO avec le setUnit ne plus avoir besoin du unit en parametre
+    canvasy.makeGrid() // TODO avec le setUnit ne plus avoir besoin du unit en parametre
 
     val ground = Image("IMG/ground.png")
+    // Cela marche aussi
+    // val ground = Image("https://images-na.ssl-images-amazon.com/images/I/71N1XtP8TdL._AC_SX466_.jpg")
 
-    var snake = Array[Rectangle](Rectangle(9*box,10*box,box,box))
+    var snake = Array[Rectangle](Rectangle(9*box, 10*box, box, box))
 
-    var foodX = Math.floor(Math.random()*17+1).asInstanceOf[Int]
-    var foodY = Math.floor(Math.random()*15+3).asInstanceOf[Int]
+    var foodX = Math.floor(Math.random() * 17 + 1).asInstanceOf[Int]
+    var foodY = Math.floor(Math.random() * 15 + 3).asInstanceOf[Int]
 
     var score = 0
 
@@ -68,11 +70,12 @@ object Main {
     KeyListener.onChange(Key.DOWN) {if (d != "UP") d = "DOWN"}
     KeyListener.onChange(Key.SPACE) {appendPar(document.body,d)}
 
-    atEach(200) execute{
+    atEach(200) execute {
       canvasy.clear()
       //canvasy.drawGrid()
       canvasy.drawImg(ground,0,0)
-      snake change Fill(true)
+      //snake change Fill(true)
+      snake change AttachImage("IMG/snake.jpeg")
       canvasy.draw(snake)
 
       val food = Circle(foodX * box + box/2, foodY * box + box/2, box/2 - 3)// TODO afficher par defaut au milieu de la case
@@ -90,11 +93,11 @@ object Main {
       if (d eq "RIGHT") snakeX += 1
       if (d eq "DOWN") snakeY += 1
 
-      if(snakeX == foodX && snakeY == foodY){
+      if (snakeX == foodX && snakeY == foodY) {
         score += 1
         foodX = Math.floor(Math.random() * 17 + 1).asInstanceOf[Int]
         foodY = Math.floor(Math.random() * 15 + 3).asInstanceOf[Int]
-      }else{
+      } else {
         snake = snake.take(snake.length - 1)
       }
 
