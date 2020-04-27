@@ -40,13 +40,18 @@ object Main {
     //after(300) execute canvasy.drawImg(i,0,0) // TODO :: Don't work
 
     //****************SNAKE****************
-    // TODO gerneralizer les unit partout pas claire source de bug
+    snakeGame(canvas)
+  }
+
+  def snakeGame(canvas: html.Canvas): Unit = {
+    // TODO :: add systeme de score
+    // TODO :: incoherence avec les unite rendre le tout plus consistent if faut fixer les unité 1 fois le reste doit se faire auto
     val canvasy = Canvasy(canvas)
     val box = 32
     canvasy.setUnit(box)
-    canvasy.makeGrid()
+    canvasy.makeGrid(box)
 
-    var snake = Array[Rectangle](Rectangle(9,10,1,1))
+    var snake = Array[Rectangle](Rectangle(9*box,10*box,box,box))
 
     var foodX = Math.floor(Math.random()*18).asInstanceOf[Int]
     var foodY = Math.floor(Math.random()*18).asInstanceOf[Int]
@@ -65,13 +70,13 @@ object Main {
       snake change Fill(true)
       canvasy.draw(snake)
 
-      val food = Circle(foodX + 1/2, foodY + 1/2, 1/2 - 3) // TODO afficher par defaut au milieu de la case
+      val food = Circle(foodX*box + box/2, foodY*box + box/2, box/2 - 3)// TODO afficher par defaut au milieu de la case
       food change Color("blue")
       food change Fill(true)
       canvasy.draw(food)
 
-      var snakeX = snake(0).x
-      var snakeY = snake(0).y
+      var snakeX = snake(0).x / box
+      var snakeY = snake(0).y / box
 
       //appendPar(document.body,snakeX.toString + snakeY)
 
@@ -87,7 +92,7 @@ object Main {
         snake = snake.take(snake.length - 1)
       }
 
-      val newHead = Rectangle(snakeX,snakeY,1,1)
+      val newHead = Rectangle(snakeX*box,snakeY*box,box,box)
 
       if (snakeX < 0 || snakeX > 18  || snakeY < 0 || snakeY > 18 || snake.contains(newHead)) {
         Timer.remove()
@@ -98,7 +103,6 @@ object Main {
 
     }
   }
-
 
   def appendPar(targetNode: dom.Node, text: String): Unit = {// just to test on browser
     val parNode = document.createElement("p")

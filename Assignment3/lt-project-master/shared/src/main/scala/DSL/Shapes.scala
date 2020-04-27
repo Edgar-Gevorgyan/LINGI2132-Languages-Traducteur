@@ -88,11 +88,11 @@ case class Circle(var x: Int, var y: Int, var radius: Int) extends SingleShape w
   }
 }
 
-case class Grid(nb_row: Int, nb_col: Int,color: String, wall: Boolean, wallColor: String){
+case class Grid(unit: Int, nb_row: Int, nb_col: Int,color: String, wall: Boolean, wallColor: String){
   var grid: ComposedShape[Rectangle] = ComposedShape(Nil)
   for(i <- 0 until nb_row){
     for(j <-  0 until nb_col){
-      val rec = Rectangle(j,i,1,1)
+      val rec = Rectangle(unit*j,unit*i,unit,unit)
       rec change Color(color)
       if(wall && (i == 0 || i == nb_row-1 || j == 0 || j == nb_col-1)) {
         rec change Fill(true)
@@ -103,7 +103,7 @@ case class Grid(nb_row: Int, nb_col: Int,color: String, wall: Boolean, wallColor
   }
   def addObstacle(unitX: Int, unitY: Int, color: String): Unit ={
     grid = for(rec <- grid) yield
-      if(rec == Rectangle(unitX,unitY,1,1)){
+      if(rec == Rectangle(unit*unitX,unit*unitY,unit,unit)){
         rec change Color(color)
         rec change Fill(true)
         rec
@@ -113,7 +113,7 @@ case class Grid(nb_row: Int, nb_col: Int,color: String, wall: Boolean, wallColor
   }
   def removeObstacle(unitX: Int, unitY: Int): Unit ={
     grid = for(rec <- grid) yield
-      if(rec == Rectangle(unitX,unitY,1,1)){
+      if(rec == Rectangle(unit*unitX,unit*unitY,unit,unit)){
         rec change Color(color)
         rec change Fill(false)
         rec
