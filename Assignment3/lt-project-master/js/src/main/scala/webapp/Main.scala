@@ -62,6 +62,8 @@ object Main {
     var foodX = Math.floor(Math.random() * 17 + 1).asInstanceOf[Int]
     var foodY = Math.floor(Math.random() * 15 + 3).asInstanceOf[Int]
 
+    var eat = Audio("AUDIO/eat.mp3")
+
     var score = 0
     var d = "init"
     KeyListener.onChange(Key.LEFT) {if (d != "RIGHT") d = "LEFT"}
@@ -96,6 +98,7 @@ object Main {
 
       if (snakeX == foodX && snakeY == foodY) {
         score += 1
+        eat.play()
         foodX = Math.floor(Math.random() * 17 + 1).asInstanceOf[Int]
         foodY = Math.floor(Math.random() * 15 + 3).asInstanceOf[Int]
       } else {
