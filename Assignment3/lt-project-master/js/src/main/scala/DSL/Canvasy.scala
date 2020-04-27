@@ -42,7 +42,12 @@ class Canvasy(canvas: html.Canvas) {
     ctx.stroke()
   }
 
-  def drawImg(img: Image, unitX: Int, unitY: Int): Unit = Image.draw(img,unitX*unit,unitY*unit,ctx)
+  def drawImg(img: Image, unitX: Int, unitY: Int): Unit = img.draw(unitX*unit,unitY*unit,ctx)
+
+  def drawText(txt: String, unitX: Int, unitY: Int): Unit = {
+    ctx.font = "30px Arial"
+    ctx.fillText(txt, unitX*unit,unitY*unit)
+  }
 
   def clear(): Unit = ctx.clearRect(0, 0, canvas.width, canvas.height)
   def setUnit(unit: Int): Unit = this.unit = unit

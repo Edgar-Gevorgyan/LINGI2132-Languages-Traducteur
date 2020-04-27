@@ -12,12 +12,13 @@ object Main {
   def main(args: Array[String]): Unit = {
 
     val canvas = document.createElement("canvas").asInstanceOf[html.Canvas]
+    val ctx = canvas.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
     document.body.appendChild(canvas)
 
     val w = 608
     canvas.width = w
     canvas.height = w
-    //var canvasy = Canvasy(canvas)
+    var canvasy = Canvasy(canvas)
     // --------- example usage Timer ---------
     //atEach(1000) execute appendPar(document.body,"ee")
     //atEach(500) execute appendPar(document.body,"ewa")
@@ -37,24 +38,28 @@ object Main {
     // --------- example usage Image ---------
     //val i = Image("IMG/ground.png")
     //canvasy.drawImg(i,0,0) // WORK
-    //after(300) execute canvasy.drawImg(i,0,0) // TODO :: Don't work
+    //after(300) execute canvasy.drawImg(i,0,0)
 
     //****************SNAKE****************
     snakeGame(canvas)
+    // TODO :: ATTENTION permettre de mettre les position en double au lieu de int PARTOUT
   }
 
   def snakeGame(canvas: html.Canvas): Unit = {
-    // TODO :: add systeme de score
     // TODO :: incoherence avec les unite rendre le tout plus consistent if faut fixer les unité 1 fois le reste doit se faire auto
     val canvasy = Canvasy(canvas)
     val box = 32
     canvasy.setUnit(box)
-    canvasy.makeGrid(box)
+    //canvasy.makeGrid(box) // TODO avec le setUnit ne plus avoir besoin du unit en parametre
+
+    val ground = Image("IMG/ground.png")
 
     var snake = Array[Rectangle](Rectangle(9*box,10*box,box,box))
 
-    var foodX = Math.floor(Math.random()*18).asInstanceOf[Int]
-    var foodY = Math.floor(Math.random()*18).asInstanceOf[Int]
+    var foodX = Math.floor(Math.random()*17+1).asInstanceOf[Int]
+    var foodY = Math.floor(Math.random()*15+3).asInstanceOf[Int]
+
+    var score = 0
 
     var d = "init"
     KeyListener.onChange(Key.LEFT){if(d != "RIGHT") d = "LEFT"}
@@ -65,8 +70,8 @@ object Main {
 
     atEach(200) execute{
       canvasy.clear()
-      canvasy.drawGrid()
-
+      //canvasy.drawGrid()
+      canvasy.drawImg(ground,0,0)
       snake change Fill(true)
       canvasy.draw(snake)
 
@@ -86,21 +91,22 @@ object Main {
       if (d eq "DOWN") snakeY += 1
 
       if(snakeX == foodX && snakeY == foodY){
-        foodX = Math.floor(Math.random()*18).asInstanceOf[Int]
-        foodY = Math.floor(Math.random()*18).asInstanceOf[Int]
+        score += 1
+        foodX = Math.floor(Math.random()*17+1).asInstanceOf[Int]
+        foodY = Math.floor(Math.random()*15+3).asInstanceOf[Int]
       }else{
         snake = snake.take(snake.length - 1)
       }
 
       val newHead = Rectangle(snakeX*box,snakeY*box,box,box)
 
-      if (snakeX < 0 || snakeX > 18  || snakeY < 0 || snakeY > 18 || snake.contains(newHead)) {
+      if (snakeX < 1 || snakeX > 17  || snakeY < 3 || snakeY > 17 || snake.contains(newHead)) {
         Timer.remove()
       }
 
       snake +:= newHead
 
-
+      canvasy.drawText(score.toString, 2 , 2)
     }
   }
 
