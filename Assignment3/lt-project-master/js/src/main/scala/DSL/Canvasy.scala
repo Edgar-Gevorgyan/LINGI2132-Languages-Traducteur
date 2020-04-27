@@ -14,14 +14,14 @@ class Canvasy(canvas: html.Canvas) {
 
   def +=(s:Shape): Unit = shapes = shapes ++ List(s)
 
-
   def draw(): Unit = {
     shapes.foreach(x => draw(x))
   }
-  def draw(shape:Shape):Unit = {
+
+  def draw(shape: Shape): Unit = {
     ctx.beginPath()
     shape match {
-      case Rectangle(x,y,width,height) =>
+      case Rectangle(x, y, width, height) =>
         ctx.strokeStyle = shape.asInstanceOf[Rectangle].color
         ctx.lineWidth = shape.asInstanceOf[Rectangle].strokeWidth
         ctx.rect(x*unit, y*unit, width*unit, height*unit)
@@ -29,7 +29,7 @@ class Canvasy(canvas: html.Canvas) {
           ctx.fillStyle = ctx.strokeStyle
           ctx.fill()
         }
-      case Circle(x,y,radius) =>
+      case Circle(x, y, radius) =>
         ctx.strokeStyle = shape.asInstanceOf[Circle].color
         ctx.lineWidth = shape.asInstanceOf[Circle].strokeWidth
         ctx.arc(x*unit, y*unit, radius*unit, 0, 2 * Math.PI)
@@ -44,15 +44,18 @@ class Canvasy(canvas: html.Canvas) {
 
   def drawImg(img: Image, unitX: Double, unitY: Double): Unit = img.draw(unitX*unit,unitY*unit,ctx)
 
+
   def drawText(txt: String, unitX: Double, unitY: Double): Unit = { // TODO permettre de personnaliser le texte
     ctx.font = "30px Arial"
-    ctx.fillText(txt, unitX*unit,unitY*unit)
+    ctx.fillText(txt, unitX * unit, unitY * unit)
   }
 
   def clear(): Unit = ctx.clearRect(0, 0, canvas.width, canvas.height)
+
   def setUnit(unit: Int): Unit = this.unit = unit
 
-  def makeGrid(color: String = "black", wall: Boolean = false, wallColor: String = "black"): Unit ={
+
+  def makeGrid(color: String = "black", wall: Boolean = false, wallColor: String = "black"): Unit = {
     this.wall = wall
     val nb_row = Math.floor(canvas.height / unit).asInstanceOf[Int]
     val nb_col = Math.floor(canvas.width / unit).asInstanceOf[Int]
@@ -60,10 +63,11 @@ class Canvasy(canvas: html.Canvas) {
   }
   def fillGridCase(unitX: Int, unitY: Int, color: String = "black"): Unit = grid.fillGridCase(unitX,unitY,color)
   def unFillGridCase(unitX: Int, unitY: Int): Unit = grid.unFillGridCase(unitX, unitY)
+
   def drawGrid(): Unit = draw(grid.grid)
 }
 
-object Canvasy{
+object Canvasy {
   def apply(canvas: Canvas): Canvasy = new Canvasy(canvas)
 }
 

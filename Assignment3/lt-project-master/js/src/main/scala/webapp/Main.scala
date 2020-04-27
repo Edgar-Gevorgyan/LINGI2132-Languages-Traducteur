@@ -54,25 +54,28 @@ object Main {
     //canvasy.makeGrid() // TODO permettre de faire des maillage de different taille
 
     val ground = Image("IMG/ground.png")
+    // Cela marche aussi
+    // val ground = Image("https://images-na.ssl-images-amazon.com/images/I/71N1XtP8TdL._AC_SX466_.jpg")
 
     var snake = Array[Rectangle](Rectangle(9,10,1,1)) // TODO faire un Square qui herite de Rectangle
 
-    var foodX = Math.floor(Math.random()*17+1).asInstanceOf[Int]
-    var foodY = Math.floor(Math.random()*15+3).asInstanceOf[Int]
+    var foodX = Math.floor(Math.random() * 17 + 1).asInstanceOf[Int]
+    var foodY = Math.floor(Math.random() * 15 + 3).asInstanceOf[Int]
 
     var score = 0
     var d = "init"
-    KeyListener.onChange(Key.LEFT){if(d != "RIGHT") d = "LEFT"}
-    KeyListener.onChange(Key.RIGHT){if(d != "LEFT") d = "RIGHT"}
-    KeyListener.onChange(Key.UP){if(d != "DOWN") d = "UP"}
-    KeyListener.onChange(Key.DOWN){if(d != "UP") d = "DOWN"}
-    KeyListener.onChange(Key.SPACE){appendPar(document.body,d)}
+    KeyListener.onChange(Key.LEFT) {if (d != "RIGHT") d = "LEFT"}
+    KeyListener.onChange(Key.RIGHT) {if (d != "LEFT") d = "RIGHT"}
+    KeyListener.onChange(Key.UP) {if (d != "DOWN") d = "UP"}
+    KeyListener.onChange(Key.DOWN) {if (d != "UP") d = "DOWN"}
+    KeyListener.onChange(Key.SPACE) {appendPar(document.body,d)}
 
-    atEach(200) execute{
+    atEach(200) execute {
       canvasy.clear()
       //canvasy.drawGrid()
       canvasy.drawImg(ground,0,0)
       snake change Fill(true)
+      snake change AttachImage("IMG/snake.jpeg")
       canvasy.draw(snake)
 
 
@@ -91,11 +94,11 @@ object Main {
       if (d eq "RIGHT") snakeX += 1
       if (d eq "DOWN") snakeY += 1
 
-      if(snakeX == foodX && snakeY == foodY){
+      if (snakeX == foodX && snakeY == foodY) {
         score += 1
-        foodX = Math.floor(Math.random()*17+1).asInstanceOf[Int]
-        foodY = Math.floor(Math.random()*15+3).asInstanceOf[Int]
-      }else{
+        foodX = Math.floor(Math.random() * 17 + 1).asInstanceOf[Int]
+        foodY = Math.floor(Math.random() * 15 + 3).asInstanceOf[Int]
+      } else {
         snake = snake.take(snake.length - 1)
       }
 
@@ -128,8 +131,8 @@ object Main {
     ctx.beginPath()
     ctx.moveTo(w/3, 0)
     ctx.lineTo(w/3, w/3)
-    ctx.moveTo(w*2/3, 0)
-    ctx.lineTo(w*2/3, w/3)
+    ctx.moveTo(w * 2/3, 0)
+    ctx.lineTo(w * 2/3, w/3)
     ctx.moveTo(w, w/2)
     ctx.arc(w/2, w/2, w/2, 0, 3.14)
 
@@ -180,7 +183,7 @@ object Main {
     // because Circles have no width
     //(rectangles(0) + rectangles(1)) change Width(30)
     //circles(0) change Width(30)
-    rectangles(0) + rectangles change Width(30) // TODO : must work
+    rectangles(0) + rectangles change Width(30)
 
 
 
