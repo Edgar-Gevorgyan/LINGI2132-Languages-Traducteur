@@ -75,7 +75,7 @@ object Main {
     atEach(200) execute {
       canvasy.clear()
       //canvasy.drawGrid()
-      canvasy.drawImg(ground,0,0)
+      canvasy.drawImage(ground,0,0)
       snake change Fill(true)
       snake change AttachImage("IMG/snake.jpeg")
       canvasy.draw(snake)
@@ -113,7 +113,7 @@ object Main {
 
       snake +:= newHead
 
-      canvasy.drawText(score.toString, 2 , 1.6)
+      canvasy.drawText(Text(score.toString), 2 , 1.6)
     }
   }
 
