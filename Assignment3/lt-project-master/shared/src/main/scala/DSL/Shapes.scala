@@ -7,6 +7,8 @@ sealed trait Shape {
   def +(s: Shape) : ComposedShape[Shape] = this.and(s)
   def moveX(v: Double): Unit
   def moveY(v: Double): Unit
+  def moveXto(v: Double): Unit
+  def moveYto(v: Double): Unit
   def color(c: String) : Unit
   def strokeColor(sC: String) : Unit
   def strokeWidth(sW : Int) : Unit // TODO a verifier si double ou int
@@ -44,6 +46,8 @@ sealed trait SingleShape extends Shape with ShapeAttributes {
   var y: Double
   override def moveX(v: Double): Unit = x += v
   override def moveY(v: Double): Unit = y += v
+  override def moveXto(v: Double): Unit = x = v
+  override def moveYto(v: Double): Unit = y = v
   override def change(property: CanvasElementModifier[A]): Unit = property.change(this.asInstanceOf[A])
 }
 
@@ -57,6 +61,8 @@ case class ComposedShape[MyType <: Shape](l: List[MyType]) extends Shape { // TO
   def foreach[B](f: MyType => B) : Unit = l.foreach(f)
   override def moveX(v: Double): Unit = this.foreach(s => s.moveX(v))
   override def moveY(v: Double): Unit = this.foreach(s => s.moveY(v))
+  def moveXto(v: Double): Unit = this.foreach(s => s.moveXto(v))
+  def moveYto(v: Double): Unit = this.foreach(s => s.moveYto(v))
   override def color(c: String): Unit = this.foreach(s => s.color(c))
   override def strokeWidth(sW: Int): Unit = this.foreach(s => s.strokeWidth(sW))
   override def strokeColor(sS: String): Unit = this.foreach(s => s.strokeColor(sS))
