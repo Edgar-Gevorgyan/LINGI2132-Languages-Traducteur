@@ -19,27 +19,24 @@ class Canvasy(canvas: html.Canvas) { // TODO quadratic and bzier curve :: https:
   }
 
   def draw(shape: Shape): Unit = {
-    ctx.beginPath()
     shape match {
-      case Rectangle(x, y, width, height) =>
-        ctx.strokeStyle = shape.asInstanceOf[Rectangle].strokeColor
-        ctx.lineWidth = shape.asInstanceOf[Rectangle].strokeWidth
-        ctx.rect(x*unit, y*unit, width*unit, height*unit)
-        if(shape.asInstanceOf[Rectangle].filled){
-          ctx.fillStyle = shape.asInstanceOf[Rectangle].color
-          ctx.fill()
-        }
-      case Circle(x, y, radius) =>
-        ctx.strokeStyle = shape.asInstanceOf[Circle].strokeColor
-        ctx.lineWidth = shape.asInstanceOf[Circle].strokeWidth
-        ctx.arc(x*unit, y*unit, radius*unit, 0, 2 * Math.PI)
-        if(shape.asInstanceOf[Circle].filled){
-          ctx.fillStyle = shape.asInstanceOf[Circle].color
-          ctx.fill()
-        }
       case ComposedShape(sh) => sh.foreach(s => draw(s))
+      case _ =>
+        ctx.beginPath()
+        val s = shape.asInstanceOf[SingleShape]
+        ctx.strokeStyle = s.strokeColor
+        ctx.lineWidth = s.strokeWidth
+        ctx.fillStyle = s.color
+        s match {
+          case Rectangle(x, y, width, height) =>
+            ctx.rect(x*unit, y*unit, width*unit, height*unit)
+            if(s.filled) ctx.fill()
+          case Circle(x, y, radius) =>
+            ctx.arc(x*unit, y*unit, radius*unit, 0, 2 * Math.PI)
+            if(s.filled) ctx.fill()
+        }
+        ctx.stroke()
     }
-    ctx.stroke()
   }
 
   def drawImage(img: Image, unitX: Double, unitY: Double): Unit = img.draw(unitX*unit,unitY*unit,ctx)
