@@ -63,7 +63,7 @@ sealed trait SingleShape extends Shape with ShapeAttributes { // TODO implem Ord
   override def change(property: CanvasElementModifier[A]): Unit = property.change(this.asInstanceOf[A])
 }
 
-case class ComposedShape[MyType <: Shape](l: List[MyType]) extends Shape { // TODO regler couille du +
+case class ComposedShape[MyType <: Shape](var l: List[MyType]) extends Shape { // TODO regler couille du +
   type A = MyType
   def apply(i: Int): MyType = l(i)
   def and(s: ComposedShape[MyType] ) : ComposedShape[MyType] = ComposedShape(this.l++s.l)
@@ -136,22 +136,9 @@ case class Text(var x: Double, var y: Double, var txt: String) extends SingleSha
   def textBaseline(textBaseline: String): Unit = this.textBaseline = textBaseline
 }
 
-case class Grid(nb_row: Int, nb_col: Int,color: String, wall: Boolean, wallColor: String){ // TODO TRY TO EXTEND SHAPE
-  var grid: ComposedShape[Rectangle] = ComposedShape(Nil)
-  for(i <- 0 until nb_row){
-    for(j <-  0 until nb_col){
-      val rec = Rectangle(j,i,1,1)
-      rec change Color(color)
-      if (wall && (i == 0 || i == nb_row-1 || j == 0 || j == nb_col-1)) {
-        rec change Fill(true)
-        rec change Color(wallColor)
-      }
-      grid = rec + grid
-    }
-  }
-
+class Grid(nb_row: Int, nb_col: Int,color: String, wall: Boolean, wallColor: String) extends ComposedShape[Rectangle](Grid.build_grid(nb_row, nb_col,color, wall, wallColor)){
   def fillGridCase(unitX: Int, unitY: Int, color: String): Unit ={
-    grid = for(rec <- grid) yield
+    l = for(rec <- l) yield
       if(rec == Rectangle(unitX,unitY,1,1)){
         rec change Color(color)
         rec change Fill(true)
@@ -161,7 +148,7 @@ case class Grid(nb_row: Int, nb_col: Int,color: String, wall: Boolean, wallColor
       }
   }
   def unFillGridCase(unitX: Int, unitY: Int): Unit ={
-    grid = for(rec <- grid) yield
+    l = for(rec <- l) yield
       if(rec == Rectangle(unitX,unitY,1,1)){
         rec change Color(color)
         rec change Fill(false)
@@ -169,6 +156,26 @@ case class Grid(nb_row: Int, nb_col: Int,color: String, wall: Boolean, wallColor
       } else {
         rec
       }
+  }
+}
+
+object Grid{
+  def apply(nb_row: Int, nb_col: Int, color: String, wall: Boolean, wallColor: String): Grid = new Grid(nb_row, nb_col, color, wall, wallColor)
+
+  def build_grid(nb_row: Int, nb_col: Int,color: String, wall: Boolean, wallColor: String): List[Rectangle] = {
+    var grid: List[Rectangle] = Nil
+    for(i <- 0 until nb_row){
+      for(j <-  0 until nb_col){
+        val rec = Rectangle(j,i,1,1)
+        rec change Color(color)
+        if (wall && (i == 0 || i == nb_row-1 || j == 0 || j == nb_col-1)) {
+          rec change Fill(true)
+          rec change Color(wallColor)
+        }
+        grid = rec :: grid
+      }
+    }
+    grid
   }
 }
 

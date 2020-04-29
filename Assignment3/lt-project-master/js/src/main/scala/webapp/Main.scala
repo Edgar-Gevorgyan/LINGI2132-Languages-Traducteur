@@ -38,13 +38,15 @@ object Main {
     //val i = Image("IMG/ground.png")
     //canvasy.drawImg(i,0,0) // WORK
     //after(300) execute canvasy.drawImg(i,0,0)
+    // --------- example usage Grid ---------
+    //canvasy.setUnit(32)
+    //val v = canvasy.buildGrid()
+    //v change StrokeColor("blue")
+    //v fillGridCase (2,2,"red")
+    //canvasy.draw(v)
 
     //****************SNAKE****************
     snakeGame(canvas)
-    //val box = 64
-    //canvasy.setUnit(box)
-    //canvasy.makeGrid()
-    //canvasy.drawGrid()
   }
 
   def snakeGame(canvas: html.Canvas): Unit = {

@@ -60,15 +60,14 @@ class Canvasy(canvas: html.Canvas) { // TODO quadratic and bzier curve :: https:
   def setUnit(unit: Int): Unit = this.unit = unit
 
 
-  def makeGrid(color: String = "black", wall: Boolean = false, wallColor: String = "black"): Unit = {
+  def buildGrid(color: String = "black", wall: Boolean = false, wallColor: String = "black"): Grid = {
     val nb_row = Math.floor(canvas.height / unit).asInstanceOf[Int]
     val nb_col = Math.floor(canvas.width / unit).asInstanceOf[Int]
     grid = Grid(nb_row, nb_col, color, wall, wallColor)
+    grid
   }
   def fillGridCase(unitX: Int, unitY: Int, color: String = "black"): Unit = grid.fillGridCase(unitX,unitY,color)
   def unFillGridCase(unitX: Int, unitY: Int): Unit = grid.unFillGridCase(unitX, unitY)
-
-  def drawGrid(): Unit = draw(grid.grid)
 }
 
 object Canvasy {
