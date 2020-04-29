@@ -9,7 +9,6 @@ class Canvasy(canvas: html.Canvas) { // TODO quadratic and bzier curve :: https:
   private val ctx = canvas.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
   private var shapes: List[Shape] = List()
   private var unit: Int = 1
-  private var wall: Boolean = false
   private var grid: Grid = Grid(0,0,"black",wall = false,"red")// only for initialization
 
   def +=(s:Shape): Unit = shapes = shapes ++ List(s)
@@ -50,7 +49,6 @@ class Canvasy(canvas: html.Canvas) { // TODO quadratic and bzier curve :: https:
 
 
   def makeGrid(color: String = "black", wall: Boolean = false, wallColor: String = "black"): Unit = {
-    this.wall = wall
     val nb_row = Math.floor(canvas.height / unit).asInstanceOf[Int]
     val nb_col = Math.floor(canvas.width / unit).asInstanceOf[Int]
     grid = Grid(nb_row, nb_col, color, wall, wallColor)
