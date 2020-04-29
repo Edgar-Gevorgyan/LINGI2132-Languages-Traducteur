@@ -20,6 +20,22 @@ case class Fill(f: Boolean) extends CanvasElementModifier[Shape] {
   override def change(x: Shape): Unit = x.fill(f)
 }
 
+case class ShadowOffsetX(sO: Double) extends CanvasElementModifier[Shape] {
+  override def change(x: Shape): Unit = x.shadowOffsetX(sO)
+}
+
+case class ShadowOffsetY(sO: Double) extends CanvasElementModifier[Shape] {
+  override def change(x: Shape): Unit = x.shadowOffsetY(sO)
+}
+
+case class ShadowBlur(sB: Double) extends CanvasElementModifier[Shape] {
+  override def change(x: Shape): Unit = x.shadowBlur(sB)
+}
+
+case class ShadowColor(sC: String) extends CanvasElementModifier[Shape] {
+  override def change(x: Shape): Unit = x.shadowColor(sC)
+}
+
 case class AttachImage(url: String) extends CanvasElementModifier[Shape] {
   override def change(x: Shape): Unit = x.attachImage(url)
 }

@@ -62,7 +62,7 @@ object Main {
     var foodX = Math.floor(Math.random() * 17 + 1).asInstanceOf[Int]
     var foodY = Math.floor(Math.random() * 15 + 3).asInstanceOf[Int]
 
-    var eat = Audio("AUDIO/eat.mp3")
+    val eat = Audio("AUDIO/eat.mp3")
 
     var score = 0
     var d = "init"
@@ -84,6 +84,8 @@ object Main {
       val food = Circle(foodX + 0.5, foodY + 0.5, 0.5) // attention 1/2 retourne 0 (division entiere)
       food change Color("blue")
       food change Fill(true)
+      food change ShadowColor("Red")
+      food change ShadowBlur(10)
       canvasy.draw(food)
 
 

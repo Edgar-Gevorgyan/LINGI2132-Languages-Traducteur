@@ -14,6 +14,10 @@ sealed trait Shape {
   def strokeWidth(sW : Int) : Unit // TODO a verifier si double ou int
   def change(property: CanvasElementModifier[A]): Unit
   def fill(f: Boolean): Unit
+  def shadowOffsetX(sO: Double): Unit
+  def shadowOffsetY(sO: Double): Unit
+  def shadowBlur(sB: Double): Unit
+  def shadowColor(sC: String): Unit
   def attachImage(url: String): Unit
 }
 object Shape {
@@ -28,12 +32,20 @@ sealed trait ShapeAttributes {
   var strokeColor: String = "#000"
   var strokeWidth: Int = 1
   var filled: Boolean = false
+  var shadowOffsetX : Double = 0
+  var shadowOffsetY : Double = 0
+  var shadowBlur : Double = 0
+  var shadowColor : String = "#000000"
   var imageAttached: Boolean = false
   var imageURL: String = ""
   def color(c: String): Unit = color = c
   def strokeColor(sC: String) : Unit = this.strokeColor = sC
   def strokeWidth(sW: Int): Unit = strokeWidth = sW
   def fill(f: Boolean): Unit = filled = f
+  def shadowOffsetX(sO: Double): Unit = shadowOffsetX = sO
+  def shadowOffsetY(sO: Double): Unit = shadowOffsetY = sO
+  def shadowBlur(sB: Double): Unit = shadowBlur = sB
+  def shadowColor(sC: String): Unit = shadowColor = sC
   def attachImage(url: String): Unit = {
     imageAttached = true
     imageURL = url
@@ -67,6 +79,10 @@ case class ComposedShape[MyType <: Shape](l: List[MyType]) extends Shape { // TO
   override def strokeWidth(sW: Int): Unit = this.foreach(s => s.strokeWidth(sW))
   override def strokeColor(sS: String): Unit = this.foreach(s => s.strokeColor(sS))
   override def fill(f: Boolean): Unit = this.foreach(s => s.fill(f))
+  def shadowOffsetX(sO: Double): Unit = this.foreach(s => s.shadowOffsetX(sO))
+  def shadowOffsetY(sO: Double): Unit = this.foreach(s => s.shadowOffsetY(sO))
+  def shadowBlur(sB: Double): Unit = this.foreach(s => s.shadowBlur(sB))
+  def shadowColor(sC: String): Unit = this.foreach(s => s.shadowColor(sC))
   override def attachImage(url: String): Unit = this.foreach(s => s.attachImage(url))
   override def change(property: CanvasElementModifier[A]): Unit = this.foreach(s => property.change(s))
 }

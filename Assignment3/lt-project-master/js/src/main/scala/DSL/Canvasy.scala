@@ -25,6 +25,10 @@ class Canvasy(canvas: html.Canvas) { // TODO quadratic and bzier curve :: https:
       case _ =>
         ctx.beginPath()
         val s = shape.asInstanceOf[SingleShape]
+        ctx.shadowOffsetX = s.shadowOffsetX
+        ctx.shadowOffsetY = s.shadowOffsetY
+        ctx.shadowBlur = s.shadowBlur
+        ctx.shadowColor = s.shadowColor
         ctx.strokeStyle = s.strokeColor
         ctx.lineWidth = s.strokeWidth
         ctx.fillStyle = s.color
