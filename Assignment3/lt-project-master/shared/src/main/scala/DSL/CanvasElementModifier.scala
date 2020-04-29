@@ -8,6 +8,10 @@ case class Color(c: String) extends CanvasElementModifier[Shape] {
   override def change(x: Shape): Unit = x.color(c)
 }
 
+case class StrokeColor(sS: String) extends CanvasElementModifier[Shape] {
+  override def change(x: Shape): Unit = x.strokeColor(sS)
+}
+
 case class StrokeWidth(sW: Int) extends CanvasElementModifier[Shape] {
   override def change(x: Shape): Unit = x.strokeWidth(sW)
 }
