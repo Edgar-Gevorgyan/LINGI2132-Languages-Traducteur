@@ -113,7 +113,10 @@ object Main {
 
       snake +:= newHead
 
-      canvasy.drawText(Text(score.toString), 2 , 1.6)
+      val t = Text(2 , 1.6, score.toString)
+      t change Fill(true)
+      t.fontSize = 30
+      canvasy.draw(t)
     }
   }
 

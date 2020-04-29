@@ -41,7 +41,7 @@ sealed trait ShapeAttributes {
   }
 }
 
-sealed trait SingleShape extends Shape with ShapeAttributes {
+sealed trait SingleShape extends Shape with ShapeAttributes { // TODO implem Ordered[SingleShape] selon les x y
   var x: Double
   var y: Double
   override def moveX(v: Double): Unit = x += v
@@ -107,7 +107,20 @@ case class Circle(var x: Double, var y: Double, var radius: Double) extends Sing
   }
 }
 
-case class Grid(nb_row: Int, nb_col: Int,color: String, wall: Boolean, wallColor: String){
+case class Text(var x: Double, var y: Double, var txt: String) extends SingleShape{
+  type A = Text
+  var font: String = "sans-serif"
+  var fontSize: Double = 10
+  var textAlign: String = "start"
+  var textBaseline: String = "alphabetic"
+
+  def font(font: String): Unit = this.font = font
+  def fontSize(fontSize: Double): Unit = this.fontSize = fontSize
+  def textAlign(textAlign: String): Unit = this.textAlign = textAlign
+  def textBaseline(textBaseline: String): Unit = this.textBaseline = textBaseline
+}
+
+case class Grid(nb_row: Int, nb_col: Int,color: String, wall: Boolean, wallColor: String){ // TODO TRY TO EXTEND SHAPE
   var grid: ComposedShape[Rectangle] = ComposedShape(Nil)
   for(i <- 0 until nb_row){
     for(j <-  0 until nb_col){

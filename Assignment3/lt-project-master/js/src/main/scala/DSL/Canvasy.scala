@@ -18,6 +18,8 @@ class Canvasy(canvas: html.Canvas) { // TODO quadratic and bzier curve :: https:
   }
 
   def draw(shape: Shape): Unit = {
+
+
     shape match {
       case ComposedShape(sh) => sh.foreach(s => draw(s))
       case _ =>
@@ -33,6 +35,13 @@ class Canvasy(canvas: html.Canvas) { // TODO quadratic and bzier curve :: https:
           case Circle(x, y, radius) =>
             ctx.arc(x*unit, y*unit, radius*unit, 0, 2 * Math.PI)
             if(s.filled) ctx.fill()
+          case Text(x, y, txt) =>
+            val t = s.asInstanceOf[Text]
+            ctx.font = t.fontSize.toString + "px " + t.font
+            ctx.textAlign = t.textAlign
+            ctx.textBaseline = t.textAlign
+            if(t.filled) ctx.fillText(txt, x*unit, y*unit)
+            else ctx.strokeText(txt, x*unit, y*unit)
         }
         ctx.stroke()
     }
@@ -41,7 +50,6 @@ class Canvasy(canvas: html.Canvas) { // TODO quadratic and bzier curve :: https:
   def drawImage(img: Image, unitX: Double, unitY: Double): Unit = img.draw(unitX*unit,unitY*unit,ctx)
 
 
-  def drawText(txt: Text, unitX: Double, unitY: Double): Unit = txt.drawText(unitX*unit,unitY*unit,ctx)
 
   def clear(): Unit = ctx.clearRect(0, 0, canvas.width, canvas.height)
 
