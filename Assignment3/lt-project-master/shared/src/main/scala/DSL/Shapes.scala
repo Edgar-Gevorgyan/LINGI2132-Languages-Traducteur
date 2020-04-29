@@ -11,7 +11,7 @@ sealed trait Shape {
   def moveYto(v: Double): Unit
   def color(c: String) : Unit
   def strokeColor(sC: String) : Unit
-  def strokeWidth(sW : Int) : Unit // TODO a verifier si double ou int
+  def strokeWidth(sW : Double) : Unit
   def change(property: CanvasElementModifier[A]): Unit
   def fill(f: Boolean): Unit
   def shadowOffsetX(sO: Double): Unit
@@ -30,7 +30,7 @@ object Shape {
 sealed trait ShapeAttributes {
   var color: String = "red"
   var strokeColor: String = "#000"
-  var strokeWidth: Int = 1
+  var strokeWidth: Double = 1
   var filled: Boolean = false
   var shadowOffsetX : Double = 0
   var shadowOffsetY : Double = 0
@@ -40,7 +40,7 @@ sealed trait ShapeAttributes {
   var imageURL: String = ""
   def color(c: String): Unit = color = c
   def strokeColor(sC: String) : Unit = this.strokeColor = sC
-  def strokeWidth(sW: Int): Unit = strokeWidth = sW
+  def strokeWidth(sW: Double): Unit = strokeWidth = sW
   def fill(f: Boolean): Unit = filled = f
   def shadowOffsetX(sO: Double): Unit = shadowOffsetX = sO
   def shadowOffsetY(sO: Double): Unit = shadowOffsetY = sO
@@ -76,7 +76,7 @@ case class ComposedShape[MyType <: Shape](var l: List[MyType]) extends Shape { /
   def moveXto(v: Double): Unit = this.foreach(s => s.moveXto(v))
   def moveYto(v: Double): Unit = this.foreach(s => s.moveYto(v))
   override def color(c: String): Unit = this.foreach(s => s.color(c))
-  override def strokeWidth(sW: Int): Unit = this.foreach(s => s.strokeWidth(sW))
+  override def strokeWidth(sW: Double): Unit = this.foreach(s => s.strokeWidth(sW))
   override def strokeColor(sS: String): Unit = this.foreach(s => s.strokeColor(sS))
   override def fill(f: Boolean): Unit = this.foreach(s => s.fill(f))
   def shadowOffsetX(sO: Double): Unit = this.foreach(s => s.shadowOffsetX(sO))
