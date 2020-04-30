@@ -5,7 +5,7 @@ import org.scalajs.dom.{CanvasRenderingContext2D, Event}
 import org.scalajs.dom.raw.HTMLImageElement
 
 
-class Image(src: String) { // TODO permettre de reshape
+class Image(val src: String){
   private var loaded: Boolean = false
   private val image: HTMLImageElement = dom.document.createElement("img").asInstanceOf[HTMLImageElement]
 
