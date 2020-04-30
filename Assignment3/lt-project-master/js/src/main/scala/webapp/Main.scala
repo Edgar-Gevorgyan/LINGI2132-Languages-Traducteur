@@ -146,6 +146,7 @@ object Main {
           canvasy.draw(finish_text)
 
           MouseListener.onChangeInside(start_layout,canvasy.unit){
+            MouseListener.clear()
             snakeGame(canvas)
           }
         }
