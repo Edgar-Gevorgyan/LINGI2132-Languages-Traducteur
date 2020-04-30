@@ -69,7 +69,7 @@ object Main {
     // Cela marche aussi
     // val ground = Image("https://images-na.ssl-images-amazon.com/images/I/71N1XtP8TdL._AC_SX466_.jpg")
 
-    var snake = Array[Rectangle](Rectangle(9,10,1,1)) // TODO faire un Square qui herite de Rectangle
+    var snake = Array(Square(9,10,1))
 
     var foodX = Math.floor(Math.random() * 17 + 1).asInstanceOf[Int]
     var foodY = Math.floor(Math.random() * 15 + 3).asInstanceOf[Int]
@@ -134,7 +134,7 @@ object Main {
           snake = snake.take(snake.length - 1)
         }
 
-        val newHead = Rectangle(snakeX,snakeY,1,1)
+        val newHead = Square(snakeX,snakeY,1)
         newHead change AttachImage("IMG/food.png")
 
         if (snakeX < 1 || snakeX > 17  || snakeY < 3 || snakeY > 17 || snake.contains(newHead)) {

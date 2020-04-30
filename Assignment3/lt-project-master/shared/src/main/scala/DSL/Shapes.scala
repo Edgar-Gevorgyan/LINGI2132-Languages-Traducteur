@@ -108,6 +108,10 @@ case class Rectangle(var x: Double, var y: Double, var width: Double, var height
   }
 }
 
+object Square{
+  def apply(x: Double, y: Double, len: Double): Rectangle = Rectangle(x, y, len, len)
+}
+
 case class Circle(var x: Double, var y: Double, var radius: Double) extends SingleShape with Ordered[Circle]{
   type A = Circle
   def and(s: Circle): ComposedShape[Circle] = ComposedShape(List(this, s))
