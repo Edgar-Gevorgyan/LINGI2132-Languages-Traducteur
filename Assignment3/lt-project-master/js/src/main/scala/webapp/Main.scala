@@ -97,12 +97,11 @@ object Main {
 
     MouseListener.onChangeInside(start_layout,box){
       MouseListener.clear()
-      atEach(200) execute {
+      atEach(100) execute {
         canvasy.clear()
 
         canvasy.drawImage(ground,0,0)
         snake change Fill(true)
-        snake change AttachImage("IMG/snake.jpeg")
         canvasy.draw(snake)
 
 
@@ -133,6 +132,7 @@ object Main {
         }
 
         val newHead = Rectangle(snakeX,snakeY,1,1)
+        newHead change AttachImage("IMG/food.png")
 
         if (snakeX < 1 || snakeX > 17  || snakeY < 3 || snakeY > 17 || snake.contains(newHead)) {
           Timer.remove()

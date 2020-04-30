@@ -9,13 +9,13 @@ class Image(src: String) { // TODO permettre de reshape
   private var loaded: Boolean = false
   private val image: HTMLImageElement = dom.document.createElement("img").asInstanceOf[HTMLImageElement]
 
-  var width: Double = 0
-  var height: Double = 0
+  var width: Double = -1
+  var height: Double = -1
 
   image.src = src
   image.onload = {_: Event =>
-    width = image.naturalWidth
-    height = image.naturalHeight
+    if(width == -1) width = image.naturalWidth
+    if(height == -1) height = image.naturalHeight
     loaded = true
   }
 
@@ -23,8 +23,8 @@ class Image(src: String) { // TODO permettre de reshape
   def draw(x: Double, y: Double, ctx: CanvasRenderingContext2D): Unit = {
     if (this.loaded) safeDraw(x,y,ctx)
     else image.onload = {_: Event =>
-      width = image.naturalWidth
-      height = image.naturalHeight
+      if(width == -1) width = image.naturalWidth
+      if(height == -1) height = image.naturalHeight
       safeDraw(x,y,ctx)
     }
   }

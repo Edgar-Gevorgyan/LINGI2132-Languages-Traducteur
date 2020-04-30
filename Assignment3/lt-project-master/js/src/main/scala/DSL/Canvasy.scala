@@ -9,10 +9,18 @@ class Canvasy(canvas: html.Canvas) {
   private val ctx = canvas.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
   private var shapes: List[Shape] = List()
   private var grid: Grid = Grid(1,0,0,"black",wall = false,"red")// only for initialization
-  private var imageCache: List[Image] = List()
+  var imageCache: List[(String,Image)] = List()
   var unit: Int = 1
 
-  def +=(s:Shape): Unit = shapes = shapes ++ List(s)
+  def +=(s:Shape): Unit = {
+    shapes = shapes ++ List(s)
+    shapes.foreach {
+      case s: SingleShape =>
+        if(s.imageAttached){
+          imageCache = (s.imageURL, Image(s.imageURL)) :: imageCache
+        }
+    }
+  }
 
   def draw(): Unit = {
     shapes.foreach(x => draw(x))
@@ -23,9 +31,8 @@ class Canvasy(canvas: html.Canvas) {
 
     shape match {
       case ComposedShape(sh) => sh.foreach(s => draw(s))
-      case _ =>
+      case s:  SingleShape =>
         ctx.beginPath()
-        val s = shape.asInstanceOf[SingleShape]
         ctx.shadowOffsetX = s.shadowOffsetX
         ctx.shadowOffsetY = s.shadowOffsetY
         ctx.shadowBlur = s.shadowBlur
@@ -37,9 +44,15 @@ class Canvasy(canvas: html.Canvas) {
           case Rectangle(x, y, width, height) =>
             ctx.rect(x*unit, y*unit, width*unit, height*unit)
             if(s.filled) ctx.fill()
+            if(s.imageAttached){
+              drawImage(Image(s.imageURL), x,y)
+            }
           case Circle(x, y, radius) =>
             ctx.arc(x*unit, y*unit, radius*unit, 0, 2 * Math.PI)
             if(s.filled) ctx.fill()
+            if(s.imageAttached){
+              drawImage(Image(s.imageURL), x-radius,y-radius)
+            }
           case Text(x, y, txt) =>
             val t = s.asInstanceOf[Text]
             ctx.font = t.fontSize.toString + "px " + t.font
