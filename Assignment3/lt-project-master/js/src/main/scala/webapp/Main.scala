@@ -144,6 +144,10 @@ object Main {
           finish_text change FontSize(34)
           canvasy.draw(start_layout)
           canvasy.draw(finish_text)
+
+          MouseListener.onChangeInside(start_layout,canvasy.unit){
+            snakeGame(canvas)
+          }
         }
 
         snake +:= newHead
