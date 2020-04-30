@@ -45,13 +45,19 @@ class Canvasy(canvas: html.Canvas) {
             ctx.rect(x*unit, y*unit, width*unit, height*unit)
             if(s.filled) ctx.fill()
             if(s.imageAttached){
-              drawImage(Image(s.imageURL), x,y)
+              val i = Image(s.imageURL)
+              i.height = height
+              i.width = width
+              drawImage(i, x,y)
             }
           case Circle(x, y, radius) =>
             ctx.arc(x*unit, y*unit, radius*unit, 0, 2 * Math.PI)
             if(s.filled) ctx.fill()
             if(s.imageAttached){
-              drawImage(Image(s.imageURL), x-radius,y-radius)
+              val i = Image(s.imageURL)
+              i.height = radius
+              i.width = radius
+              drawImage(i, x-radius,y-radius)
             }
           case Text(x, y, txt) =>
             val t = s.asInstanceOf[Text]
