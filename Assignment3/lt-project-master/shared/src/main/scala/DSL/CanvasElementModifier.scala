@@ -48,6 +48,10 @@ case class Height(h: Double) extends CanvasElementModifier[Rectangle] {
   override def change(x: Rectangle): Unit = x.height = h
 }
 
+case class Length(l: Double) extends CanvasElementModifier[Square] {
+  override def change(x: Square): Unit = x.len = l
+}
+
 case class Radius(r: Double) extends CanvasElementModifier[Circle] {
   override def change(x: Circle): Unit = x.radius = r
 }

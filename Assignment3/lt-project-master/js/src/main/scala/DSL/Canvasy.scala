@@ -50,14 +50,19 @@ class Canvasy(canvas: html.Canvas) {
             if(s.filled) ctx.fill()
             if(s.imageAttached){
               val found = imageCache.find(x => x.src eq s.imageURL)
-              val img: Image = found match {
-                case Some(value) =>
-                  value.asInstanceOf[Image]
-                case None =>
-                  Image(s.imageURL)
-              }
+              val img: Image = found.getOrElse(Image(s.imageURL))
               img.height = height*unit
               img.width = width*unit
+              drawImage(img, x, y)
+            }
+          case Square(x, y, len) =>
+            ctx.rect(x*unit, y*unit, len*unit, len*unit)
+            if(s.filled) ctx.fill()
+            if(s.imageAttached){
+              val found = imageCache.find(x => x.src eq s.imageURL)
+              val img: Image = found.getOrElse(Image(s.imageURL))
+              img.height = len*unit
+              img.width = len*unit
               drawImage(img, x, y)
             }
           case Circle(x, y, radius) =>
@@ -65,12 +70,7 @@ class Canvasy(canvas: html.Canvas) {
             if(s.filled) ctx.fill()
             if(s.imageAttached){
               val found = imageCache.find(x => x.src eq s.imageURL)
-              val img: Image = found match {
-                case Some(value) =>
-                  value.asInstanceOf[Image]
-                case None =>
-                  Image(s.imageURL)
-              }
+              val img: Image = found.getOrElse(Image(s.imageURL))
               img.height = 2*radius*unit
               img.width = 2*radius*unit
               drawImage(img, x - radius, y - radius)

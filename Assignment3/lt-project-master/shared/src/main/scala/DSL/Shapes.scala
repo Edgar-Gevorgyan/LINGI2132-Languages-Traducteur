@@ -23,9 +23,13 @@ sealed trait Shape {
 }
 object Shape {
   implicit def ArrayRectangle2ComposedShape(shapes:Array[Rectangle]): ComposedShape[Rectangle] = ComposedShape(shapes.toList)
+  implicit def ArraySquare2ComposedShape(shapes:Array[Square]): ComposedShape[Square] = ComposedShape(shapes.toList)
   implicit def ArrayCircle2ComposedShape(shapes:Array[Circle]): ComposedShape[Circle] = ComposedShape(shapes.toList)
+  implicit def ArrayText2ComposedShape(shapes:Array[Text]): ComposedShape[Text] = ComposedShape(shapes.toList)
   implicit def IterableRectangle2ComposedShape(shapes:Iterable[Rectangle]): ComposedShape[Rectangle] = ComposedShape(shapes.toList)
+  implicit def IterableSquare2ComposedShape(shapes:Iterable[Square]): ComposedShape[Square] = ComposedShape(shapes.toList)
   implicit def IterableCircle2ComposedShape(shapes:Iterable[Circle]): ComposedShape[Circle] = ComposedShape(shapes.toList)
+  implicit def IterableText2ComposedShape(shapes:Iterable[Text]): ComposedShape[Text] = ComposedShape(shapes.toList)
 }
 
 sealed trait ShapeAttributes {
@@ -108,8 +112,22 @@ case class Rectangle(var x: Double, var y: Double, var width: Double, var height
   }
 }
 
-object Square{
-  def apply(x: Double, y: Double, len: Double): Rectangle = Rectangle(x, y, len, len)
+case class Square(var x: Double, var y: Double, var len: Double) extends SingleShape with Ordered[Square]{
+  type A = Square
+  def and(s: Square): ComposedShape[Square] = ComposedShape(List(this, s))
+  def +(s: Square): ComposedShape[Square] = this.and(s)
+  def and(s: ComposedShape[Square]): ComposedShape[Square] = ComposedShape(this::s.l)
+  def +(s: ComposedShape[Square]): ComposedShape[Square] = this.and(s)
+  override def inside(x: Double, y: Double): Boolean = x > this.x && x < this.x+this.len && y < this.y+this.len && y > this.y
+  override def compare(that: Square): Int = {
+    if (this.x == that.x && this.y == that.y) {
+      (this.len - that.len).asInstanceOf[Int]
+    } else if (this.x == that.x) {
+      (this.y - that.y).asInstanceOf[Int]
+    } else {
+      (this.x - that.x).asInstanceOf[Int]
+    }
+  }
 }
 
 case class Circle(var x: Double, var y: Double, var radius: Double) extends SingleShape with Ordered[Circle]{
