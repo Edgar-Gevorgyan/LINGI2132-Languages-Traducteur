@@ -50,13 +50,8 @@ object Main {
     //val rec = Rectangle(2,2,1,1)
     //MouseListener.onChangeInside(rec, canvasy.unit){ appendPar(document.body, "ewaaa" )}
     //****************SNAKE****************
-    //snakeGame(canvas)
 
-    canvasy.setUnit(32)
-    val g = canvasy.buildGrid(2)
-    canvasy.fillGridCase(3,3)
-    canvasy.unFillGridCase(3,3)
-    canvasy.draw(g)
+    snakeGame(canvas)
   }
 
   def snakeGame(canvas: html.Canvas): Unit = {
@@ -84,53 +79,72 @@ object Main {
     KeyListener.onChange(Key.DOWN) {if (d != "UP") d = "DOWN"}
     KeyListener.onChange(Key.SPACE) {appendPar(document.body,d)}
 
-    atEach(200) execute {
-      canvasy.clear()
-      //canvasy.drawGrid()
-      canvasy.drawImage(ground,0,0)
-      snake change Fill(true)
-      snake change AttachImage("IMG/snake.jpeg")
-      canvasy.draw(snake)
+    val start_layout = Rectangle(5,9,9,2)
+    canvasy += start_layout
+    start_layout change Fill(true)
+    start_layout change Color("skyblue")
+
+    val start_text = Text(6.5,10.4,"click to start")
+    start_text change FontSize(34)
+    canvasy += start_text
+
+    canvasy.draw()
+
+    MouseListener.onChangeInside(start_layout,box){
+      MouseListener.clear()
+      atEach(200) execute {
+        canvasy.clear()
+        //canvasy.drawGrid()
+        canvasy.drawImage(ground,0,0)
+        snake change Fill(true)
+        snake change AttachImage("IMG/snake.jpeg")
+        canvasy.draw(snake)
 
 
-      val food = Circle(foodX + 0.5, foodY + 0.5, 0.5) // attention 1/2 retourne 0 (division entiere)
-      food change Color("blue")
-      food change Fill(true)
-      food change ShadowColor("Red")
-      food change ShadowBlur(10)
-      canvasy.draw(food)
+        val food = Circle(foodX + 0.5, foodY + 0.5, 0.5) // attention 1/2 retourne 0 (division entiere)
+        food change Color("blue")
+        food change Fill(true)
+        food change ShadowColor("Red")
+        food change ShadowBlur(10)
+        canvasy.draw(food)
 
 
-      var snakeX = snake(0).x
-      var snakeY = snake(0).y
+        var snakeX = snake(0).x
+        var snakeY = snake(0).y
 
 
-      if (d eq "LEFT") snakeX -= 1
-      if (d eq "UP") snakeY -= 1
-      if (d eq "RIGHT") snakeX += 1
-      if (d eq "DOWN") snakeY += 1
+        if (d eq "LEFT") snakeX -= 1
+        if (d eq "UP") snakeY -= 1
+        if (d eq "RIGHT") snakeX += 1
+        if (d eq "DOWN") snakeY += 1
 
-      if (snakeX == foodX && snakeY == foodY) {
-        score += 1
-        eat.play()
-        foodX = Math.floor(Math.random() * 17 + 1).asInstanceOf[Int]
-        foodY = Math.floor(Math.random() * 15 + 3).asInstanceOf[Int]
-      } else {
-        snake = snake.take(snake.length - 1)
+        if (snakeX == foodX && snakeY == foodY) {
+          score += 1
+          eat.play()
+          foodX = Math.floor(Math.random() * 17 + 1).asInstanceOf[Int]
+          foodY = Math.floor(Math.random() * 15 + 3).asInstanceOf[Int]
+        } else {
+          snake = snake.take(snake.length - 1)
+        }
+
+        val newHead = Rectangle(snakeX,snakeY,1,1)
+
+        if (snakeX < 1 || snakeX > 17  || snakeY < 3 || snakeY > 17 || snake.contains(newHead)) {
+          Timer.remove()
+          val finish_text = Text(6.3,10.5,"GAME OVER")
+          finish_text change Color("red")
+          finish_text change FontSize(34)
+          canvasy.draw(start_layout)
+          canvasy.draw(finish_text)
+        }
+
+        snake +:= newHead
+
+        val t = Text(2 , 1.6, score.toString)
+        t change Fill(true)
+        t.fontSize = 30
+        canvasy.draw(t)
       }
-
-      val newHead = Rectangle(snakeX,snakeY,1,1)
-
-      if (snakeX < 1 || snakeX > 17  || snakeY < 3 || snakeY > 17 || snake.contains(newHead)) {
-        Timer.remove()
-      }
-
-      snake +:= newHead
-
-      val t = Text(2 , 1.6, score.toString)
-      t change Fill(true)
-      t.fontSize = 30
-      canvasy.draw(t)
     }
   }
 

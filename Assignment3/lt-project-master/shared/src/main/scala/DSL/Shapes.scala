@@ -30,7 +30,7 @@ object Shape {
 
 sealed trait ShapeAttributes {
   var color: String = "red"
-  var strokeColor: String = "#000"
+  var strokeColor: String = "#000000"
   var strokeWidth: Double = 1
   var filled: Boolean = false
   var shadowOffsetX : Double = 0
@@ -132,6 +132,8 @@ case class Text(var x: Double, var y: Double, var txt: String) extends SingleSha
   var fontSize: Double = 10
   var textAlign: String = "start"
   var textBaseline: String = "alphabetic"
+  filled = true
+  color = "black"
 
   def font(font: String): Unit = this.font = font
   def fontSize(fontSize: Double): Unit = this.fontSize = fontSize
