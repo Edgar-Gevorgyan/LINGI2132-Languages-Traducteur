@@ -29,7 +29,7 @@ object Shape {
 }
 
 sealed trait ShapeAttributes {
-  var color: String = "red"
+  var color: String = "yellow"
   var strokeColor: String = "#000000"
   var strokeWidth: Double = 1
   var filled: Boolean = false

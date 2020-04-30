@@ -110,6 +110,7 @@ object Main {
         food change Fill(true)
         food change ShadowColor("Red")
         food change ShadowBlur(10)
+        food change AttachImage("IMG/food.png")
         canvasy.draw(food)
 
 

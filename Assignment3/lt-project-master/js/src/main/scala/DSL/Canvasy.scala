@@ -46,6 +46,8 @@ class Canvasy(canvas: html.Canvas) {
             if(s.filled) ctx.fill()
             if(s.imageAttached){
               val i = Image(s.imageURL)
+              i.height = height*unit
+              i.width = width*unit
               drawImage(i, x,y)
             }
           case Circle(x, y, radius) =>
@@ -53,6 +55,8 @@ class Canvasy(canvas: html.Canvas) {
             if(s.filled) ctx.fill()
             if(s.imageAttached){
               val i = Image(s.imageURL)
+              i.height = 2*radius*unit
+              i.width = 2*radius*unit
               drawImage(i, x-radius,y-radius)
             }
           case Text(x, y, txt) =>
