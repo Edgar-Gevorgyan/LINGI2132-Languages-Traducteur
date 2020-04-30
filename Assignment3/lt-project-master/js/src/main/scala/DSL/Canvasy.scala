@@ -8,7 +8,7 @@ import org.scalajs.dom.html.Canvas
 class Canvasy(canvas: html.Canvas) {
   private val ctx = canvas.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
   private var shapes: List[Shape] = List()
-  private var grid: Grid = Grid(0,0,"black",wall = false,"red")// only for initialization
+  private var grid: Grid = Grid(1,0,0,"black",wall = false,"red")// only for initialization
   var unit: Int = 1
 
   def +=(s:Shape): Unit = shapes = shapes ++ List(s)
@@ -60,10 +60,10 @@ class Canvasy(canvas: html.Canvas) {
   def setUnit(unit: Int): Unit = this.unit = unit
 
 
-  def buildGrid(color: String = "black", wall: Boolean = false, wallColor: String = "black"): Grid = {
-    val nb_row = Math.floor(canvas.height / unit).asInstanceOf[Int]
-    val nb_col = Math.floor(canvas.width / unit).asInstanceOf[Int]
-    grid = Grid(nb_row, nb_col, color, wall, wallColor)
+  def buildGrid(length: Int = 1,color: String = "black", wall: Boolean = false, wallColor: String = "black"): Grid = {
+    val nb_row = Math.floor(canvas.height / (unit*length)).asInstanceOf[Int]
+    val nb_col = Math.floor(canvas.width / (unit*length)).asInstanceOf[Int]
+    grid = Grid(length, nb_row, nb_col, color, wall, wallColor)
     grid
   }
   def fillGridCase(unitX: Int, unitY: Int, color: String = "black"): Unit = grid.fillGridCase(unitX,unitY,color)

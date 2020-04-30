@@ -51,6 +51,12 @@ object Main {
     //MouseListener.onChangeInside(rec, canvasy.unit){ appendPar(document.body, "ewaaa" )}
     //****************SNAKE****************
     //snakeGame(canvas)
+
+    canvasy.setUnit(32)
+    val g = canvasy.buildGrid(2)
+    canvasy.fillGridCase(3,3)
+    canvasy.unFillGridCase(3,3)
+    canvasy.draw(g)
   }
 
   def snakeGame(canvas: html.Canvas): Unit = {
