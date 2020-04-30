@@ -1,5 +1,6 @@
 package DSL.Utils
 
+import DSL._
 import org.scalajs.dom
 import org.scalajs.dom.document
 
@@ -53,6 +54,34 @@ object KeyListener {
   }
   def clear(): Unit = {
     keyListener = List()
+    id = 0
+  }
+}
+
+object MouseListener {
+  private var id: Int = 0
+  private var mouseListener: List[(Int, dom.MouseEvent => Unit)] = List()
+  document.onmousedown = {(e: dom.MouseEvent) => mouseListener.foreach(l => l._2(e))}
+
+  def onChange(b: (Double, Double) => Unit): Int = {
+    val fun: dom.MouseEvent => Unit = (e: dom.MouseEvent) => b(e.clientX,e.clientY)
+    mouseListener = (id, fun) :: mouseListener
+    id += 1 // update
+    id - 1 // old
+  }
+
+  def onChangeInside(shape: Shape, unit: Int = 1)(b: => Unit): Int = {
+    val fun: dom.MouseEvent => Unit = (e: dom.MouseEvent) => if(shape.inside(e.clientX/unit, e.clientY/unit)) b
+    mouseListener = (id, fun) :: mouseListener
+    id += 1 // update
+    id - 1 // old
+  }
+
+  def remove(id: Int): Unit = {
+    mouseListener = for (l <- mouseListener; if l._1 != id) yield l
+  }
+  def clear(): Unit = {
+    mouseListener = List()
     id = 0
   }
 }

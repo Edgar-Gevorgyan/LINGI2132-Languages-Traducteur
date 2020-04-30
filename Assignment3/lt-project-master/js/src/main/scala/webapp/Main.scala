@@ -44,9 +44,13 @@ object Main {
     //v change StrokeColor("blue")
     //v fillGridCase (2,2,"red")
     //canvasy.draw(v)
-
+    // --------- example usage MouseListener ---------
+    //canvasy.setUnit(32)
+    //canvasy.draw(canvasy.buildGrid())
+    //val rec = Rectangle(2,2,1,1)
+    //MouseListener.onChangeInside(rec, canvasy.unit){ appendPar(document.body, "ewaaa" )}
     //****************SNAKE****************
-    snakeGame(canvas)
+    //snakeGame(canvas)
   }
 
   def snakeGame(canvas: html.Canvas): Unit = {

@@ -5,11 +5,11 @@ import org.scalajs.dom
 import org.scalajs.dom.html
 import org.scalajs.dom.html.Canvas
 
-class Canvasy(canvas: html.Canvas) { // TODO quadratic and bzier curve :: https://developer.mozilla.org/fr/docs/Tutoriel_canvas/Formes_géométriques
+class Canvasy(canvas: html.Canvas) {
   private val ctx = canvas.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
   private var shapes: List[Shape] = List()
-  private var unit: Int = 1
   private var grid: Grid = Grid(0,0,"black",wall = false,"red")// only for initialization
+  var unit: Int = 1
 
   def +=(s:Shape): Unit = shapes = shapes ++ List(s)
 
