@@ -51,7 +51,13 @@ object Main {
     //MouseListener.onChangeInside(rec, canvasy.unit){ appendPar(document.body, "ewaaa" )}
     //****************SNAKE****************
 
-    snakeGame(canvas)
+    val ground = Image("IMG/ground.png")
+    canvasy.drawImage(ground,0,0)
+
+
+
+    //snakeGame(canvas)
+
   }
 
   def snakeGame(canvas: html.Canvas): Unit = {
@@ -94,7 +100,7 @@ object Main {
       MouseListener.clear()
       atEach(200) execute {
         canvasy.clear()
-        //canvasy.drawGrid()
+
         canvasy.drawImage(ground,0,0)
         snake change Fill(true)
         snake change AttachImage("IMG/snake.jpeg")
