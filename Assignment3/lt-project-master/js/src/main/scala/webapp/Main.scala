@@ -95,6 +95,8 @@ object Main {
 
     canvasy.draw()
 
+    canvasy += Image("IMG/food.png") // IMPROVE PERFORMANCE
+
     MouseListener.onChangeInside(start_layout,box){
       MouseListener.clear()
       atEach(100) execute {

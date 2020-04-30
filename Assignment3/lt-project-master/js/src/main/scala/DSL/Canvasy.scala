@@ -76,7 +76,7 @@ class Canvasy(canvas: html.Canvas) {
                   val img = value.asInstanceOf[Image]
                   img.height = 2*radius*unit
                   img.width = 2*radius*unit
-                  drawImage(img, x,y)
+                  drawImage(img, x - radius,y - radius)
                 case None =>
                   val img = Image(s.imageURL)
                   img.height = 2*radius*unit
