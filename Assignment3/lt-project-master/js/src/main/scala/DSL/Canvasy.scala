@@ -9,7 +9,7 @@ class Canvasy(canvas: html.Canvas) {
   private val ctx = canvas.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
   private var shapes: List[Shape] = List()
   private var grid: Grid = Grid(1,0,0,"black",wall = false,"red")// only for initialization
-  var imageCache: List[Image] = List()
+  private var imageCache: List[Image] = List()
   var unit: Int = 1
 
   def +=(s:Shape): Unit = {
@@ -49,40 +49,31 @@ class Canvasy(canvas: html.Canvas) {
             ctx.rect(x*unit, y*unit, width*unit, height*unit)
             if(s.filled) ctx.fill()
             if(s.imageAttached){
-
               val found = imageCache.find(x => x.src eq s.imageURL)
-              found match {
+              val img: Image = found match {
                 case Some(value) =>
-                  val img = value.asInstanceOf[Image]
-                  img.height = height*unit
-                  img.width = width*unit
-                  drawImage(img, x,y)
+                  value.asInstanceOf[Image]
                 case None =>
-                  val img = Image(s.imageURL)
-                  img.height = height*unit
-                  img.width = width*unit
-                  drawImage(img, x, y)
+                  Image(s.imageURL)
               }
-
-
+              img.height = height*unit
+              img.width = width*unit
+              drawImage(img, x, y)
             }
           case Circle(x, y, radius) =>
             ctx.arc(x*unit, y*unit, radius*unit, 0, 2 * Math.PI)
             if(s.filled) ctx.fill()
             if(s.imageAttached){
               val found = imageCache.find(x => x.src eq s.imageURL)
-              found match {
+              val img: Image = found match {
                 case Some(value) =>
-                  val img = value.asInstanceOf[Image]
-                  img.height = 2*radius*unit
-                  img.width = 2*radius*unit
-                  drawImage(img, x - radius,y - radius)
+                  value.asInstanceOf[Image]
                 case None =>
-                  val img = Image(s.imageURL)
-                  img.height = 2*radius*unit
-                  img.width = 2*radius*unit
-                  drawImage(img, x - radius, y - radius)
+                  Image(s.imageURL)
               }
+              img.height = 2*radius*unit
+              img.width = 2*radius*unit
+              drawImage(img, x - radius, y - radius)
             }
           case Text(x, y, txt) =>
             val t = s.asInstanceOf[Text]
