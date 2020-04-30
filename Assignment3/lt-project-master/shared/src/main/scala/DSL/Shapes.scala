@@ -141,7 +141,8 @@ case class Text(var x: Double, var y: Double, var txt: String) extends SingleSha
   def textBaseline(textBaseline: String): Unit = this.textBaseline = textBaseline
 }
 
-class Grid(length: Int, nb_row: Int, nb_col: Int,color: String, wall: Boolean, wallColor: String) extends ComposedShape[Rectangle](Grid.build_grid(length, nb_row, nb_col,color, wall, wallColor)){
+class Grid(length: Int, nb_row: Int, nb_col: Int,color: String, wall: Boolean, wallColor: String)
+  extends ComposedShape[Rectangle](Grid.build_grid(length, nb_row, nb_col,color, wall, wallColor).toList){
   def fillGridCase(unitX: Int, unitY: Int, color: String): Unit ={
     l = for(rec <- l) yield
       if(rec == Rectangle(unitX*length,unitY*length,1*length,1*length)){
@@ -165,22 +166,19 @@ class Grid(length: Int, nb_row: Int, nb_col: Int,color: String, wall: Boolean, w
 }
 
 object Grid{
-  def apply(length: Int, nb_row: Int, nb_col: Int, color: String, wall: Boolean, wallColor: String): Grid = new Grid(length: Int, nb_row, nb_col, color, wall, wallColor)
+  def apply(length: Int, nb_row: Int, nb_col: Int, color: String, wall: Boolean, wallColor: String): Grid =
+    new Grid(length: Int, nb_row, nb_col, color, wall, wallColor)
 
-  def build_grid(length: Int, nb_row: Int, nb_col: Int,color: String, wall: Boolean, wallColor: String): List[Rectangle] = {
-    var grid: List[Rectangle] = Nil
-    for(i <- 0 until nb_row){
-      for(j <-  0 until nb_col){
+  def build_grid(length: Int, nb_row: Int, nb_col: Int,color: String, wall: Boolean, wallColor: String): IndexedSeq[Rectangle] = {
+    for(i <- 0 to nb_row; j <-  0 to nb_col) yield {
         val rec = Rectangle(j*length,i*length,1*length,1*length)
         rec change Color(color)
         if (wall && (i == 0 || i == nb_row-1 || j == 0 || j == nb_col-1)) {
           rec change Fill(true)
           rec change Color(wallColor)
         }
-        grid = rec :: grid
+        rec
       }
-    }
-    grid
   }
 }
 

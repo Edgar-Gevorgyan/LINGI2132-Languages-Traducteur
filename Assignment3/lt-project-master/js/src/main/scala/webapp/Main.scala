@@ -51,12 +51,12 @@ object Main {
     //MouseListener.onChangeInside(rec, canvasy.unit){ appendPar(document.body, "ewaaa" )}
     //****************SNAKE****************
 
-    val ground = Image("IMG/ground.png")
-    canvasy.drawImage(ground,0,0)
+    //val ground = Image("IMG/ground.png")
+    //canvasy.drawImage(ground,0,0)
 
 
 
-    //snakeGame(canvas)
+    snakeGame(canvas)
 
   }
 
@@ -64,7 +64,6 @@ object Main {
     val canvasy = Canvasy(canvas)
     val box = 32
     canvasy.setUnit(box)
-    //canvasy.makeGrid() // TODO permettre de faire des maillage de different taille
 
     val ground = Image("IMG/ground.png")
     // Cela marche aussi

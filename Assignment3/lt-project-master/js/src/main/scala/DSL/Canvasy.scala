@@ -9,6 +9,7 @@ class Canvasy(canvas: html.Canvas) {
   private val ctx = canvas.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
   private var shapes: List[Shape] = List()
   private var grid: Grid = Grid(1,0,0,"black",wall = false,"red")// only for initialization
+  private var imageCache: List[Image] = List()
   var unit: Int = 1
 
   def +=(s:Shape): Unit = shapes = shapes ++ List(s)
