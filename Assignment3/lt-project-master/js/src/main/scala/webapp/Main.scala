@@ -70,13 +70,25 @@ object Main {
     // val ground = Image("https://images-na.ssl-images-amazon.com/images/I/71N1XtP8TdL._AC_SX466_.jpg")
 
     var snake = Array(Square(9,10,1))
+    snake change Fill(true)
 
     var foodX = Math.floor(Math.random() * 17 + 1).asInstanceOf[Int]
     var foodY = Math.floor(Math.random() * 15 + 3).asInstanceOf[Int]
+    val food = Circle(foodX + 0.5, foodY + 0.5, 0.5)
+    food change Color("blue")
+    food change Fill(true)
+    food change ShadowColor("Red")
+    food change ShadowBlur(10)
+    food change AttachImage("IMG/food.png")
 
     val eat = Audio("AUDIO/eat.mp3")
 
     var score = 0
+    val t = Text(2 , 1.6, score.toString)
+    t change Fill(true)
+    t.fontSize = 30
+
+
     var d = "init"
     KeyListener.onChange(Key.LEFT) {if (d != "RIGHT") d = "LEFT"}
     KeyListener.onChange(Key.RIGHT) {if (d != "LEFT") d = "RIGHT"}
@@ -103,16 +115,10 @@ object Main {
         canvasy.clear()
 
         canvasy.drawImage(ground,0,0)
-        snake change Fill(true)
         canvasy.draw(snake)
 
-
-        val food = Circle(foodX + 0.5, foodY + 0.5, 0.5) // attention 1/2 retourne 0 (division entiere)
-        food change Color("blue")
-        food change Fill(true)
-        food change ShadowColor("Red")
-        food change ShadowBlur(10)
-        food change AttachImage("IMG/food.png")
+        food.x = foodX + 0.5
+        food.y =  foodY + 0.5
         canvasy.draw(food)
 
 
@@ -136,6 +142,7 @@ object Main {
 
         val newHead = Square(snakeX,snakeY,1)
         newHead change AttachImage("IMG/food.png")
+        newHead change Fill(true)
 
         if (snakeX < 1 || snakeX > 17  || snakeY < 3 || snakeY > 17 || snake.contains(newHead)) {
           Timer.remove()
@@ -153,9 +160,7 @@ object Main {
 
         snake +:= newHead
 
-        val t = Text(2 , 1.6, score.toString)
-        t change Fill(true)
-        t.fontSize = 30
+        t.txt = score.toString
         canvasy.draw(t)
       }
     }
