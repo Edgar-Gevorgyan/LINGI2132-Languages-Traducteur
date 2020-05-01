@@ -1,6 +1,9 @@
 package DSL
 
 
+/**
+ * Shape trait contains all function can be applied to a shape
+ */
 sealed trait Shape {
   type A <: Shape
   def and(s: Shape) : ComposedShape[Shape] = ComposedShape(List(this, s))
@@ -21,6 +24,11 @@ sealed trait Shape {
   def attachImage(url: String): Unit
   def inside(x: Double, y: Double): Boolean = false
 }
+
+/**
+ * contains all implicit conversion
+ * an iterable or an array of type X can be converted to a ComposedShape of type X
+ */
 object Shape {
   implicit def ArrayRectangle2ComposedShape(shapes:Array[Rectangle]): ComposedShape[Rectangle] = ComposedShape(shapes.toList)
   implicit def ArraySquare2ComposedShape(shapes:Array[Square]): ComposedShape[Square] = ComposedShape(shapes.toList)
@@ -32,6 +40,9 @@ object Shape {
   implicit def IterableText2ComposedShape(shapes:Iterable[Text]): ComposedShape[Text] = ComposedShape(shapes.toList)
 }
 
+/**
+ * ShapeAttributes traits contains all attributes associated to a shape and function to modify these
+ */
 sealed trait ShapeAttributes {
   var color: String = "yellow"
   var strokeColor: String = "#000000"
@@ -58,7 +69,10 @@ sealed trait ShapeAttributes {
   }
 }
 
-sealed trait SingleShape extends Shape with ShapeAttributes { // TODO implem Ordered[SingleShape] selon les x y
+/**
+ * SingleShape trait representing a single Shape
+ */
+sealed trait SingleShape extends Shape with ShapeAttributes {
   var x: Double
   var y: Double
   override def moveX(v: Double): Unit = x += v
@@ -68,6 +82,13 @@ sealed trait SingleShape extends Shape with ShapeAttributes { // TODO implem Ord
   override def change(property: CanvasElementModifier[A]): Unit = property.change(this.asInstanceOf[A])
 }
 
+/**
+ * an ComposedShape class representing an several Shape grouped
+ * @param l the list containing several Shape grouped
+ * @tparam MyType the type of the shapes inside the ComposedShape
+ *                if all shape has the same type X the MyType is equals to X
+ *                otherwise MyType is equals to shape
+ */
 case class ComposedShape[MyType <: Shape](var l: List[MyType]) extends Shape { // TODO regler couille du +
   type A = MyType
   def apply(i: Int): MyType = l(i)
@@ -92,6 +113,13 @@ case class ComposedShape[MyType <: Shape](var l: List[MyType]) extends Shape { /
   override def change(property: CanvasElementModifier[A]): Unit = this.foreach(s => property.change(s))
 }
 
+/**
+ * an Rectangle class representing an rectangle
+ * @param x the position of the top right corner on the x axis
+ * @param y the position of the top right corner on the y axis
+ * @param width the width of the rectangle
+ * @param height the height of the rectangle
+ */
 case class Rectangle(var x: Double, var y: Double, var width: Double, var height: Double) extends SingleShape with Ordered[Rectangle]{
   type A = Rectangle
   def and(s: Rectangle): ComposedShape[Rectangle] = ComposedShape(List(this, s))
@@ -112,6 +140,12 @@ case class Rectangle(var x: Double, var y: Double, var width: Double, var height
   }
 }
 
+/**
+ * an Square class representing an square
+ * @param x the position of the top right corner on the x axis
+ * @param y the position of the top right corner on the y axis
+ * @param len the length on each sides of the square
+ */
 case class Square(var x: Double, var y: Double, var len: Double) extends SingleShape with Ordered[Square]{
   type A = Square
   def and(s: Square): ComposedShape[Square] = ComposedShape(List(this, s))
@@ -130,6 +164,12 @@ case class Square(var x: Double, var y: Double, var len: Double) extends SingleS
   }
 }
 
+/**
+ * an Circle class representing an circle
+ * @param x the position of the center of gravity on the x axis
+ * @param y the position of the center of gravity on the y axis
+ * @param radius the radius of the circle
+ */
 case class Circle(var x: Double, var y: Double, var radius: Double) extends SingleShape with Ordered[Circle]{
   type A = Circle
   def and(s: Circle): ComposedShape[Circle] = ComposedShape(List(this, s))
@@ -148,6 +188,12 @@ case class Circle(var x: Double, var y: Double, var radius: Double) extends Sing
   }
 }
 
+/**
+ * an Text class representing an text
+ * @param x the position on the x axis
+ * @param y the position on the y axis
+ * @param txt the text that must be drawn
+ */
 case class Text(var x: Double, var y: Double, var txt: String) extends SingleShape{
   type A = Text
   var font: String = "sans-serif"
@@ -163,8 +209,25 @@ case class Text(var x: Double, var y: Double, var txt: String) extends SingleSha
   def textBaseline(textBaseline: String): Unit = this.textBaseline = textBaseline
 }
 
-class Grid(length: Int, nb_row: Int, nb_col: Int,color: String, wall: Boolean, wallColor: String)
-  extends ComposedShape[Rectangle](Grid.build_grid(length, nb_row, nb_col,color, wall, wallColor).toList){
+/**
+ * an Grid class representing an grid
+ * @param length the length of a single bax inside the grid
+ * @param nb_row number of row the gris must contains
+ * @param nb_col number of colon the gris must contains
+ * @param strokeColor the color of the box strokes
+ * @param wall boolean value indicate whether the grid contains wall or not
+ * @param wallColor the color of the wall
+ */
+class Grid(length: Int, nb_row: Int, nb_col: Int,strokeColor: String, wall: Boolean, wallColor: String)
+  extends ComposedShape[Rectangle](Grid.build_grid(length, nb_row, nb_col, wall, wallColor).toList){
+  l change StrokeColor(strokeColor)
+
+  /**
+   * fill a box inside the grid
+   * @param unitX the position on the x axis
+   * @param unitY the position on the y axis
+   * @param color the color of the box filled
+   */
   def fillGridCase(unitX: Int, unitY: Int, color: String): Unit ={
     l = for(rec <- l) yield
       if(rec == Rectangle(unitX*length,unitY*length,1*length,1*length)){
@@ -175,10 +238,15 @@ class Grid(length: Int, nb_row: Int, nb_col: Int,color: String, wall: Boolean, w
         rec
       }
   }
+
+  /**
+   * unfill a box inside the grid
+   * @param unitX the position on the x axis
+   * @param unitY the position on the y axis
+   */
   def unFillGridCase(unitX: Int, unitY: Int): Unit ={
     l = for(rec <- l) yield
       if(rec == Rectangle(unitX*length,unitY*length,1*length,1*length)){
-        rec change Color(color)
         rec change Fill(false)
         rec
       } else {
@@ -188,13 +256,31 @@ class Grid(length: Int, nb_row: Int, nb_col: Int,color: String, wall: Boolean, w
 }
 
 object Grid{
-  def apply(length: Int, nb_row: Int, nb_col: Int, color: String, wall: Boolean, wallColor: String): Grid =
-    new Grid(length: Int, nb_row, nb_col, color, wall, wallColor)
+  /**
+   * this allow to creat an Canvasy object without the 'new' keyword
+   * @param length the length of a single bax inside the grid
+   * @param nb_row number of row the gris must contains
+   * @param nb_col number of colon the gris must contains
+   * @param strokeColor the color of the box strokes
+   * @param wall boolean value indicate whether the grid contains wall or not
+   * @param wallColor the color of the wall
+   * @return a new Grid instance
+   */
+  def apply(length: Int, nb_row: Int, nb_col: Int, strokeColor: String, wall: Boolean, wallColor: String): Grid =
+    new Grid(length: Int, nb_row, nb_col, strokeColor, wall, wallColor)
 
-  def build_grid(length: Int, nb_row: Int, nb_col: Int,color: String, wall: Boolean, wallColor: String): IndexedSeq[Rectangle] = {
+  /**
+   * build a grid
+   * @param length the length of a single bax inside the grid
+   * @param nb_row number of row the gris must contains
+   * @param nb_col number of colon the gris must contains
+   * @param wall boolean value indicate whether the grid contains wall or not
+   * @param wallColor the color of the wall
+   * @return an IndexedSeq instance representing the grid
+   */
+  def build_grid(length: Int, nb_row: Int, nb_col: Int, wall: Boolean, wallColor: String): IndexedSeq[Rectangle] = {
     for(i <- 0 to nb_row; j <-  0 to nb_col) yield {
         val rec = Rectangle(j*length,i*length,1*length,1*length)
-        rec change Color(color)
         if (wall && (i == 0 || i == nb_row-1 || j == 0 || j == nb_col-1)) {
           rec change Fill(true)
           rec change Color(wallColor)
@@ -203,5 +289,3 @@ object Grid{
       }
   }
 }
-
-

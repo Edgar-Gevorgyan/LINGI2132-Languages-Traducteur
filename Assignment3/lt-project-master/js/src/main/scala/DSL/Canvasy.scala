@@ -12,6 +12,9 @@ class Canvasy(canvas: html.Canvas) {
   private var imageCache: List[Image] = List()
   var unit: Int = 1
 
+  /**
+   * @param s the shape added to 'shapes' see draw() function for the utility of this function
+   */
   def +=(s:Shape): Unit = {
     shapes = shapes ++ List(s)
     shapes.foreach {
@@ -22,17 +25,33 @@ class Canvasy(canvas: html.Canvas) {
       case _ =>
     }
   }
+
+  /**
+   * @param i the image i to be added to the 'imageCache' see draw(Shape) function for the utility of this function
+   */
   def +=(i:Image): Unit = {
     imageCache = i :: imageCache
   }
 
+  /**
+   * @param unit the new unit of the canvas
+   */
+  def setUnit(unit: Int): Unit = this.unit = unit
+
+  /**
+   * draw all shapes inside the 'shapes' variable
+   */
   def draw(): Unit = {
     shapes.foreach(x => draw(x))
   }
 
+  /**
+   *
+   * @param shape the shape to be drawn
+   *              if an image is attached to this shape and the image is inside the 'imageCache'
+   *              then the execution is faster (because no need to load the image)
+   */
   def draw(shape: Shape): Unit = {
-
-
     shape match {
       case ComposedShape(sh) => sh.foreach(s => draw(s))
       case s:  SingleShape =>
@@ -87,26 +106,53 @@ class Canvasy(canvas: html.Canvas) {
     }
   }
 
+  /**
+   * @param img the image to be drawn at (unitX,unitY)
+   * @param unitX the right top corner position on the x axis
+   * @param unitY the right top corner position on the y axis
+   */
   def drawImage(img: Image, unitX: Double, unitY: Double): Unit = img.draw(unitX*unit,unitY*unit,ctx)
 
-
-
+  /**
+   *  remove all shapes/image on the screen
+   */
   def clear(): Unit = ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-  def setUnit(unit: Int): Unit = this.unit = unit
-
-
-  def buildGrid(length: Int = 1,color: String = "black", wall: Boolean = false, wallColor: String = "black"): Grid = {
+  /**
+   * build a grid can be used as a game ground
+   * @param length the length of a single bax inside the grid
+   * @param strokeColor the color of the box strokes
+   * @param wall boolean value indicate whether the grid contains wall or not
+   * @param wallColor the color of the wall
+   * @return a Grid object
+   */
+  def buildGrid(length: Int = 1,strokeColor: String = "black", wall: Boolean = false, wallColor: String = "black"): Grid = {
     val nb_row = Math.floor(canvas.height / (unit*length)).asInstanceOf[Int]
     val nb_col = Math.floor(canvas.width / (unit*length)).asInstanceOf[Int]
-    grid = Grid(length, nb_row, nb_col, color, wall, wallColor)
+    grid = Grid(length, nb_row, nb_col, strokeColor, wall, wallColor)
     grid
   }
+
+  /**
+   * fill a box inside the grid
+   * @param unitX the position on the x axis
+   * @param unitY the position on the y axis
+   * @param color the color of the box filled
+   */
   def fillGridCase(unitX: Int, unitY: Int, color: String = "black"): Unit = grid.fillGridCase(unitX,unitY,color)
+
+  /**
+   * unfill a box inside the grid
+   * @param unitX the position on the x axis
+   * @param unitY the position on the y axis
+   */
   def unFillGridCase(unitX: Int, unitY: Int): Unit = grid.unFillGridCase(unitX, unitY)
 }
 
 object Canvasy {
+  /**
+   * this allow to creat an Canvasy object without the 'new' keyword
+   * @return new Canvasy instance
+   */
   def apply(canvas: Canvas): Canvasy = new Canvasy(canvas)
 }
-

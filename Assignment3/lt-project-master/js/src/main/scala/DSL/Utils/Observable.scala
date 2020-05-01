@@ -62,8 +62,8 @@ object KeyListener {
   }
 
   /**
-   * @param id the id returned by the previous function
    * Stop the execution of a the function related to the 'id' when the listener is activated
+   * @param id the id returned by the previous function
    */
   def remove(id: Int): Unit = {
     keyListener = for (l <- keyListener; if l._1 != id) yield l
@@ -110,8 +110,8 @@ object MouseListener {
   }
 
   /**
-   * @param id the id returned by the previous function
    * Stop the execution of a the function related to the 'id' when the listener is activated
+   * @param id the id returned by the previous function
    */
   def remove(id: Int): Unit = {
     mouseListener = for (l <- mouseListener; if l._1 != id) yield l

@@ -31,7 +31,7 @@ class atEach(interval: Double) {
 }
 /**
  * This object has only apply function to remove the 'new' keyword during creation of an instance of atEach
- * Thus this object allow the usage of atEach('interval') execute 'work'
+ * Thus this object allow the usage of atEach('interval') execute print('work')
  */
 object atEach{
   def apply(interval: Double): atEach = new atEach(interval)

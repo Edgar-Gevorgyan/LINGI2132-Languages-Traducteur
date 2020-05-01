@@ -40,10 +40,10 @@ class Image(val src: String){
   }
 
   /**
+   * this function is a helper for the previous one
    * @param x the position on x axis
    * @param y the position on y axis
    * @param ctx the context inside which the function draw
-   * this function is a helper for the previous one
    */
   private def safeDraw(x: Double, y: Double, ctx: CanvasRenderingContext2D): Unit = {
     ctx.drawImage(image, x, y,width,height)
