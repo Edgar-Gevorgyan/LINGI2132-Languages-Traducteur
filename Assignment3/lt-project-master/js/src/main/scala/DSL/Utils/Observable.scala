@@ -4,6 +4,9 @@ import DSL._
 import org.scalajs.dom
 import org.scalajs.dom.document
 
+/**
+ * Contains the 'keycode' of many keyboard's key
+ */
 object Key{
   val A:    Int = 65
   val B:    Int = 66
@@ -38,31 +41,54 @@ object Key{
   val SPACE:Int = 32
 }
 
+/**
+ * This allow to manage listener on the keyboard
+ */
 object KeyListener {
   private var id: Int = 0
   private var keyListener: List[(Int, dom.KeyboardEvent => Unit)] = List()
   document.onkeydown = {(e: dom.KeyboardEvent) => keyListener.foreach(l => l._2(e))}
 
+  /**
+   * @param key the 'keycode'
+   * @param b the function to apply when the 'key' is pressed
+   * @return an id which can be used to stop the execution of the 'b' function
+   */
   def onChange(key: Int)(b: => Unit): Int = {
     val fun: dom.KeyboardEvent => Unit = (e: dom.KeyboardEvent) => if(e.keyCode == key) b
     keyListener = (id, fun) :: keyListener
     id += 1 // update
     id - 1 // old
   }
+
+  /**
+   * @param id the id returned by the previous function
+   * Stop the execution of a the function related to the 'id' when the listener is activated
+   */
   def remove(id: Int): Unit = {
     keyListener = for (l <- keyListener; if l._1 != id) yield l
   }
+
+  /**
+   *  remove all function stored in the listener
+   */
   def clear(): Unit = {
     keyListener = List()
     id = 0
   }
 }
-
+/**
+ * This allow to manage listener on the mouse
+ */
 object MouseListener {
   private var id: Int = 0
   private var mouseListener: List[(Int, dom.MouseEvent => Unit)] = List()
   document.onmousedown = {(e: dom.MouseEvent) => mouseListener.foreach(l => l._2(e))}
 
+  /**
+   * @param b a function (x,y) = > Unit where the x and y are the position where the click occur
+   * @return an id which can be used to stop the execution of the 'b' function
+   */
   def onChange(b: (Double, Double) => Unit): Int = {
     val fun: dom.MouseEvent => Unit = (e: dom.MouseEvent) => b(e.clientX,e.clientY)
     mouseListener = (id, fun) :: mouseListener
@@ -70,6 +96,12 @@ object MouseListener {
     id - 1 // old
   }
 
+  /**
+   * @param shape a shape
+   * @param unit the unit of the canvay
+   * @param b the function to apply when the mouse was clicked inside the shape
+   * @return an id which can be used to stop the execution of the 'b' function
+   */
   def onChangeInside(shape: Shape, unit: Int = 1)(b: => Unit): Int = {
     val fun: dom.MouseEvent => Unit = (e: dom.MouseEvent) => if(shape.inside(e.clientX/unit, e.clientY/unit)) b
     mouseListener = (id, fun) :: mouseListener
@@ -77,9 +109,17 @@ object MouseListener {
     id - 1 // old
   }
 
+  /**
+   * @param id the id returned by the previous function
+   * Stop the execution of a the function related to the 'id' when the listener is activated
+   */
   def remove(id: Int): Unit = {
     mouseListener = for (l <- mouseListener; if l._1 != id) yield l
   }
+
+  /**
+   *  remove all function stored in the listener
+   */
   def clear(): Unit = {
     mouseListener = List()
     id = 0
