@@ -81,20 +81,18 @@ object Main {
     food change ShadowBlur(10)
     food change AttachImage("IMG/food.png")
 
-    val eat = Audio("AUDIO/eat.mp3")
-
-    var score = 0
-    val t = Text(2 , 1.6, score.toString)
-    t change Fill(true)
-    t.fontSize = 30
-
-
     var d = "init"
     KeyListener.onChange(Key.LEFT) {if (d != "RIGHT") d = "LEFT"}
     KeyListener.onChange(Key.RIGHT) {if (d != "LEFT") d = "RIGHT"}
     KeyListener.onChange(Key.UP) {if (d != "DOWN") d = "UP"}
     KeyListener.onChange(Key.DOWN) {if (d != "UP") d = "DOWN"}
-    KeyListener.onChange(Key.SPACE) {appendPar(document.body,d)}
+
+    val eat = Audio("AUDIO/eat.mp3")
+
+    var score = 0
+    val scoreBoard = Text(2 , 1.6, score.toString)
+    scoreBoard change Fill(true)
+    scoreBoard.fontSize = 30
 
     val start_layout = Rectangle(5,9,9,2)
     canvasy += start_layout
@@ -104,6 +102,10 @@ object Main {
     val start_text = Text(6.5,10.4,"click to start")
     start_text change FontSize(34)
     canvasy += start_text
+
+    val finish_text = Text(6.3,10.5,"GAME OVER")
+    finish_text change Color("red")
+    finish_text change FontSize(34)
 
     canvasy.draw()
 
@@ -141,14 +143,10 @@ object Main {
         }
 
         val newHead = Square(snakeX,snakeY,1)
-        newHead change AttachImage("IMG/food.png")
         newHead change Fill(true)
 
         if (snakeX < 1 || snakeX > 17  || snakeY < 3 || snakeY > 17 || snake.contains(newHead)) {
           Timer.remove()
-          val finish_text = Text(6.3,10.5,"GAME OVER")
-          finish_text change Color("red")
-          finish_text change FontSize(34)
           canvasy.draw(start_layout)
           canvasy.draw(finish_text)
 
@@ -160,8 +158,8 @@ object Main {
 
         snake +:= newHead
 
-        t.txt = score.toString
-        canvasy.draw(t)
+        scoreBoard.txt = score.toString
+        canvasy.draw(scoreBoard)
       }
     }
   }

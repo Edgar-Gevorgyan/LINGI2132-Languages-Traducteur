@@ -15,23 +15,12 @@ class Canvasy(canvas: html.Canvas) {
   /**
    * @param s the shape added to 'shapes' see draw() function for the utility of this function
    */
-  def +=(s:Shape): Unit = {
-    shapes = shapes ++ List(s)
-    shapes.foreach {
-      case s: SingleShape =>
-        if(s.imageAttached){
-          imageCache = Image(s.imageURL) :: imageCache
-        }
-      case _ =>
-    }
-  }
+  def +=(s:Shape): Unit = shapes = shapes ++ List(s)
 
   /**
    * @param i the image i to be added to the 'imageCache' see draw(Shape) function for the utility of this function
    */
-  def +=(i:Image): Unit = {
-    imageCache = i :: imageCache
-  }
+  def +=(i:Image): Unit = imageCache = i :: imageCache
 
   /**
    * @param unit the new unit of the canvas
@@ -41,9 +30,7 @@ class Canvasy(canvas: html.Canvas) {
   /**
    * draw all shapes inside the 'shapes' variable
    */
-  def draw(): Unit = {
-    shapes.foreach(x => draw(x))
-  }
+  def draw(): Unit = shapes.foreach(x => draw(x))
 
   /**
    *
