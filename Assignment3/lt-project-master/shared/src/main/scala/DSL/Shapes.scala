@@ -10,8 +10,10 @@ sealed trait Shape {
   def +(s: Shape) : ComposedShape[Shape] = this.and(s)
   def moveX(v: Double): Unit
   def moveY(v: Double): Unit
+  def move(x: Double)(y: Double): Unit
   def moveXto(v: Double): Unit
   def moveYto(v: Double): Unit
+  def moveTo(x: Double)(y: Double): Unit
   def color(c: String) : Unit
   def strokeColor(sC: String) : Unit
   def strokeWidth(sW : Double) : Unit
@@ -77,8 +79,16 @@ sealed trait SingleShape extends Shape with ShapeAttributes {
   var y: Double
   override def moveX(v: Double): Unit = x += v
   override def moveY(v: Double): Unit = y += v
+  override def move(xNew: Double)(yNew: Double): Unit = {
+    x += xNew
+    y += yNew
+  }
   override def moveXto(v: Double): Unit = x = v
   override def moveYto(v: Double): Unit = y = v
+  override def moveTo(xNew: Double)(yNew: Double): Unit = {
+    x = xNew
+    y = yNew
+  }
   override def change(property: CanvasElementModifier[A]): Unit = property.change(this.asInstanceOf[A])
 }
 
@@ -89,7 +99,7 @@ sealed trait SingleShape extends Shape with ShapeAttributes {
  *                if all shape has the same type X the MyType is equals to X
  *                otherwise MyType is equals to shape
  */
-case class ComposedShape[MyType <: Shape](var l: List[MyType]) extends Shape { // TODO regler couille du +
+case class ComposedShape[MyType <: Shape](var l: List[MyType]) extends Shape {
   type A = MyType
   def apply(i: Int): MyType = l(i)
   def and(s: ComposedShape[MyType] ) : ComposedShape[MyType] = ComposedShape(this.l++s.l)
@@ -99,8 +109,10 @@ case class ComposedShape[MyType <: Shape](var l: List[MyType]) extends Shape { /
   def foreach[B](f: MyType => B) : Unit = l.foreach(f)
   override def moveX(v: Double): Unit = this.foreach(s => s.moveX(v))
   override def moveY(v: Double): Unit = this.foreach(s => s.moveY(v))
+  override def move(x: Double)(y: Double): Unit = this.foreach(s => s.move(x)(y))
   def moveXto(v: Double): Unit = this.foreach(s => s.moveXto(v))
   def moveYto(v: Double): Unit = this.foreach(s => s.moveYto(v))
+  override def moveTo(x: Double)(y: Double): Unit = this.foreach(s => s.moveTo(x)(y))
   override def color(c: String): Unit = this.foreach(s => s.color(c))
   override def strokeWidth(sW: Double): Unit = this.foreach(s => s.strokeWidth(sW))
   override def strokeColor(sS: String): Unit = this.foreach(s => s.strokeColor(sS))
