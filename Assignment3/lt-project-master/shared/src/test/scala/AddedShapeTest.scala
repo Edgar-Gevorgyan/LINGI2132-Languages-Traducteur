@@ -133,6 +133,19 @@ class AddedShapeTest extends AnyFunSuite with Matchers{
     text.txt shouldBe changed
   }
 
+  test("Change ComposedShape of Text content") {
+    val text1 = Text(0,0,"hello")
+    val text2 = Text(0,0,"hello")
+    val text3 = Text(0,0,"hello")
+    val text4 = Text(0,0,"hello")
+    val texts = List(text1,text2,text3,text4)
+    val changed = "hi"
+    texts change Content(changed)
+    texts.foreach( t=>
+      t.txt shouldBe changed
+    )
+  }
+
   test("Font in Text"){
     val tt = Text(0,0,"hi")
     tt change Font("hello")
