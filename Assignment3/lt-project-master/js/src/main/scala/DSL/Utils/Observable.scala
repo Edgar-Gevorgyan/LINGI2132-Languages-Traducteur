@@ -103,7 +103,7 @@ object MouseListener {
    * @return an id which can be used to stop the execution of the 'b' function
    */
   def onChangeInside(shape: Shape, unit: Int = 1)(b: => Unit): Int = {
-    val fun: dom.MouseEvent => Unit = (e: dom.MouseEvent) => if(shape.inside(e.clientX/unit)(e.clientY/unit)) b
+    val fun: dom.MouseEvent => Unit = (e: dom.MouseEvent) => if(shape.isInside(e.clientX/unit)(e.clientY/unit)) b
     mouseListener = (id, fun) :: mouseListener
     id += 1 // update
     id - 1 // old

@@ -24,7 +24,7 @@ sealed trait Shape {
   def shadowBlur(sB: Double): Unit
   def shadowColor(sC: String): Unit
   def attachImage(url: String): Unit
-  def inside(x: Double)(y: Double): Boolean = false
+  def isInside(x: Double)(y: Double): Boolean = false
 }
 
 /**
@@ -138,7 +138,7 @@ case class Rectangle(var x: Double, var y: Double, var width: Double, var height
   def +(s: Rectangle): ComposedShape[Rectangle] = this.and(s)
   def and(s: ComposedShape[Rectangle]): ComposedShape[Rectangle] = ComposedShape(this::s.l)
   def +(s: ComposedShape[Rectangle]): ComposedShape[Rectangle] = this.and(s)
-  override def inside(x: Double)(y: Double): Boolean = x > this.x && x < this.x+this.width && y < this.y+this.height && y > this.y
+  override def isInside(x: Double)(y: Double): Boolean = x > this.x && x < this.x+this.width && y < this.y+this.height && y > this.y
   override def compare(that: Rectangle): Int = {
     if (this.x == that.x && this.y == that.y && this.width == that.width){
       (this.height - that.height).asInstanceOf[Int]
@@ -164,7 +164,7 @@ case class Square(var x: Double, var y: Double, var len: Double) extends SingleS
   def +(s: Square): ComposedShape[Square] = this.and(s)
   def and(s: ComposedShape[Square]): ComposedShape[Square] = ComposedShape(this::s.l)
   def +(s: ComposedShape[Square]): ComposedShape[Square] = this.and(s)
-  override def inside(x: Double)(y: Double): Boolean = x > this.x && x < this.x+this.len && y < this.y+this.len && y > this.y
+  override def isInside(x: Double)(y: Double): Boolean = x > this.x && x < this.x+this.len && y < this.y+this.len && y > this.y
   override def compare(that: Square): Int = {
     if (this.x == that.x && this.y == that.y) {
       (this.len - that.len).asInstanceOf[Int]
@@ -188,7 +188,7 @@ case class Circle(var x: Double, var y: Double, var radius: Double) extends Sing
   def +(s: Circle): ComposedShape[Circle] = this.and(s)
   def and(s: ComposedShape[Circle]): ComposedShape[Circle] = ComposedShape(this::s.l)
   def +(s: ComposedShape[Circle]): ComposedShape[Circle] = this.and(s)
-  override def inside(x: Double)(y: Double): Boolean = Math.sqrt(Math.pow(this.x - x,2)+Math.pow(this.y - y,2)) <= this.radius
+  override def isInside(x: Double)(y: Double): Boolean = Math.sqrt(Math.pow(this.x - x,2)+Math.pow(this.y - y,2)) <= this.radius
   override def compare(that: Circle): Int = {
     if (this.x == that.x && this.y == that.y){
       (this.radius - that.radius).asInstanceOf[Int]
