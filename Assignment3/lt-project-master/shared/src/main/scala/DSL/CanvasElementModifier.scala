@@ -100,6 +100,13 @@ case class Radius(r: Double) extends CanvasElementModifier[Circle] {
 }
 
 /**
+ * @param txt the new text of the Text instance
+ */
+case class Content(txt: String) extends CanvasElementModifier[Text] {
+  override def change(x: Text): Unit = x.txt = txt
+}
+
+/**
  * @param font the new font style of the Text instance
  */
 case class Font(font: String) extends CanvasElementModifier[Text] {
