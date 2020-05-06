@@ -54,8 +54,6 @@ object Main {
     //val ground = Image("IMG/ground.png")
     //canvasy.drawImage(ground,0,0)
 
-
-
     snakeGame(canvas)
 
   }
@@ -66,10 +64,10 @@ object Main {
     canvasy.setUnit(box)
 
     val ground = Image("IMG/ground.png")
-    // Cela marche aussi
+    // This also works
     // val ground = Image("https://images-na.ssl-images-amazon.com/images/I/71N1XtP8TdL._AC_SX466_.jpg")
 
-    var snake = Array(Square(9,10,1))
+    var snake = Array(Square(9, 10, 1))
     snake change Fill(true)
 
     var foodX = Math.floor(Math.random() * 17 + 1).asInstanceOf[Int]
@@ -94,24 +92,24 @@ object Main {
     scoreBoard change Fill(true)
     scoreBoard.fontSize = 30
 
-    val start_layout = Rectangle(5,9,9,2)
+    val start_layout = Rectangle(5, 9, 9, 2)
     canvasy += start_layout
     start_layout change Fill(true)
     start_layout change Color("skyblue")
 
-    val start_text = Text(6.5,10.4,"click to start")
+    val start_text = Text(6.5, 10.4, "click to start")
     start_text change FontSize(34)
     canvasy += start_text
 
-    val finish_text = Text(6.3,10.5,"GAME OVER")
+    val finish_text = Text(6.3, 10.5, "GAME OVER")
     finish_text change Color("red")
     finish_text change FontSize(34)
 
     canvasy.draw()
 
-    canvasy += Image("IMG/food.png") // IMPROVE PERFORMANCE
+    canvasy += Image("IMG/food.png")
 
-    MouseListener.onChangeInside(start_layout,box){
+    MouseListener.onChangeInside(start_layout, box) {
       MouseListener.clear()
       atEach(100) execute {
         canvasy.clear()
@@ -123,10 +121,8 @@ object Main {
         food.y =  foodY + 0.5
         canvasy.draw(food)
 
-
         var snakeX = snake(0).x
         var snakeY = snake(0).y
-
 
         if (d eq "LEFT") snakeX -= 1
         if (d eq "UP") snakeY -= 1
@@ -142,7 +138,7 @@ object Main {
           snake = snake.take(snake.length - 1)
         }
 
-        val newHead = Square(snakeX,snakeY,1)
+        val newHead = Square(snakeX, snakeY, 1)
         newHead change Fill(true)
 
         if (snakeX < 1 || snakeX > 17  || snakeY < 3 || snakeY > 17 || snake.contains(newHead)) {
@@ -150,7 +146,7 @@ object Main {
           canvasy.draw(start_layout)
           canvasy.draw(finish_text)
 
-          MouseListener.onChangeInside(start_layout,canvasy.unit){
+          MouseListener.onChangeInside(start_layout, canvasy.unit) {
             MouseListener.clear()
             snakeGame(canvas)
           }
@@ -164,7 +160,7 @@ object Main {
     }
   }
 
-  def appendPar(targetNode: dom.Node, text: String): Unit = {// just to test on browser
+  def appendPar(targetNode: dom.Node, text: String): Unit = { // just to test on browser
     val parNode = document.createElement("p")
     parNode.textContent = text
     targetNode.appendChild(parNode)

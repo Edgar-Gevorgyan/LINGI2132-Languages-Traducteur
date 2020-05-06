@@ -7,7 +7,7 @@ import org.scalajs.dom.raw.HTMLImageElement
 
 /**
  * @param src the source where the image is stored, this can be a path in the computer or a web link
- *            example : Image("IMG/food.png") the food.png is stored in the IMG folder of this project
+ *            example: Image("IMG/food.png") the food.png is stored in the IMG folder of this project
  *                      Image("https://images-na.ssl-images-amazon.com/images/I/71N1XtP8TdL._AC_SX466_.jpg")
  */
 class Image(val src: String){
@@ -19,8 +19,8 @@ class Image(val src: String){
 
   image.src = src
   image.onload = {_: Event =>
-    if(width == -1) width = image.naturalWidth
-    if(height == -1) height = image.naturalHeight
+    if (width == -1) width = image.naturalWidth
+    if (height == -1) height = image.naturalHeight
     loaded = true
   }
 
@@ -31,11 +31,11 @@ class Image(val src: String){
    * @param ctx the context inside which the function draw
    */
   def draw(x: Double, y: Double, ctx: CanvasRenderingContext2D): Unit = {
-    if (this.loaded) safeDraw(x,y,ctx)
+    if (this.loaded) safeDraw(x, y, ctx)
     else image.onload = {_: Event =>
-      if(width == -1) width = image.naturalWidth
-      if(height == -1) height = image.naturalHeight
-      safeDraw(x,y,ctx)
+      if (width == -1) width = image.naturalWidth
+      if (height == -1) height = image.naturalHeight
+      safeDraw(x, y, ctx)
     }
   }
 
@@ -46,7 +46,7 @@ class Image(val src: String){
    * @param ctx the context inside which the function draw
    */
   private def safeDraw(x: Double, y: Double, ctx: CanvasRenderingContext2D): Unit = {
-    ctx.drawImage(image, x, y,width,height)
+    ctx.drawImage(image, x, y, width, height)
   }
 }
 

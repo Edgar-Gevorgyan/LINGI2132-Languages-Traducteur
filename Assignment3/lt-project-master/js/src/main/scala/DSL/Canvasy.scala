@@ -8,7 +8,7 @@ import org.scalajs.dom.html.Canvas
 class Canvasy(canvas: html.Canvas) {
   private val ctx = canvas.getContext("2d").asInstanceOf[dom.CanvasRenderingContext2D]
   private var shapes: List[Shape] = List()
-  private var grid: Grid = Grid(1,0,0,"black",wall = false,"red")// only for initialization
+  private var grid: Grid = Grid(1, 0, 0, "black", wall = false, "red") // only for initialization
   private var imageCache: List[Image] = List()
   var unit: Int = 1
 
@@ -41,7 +41,7 @@ class Canvasy(canvas: html.Canvas) {
   def draw(shape: Shape): Unit = {
     shape match {
       case ComposedShape(sh) => sh.foreach(s => draw(s))
-      case s:  SingleShape =>
+      case s: SingleShape =>
         ctx.beginPath()
         ctx.shadowOffsetX = s.shadowOffsetX
         ctx.shadowOffsetY = s.shadowOffsetY
@@ -53,32 +53,32 @@ class Canvasy(canvas: html.Canvas) {
         s match {
           case Rectangle(x, y, width, height) =>
             ctx.rect(x*unit, y*unit, width*unit, height*unit)
-            if(s.filled) ctx.fill()
-            if(s.imageAttached){
+            if (s.filled) ctx.fill()
+            if (s.imageAttached) {
               val found = imageCache.find(x => x.src eq s.imageURL)
               val img: Image = found.getOrElse(Image(s.imageURL))
-              img.height = height*unit
-              img.width = width*unit
+              img.height = height * unit
+              img.width = width * unit
               drawImage(img, x, y)
             }
           case Square(x, y, len) =>
             ctx.rect(x*unit, y*unit, len*unit, len*unit)
-            if(s.filled) ctx.fill()
-            if(s.imageAttached){
+            if (s.filled) ctx.fill()
+            if (s.imageAttached) {
               val found = imageCache.find(x => x.src eq s.imageURL)
               val img: Image = found.getOrElse(Image(s.imageURL))
-              img.height = len*unit
-              img.width = len*unit
+              img.height = len * unit
+              img.width = len * unit
               drawImage(img, x, y)
             }
           case Circle(x, y, radius) =>
             ctx.arc(x*unit, y*unit, radius*unit, 0, 2 * Math.PI)
-            if(s.filled) ctx.fill()
-            if(s.imageAttached){
+            if (s.filled) ctx.fill()
+            if (s.imageAttached) {
               val found = imageCache.find(x => x.src eq s.imageURL)
               val img: Image = found.getOrElse(Image(s.imageURL))
-              img.height = 2*radius*unit
-              img.width = 2*radius*unit
+              img.height = 2 * radius * unit
+              img.width = 2 * radius * unit
               drawImage(img, x - radius, y - radius)
             }
           case Text(x, y, txt) =>
@@ -86,7 +86,7 @@ class Canvasy(canvas: html.Canvas) {
             ctx.font = t.fontSize.toString + "px " + t.font
             ctx.textAlign = t.textAlign
             ctx.textBaseline = t.textAlign
-            if(t.filled) ctx.fillText(txt, x*unit, y*unit)
+            if (t.filled) ctx.fillText(txt, x*unit, y*unit)
             else ctx.strokeText(txt, x*unit, y*unit)
         }
         ctx.stroke()
@@ -98,7 +98,7 @@ class Canvasy(canvas: html.Canvas) {
    * @param unitX the right top corner position on the x axis
    * @param unitY the right top corner position on the y axis
    */
-  def drawImage(img: Image, unitX: Double, unitY: Double): Unit = img.draw(unitX*unit,unitY*unit,ctx)
+  def drawImage(img: Image, unitX: Double, unitY: Double): Unit = img.draw(unitX*unit, unitY*unit, ctx)
 
   /**
    *  remove all shapes/image on the screen
@@ -106,14 +106,14 @@ class Canvasy(canvas: html.Canvas) {
   def clear(): Unit = ctx.clearRect(0, 0, canvas.width, canvas.height)
 
   /**
-   * build a grid can be used as a game ground
+   * build a grid than can be used as a game ground
    * @param length the length of a single bax inside the grid
    * @param strokeColor the color of the box strokes
    * @param wall boolean value indicate whether the grid contains wall or not
    * @param wallColor the color of the wall
    * @return a Grid object
    */
-  def buildGrid(length: Int = 1,strokeColor: String = "black", wall: Boolean = false, wallColor: String = "black"): Grid = {
+  def buildGrid(length: Int = 1, strokeColor: String = "black", wall: Boolean = false, wallColor: String = "black"): Grid = {
     val nb_row = Math.floor(canvas.height / (unit*length)).asInstanceOf[Int]
     val nb_col = Math.floor(canvas.width / (unit*length)).asInstanceOf[Int]
     grid = Grid(length, nb_row, nb_col, strokeColor, wall, wallColor)
@@ -126,7 +126,7 @@ class Canvasy(canvas: html.Canvas) {
    * @param unitY the position on the y axis
    * @param color the color of the box filled
    */
-  def fillGridCase(unitX: Int, unitY: Int, color: String = "black"): Unit = grid.fillGridCase(unitX,unitY,color)
+  def fillGridCase(unitX: Int, unitY: Int, color: String = "black"): Unit = grid.fillGridCase(unitX, unitY, color)
 
   /**
    * unfill a box inside the grid

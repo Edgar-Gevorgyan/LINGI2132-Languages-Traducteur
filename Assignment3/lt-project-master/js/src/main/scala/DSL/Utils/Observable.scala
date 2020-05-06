@@ -42,7 +42,7 @@ object Key{
 }
 
 /**
- * This allow to manage listener on the keyboard
+ * This allows to manage listener on the keyboard
  */
 object KeyListener {
   private var id: Int = 0
@@ -55,14 +55,14 @@ object KeyListener {
    * @return an id which can be used to stop the execution of the 'b' function
    */
   def onChange(key: Int)(b: => Unit): Int = {
-    val fun: dom.KeyboardEvent => Unit = (e: dom.KeyboardEvent) => if(e.keyCode == key) b
+    val fun: dom.KeyboardEvent => Unit = (e: dom.KeyboardEvent) => if (e.keyCode == key) b
     keyListener = (id, fun) :: keyListener
     id += 1 // update
     id - 1 // old
   }
 
   /**
-   * Stop the execution of a the function related to the 'id' when the listener is activated
+   * Stop the execution of the function related to the 'id' when the listener is activated
    * @param id the id returned by the previous function
    */
   def remove(id: Int): Unit = {
@@ -70,13 +70,14 @@ object KeyListener {
   }
 
   /**
-   *  remove all function stored in the listener
+   *  remove all functions stored in the listener
    */
   def clear(): Unit = {
     keyListener = List()
     id = 0
   }
 }
+
 /**
  * This allow to manage listener on the mouse
  */
@@ -86,11 +87,11 @@ object MouseListener {
   document.onmousedown = {(e: dom.MouseEvent) => mouseListener.foreach(l => l._2(e))}
 
   /**
-   * @param b a function (x,y) = > Unit where the x and y are the position where the click occur
+   * @param b a function (x,y) => Unit where x and y are the position where the click occurs
    * @return an id which can be used to stop the execution of the 'b' function
    */
   def onChange(b: (Double, Double) => Unit): Int = {
-    val fun: dom.MouseEvent => Unit = (e: dom.MouseEvent) => b(e.clientX,e.clientY)
+    val fun: dom.MouseEvent => Unit = (e: dom.MouseEvent) => b(e.clientX, e.clientY)
     mouseListener = (id, fun) :: mouseListener
     id += 1 // update
     id - 1 // old
@@ -103,7 +104,7 @@ object MouseListener {
    * @return an id which can be used to stop the execution of the 'b' function
    */
   def onChangeInside(shape: Shape, unit: Int = 1)(b: => Unit): Int = {
-    val fun: dom.MouseEvent => Unit = (e: dom.MouseEvent) => if(shape.inside(e.clientX/unit)(e.clientY/unit)) b
+    val fun: dom.MouseEvent => Unit = (e: dom.MouseEvent) => if (shape.inside(e.clientX/unit)(e.clientY/unit)) b
     mouseListener = (id, fun) :: mouseListener
     id += 1 // update
     id - 1 // old
