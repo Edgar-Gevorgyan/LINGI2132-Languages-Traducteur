@@ -129,7 +129,7 @@ object Main {
         if (d eq "RIGHT") snakeX += 1
         if (d eq "DOWN") snakeY += 1
 
-        if (snakeX == foodX && snakeY == foodY) {
+        if (food.isInside(snakeX+0.5)(snakeY+0.5)) {
           score += 1
           eat.play()
           foodX = Math.floor(Math.random() * 17 + 1).asInstanceOf[Int]
