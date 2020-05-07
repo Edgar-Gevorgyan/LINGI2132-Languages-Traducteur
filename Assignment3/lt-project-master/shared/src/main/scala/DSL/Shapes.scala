@@ -8,23 +8,30 @@ sealed trait Shape {
   type A <: Shape
   def and(s: Shape) : ComposedShape[Shape] = ComposedShape(List(this, s))
   def +(s: Shape) : ComposedShape[Shape] = this.and(s)
+
   def moveX(v: Double): Unit
   def moveY(v: Double): Unit
   def move(x: Double)(y: Double): Unit
+
   def moveXto(v: Double): Unit
   def moveYto(v: Double): Unit
   def moveTo(x: Double)(y: Double): Unit
+
   def color(c: String) : Unit
   def strokeColor(sC: String) : Unit
   def strokeWidth(sW : Double) : Unit
-  def change(property: CanvasElementModifier[A]): Unit
   def fill(f: Boolean): Unit
+
   def shadowOffsetX(sO: Double): Unit
   def shadowOffsetY(sO: Double): Unit
   def shadowBlur(sB: Double): Unit
   def shadowColor(sC: String): Unit
+
   def attachImage(url: String): Unit
+
   def isInside(x: Double)(y: Double): Boolean = false
+
+  def change(property: CanvasElementModifier[A]): Unit
 }
 
 /**
@@ -50,20 +57,25 @@ sealed trait ShapeAttributes {
   var strokeColor: String = "#000000"
   var strokeWidth: Double = 1
   var filled: Boolean = false
+
   var shadowOffsetX: Double = 0
   var shadowOffsetY: Double = 0
   var shadowBlur: Double = 0
   var shadowColor: String = "#000000"
+
   var imageAttached: Boolean = false
   var imageURL: String = ""
+
   def color(c: String): Unit = color = c
   def strokeColor(sC: String): Unit = this.strokeColor = sC
   def strokeWidth(sW: Double): Unit = strokeWidth = sW
   def fill(f: Boolean): Unit = filled = f
+
   def shadowOffsetX(sO: Double): Unit = shadowOffsetX = sO
   def shadowOffsetY(sO: Double): Unit = shadowOffsetY = sO
   def shadowBlur(sB: Double): Unit = shadowBlur = sB
   def shadowColor(sC: String): Unit = shadowColor = sC
+
   def attachImage(url: String): Unit = {
     imageAttached = true
     imageURL = url
@@ -103,23 +115,29 @@ case class ComposedShape[MyType <: Shape](var l: List[MyType]) extends Shape {
   def apply(i: Int): MyType = l(i)
   def and(s: ComposedShape[MyType]): ComposedShape[MyType] = ComposedShape(this.l ++ s.l)
   def +(s: ComposedShape[MyType]): ComposedShape[MyType] = this.and(s)
+
   def map[OutType <: Shape](f: MyType => OutType): ComposedShape[OutType] = ComposedShape(this.l.map(f))
   def flatMap[OutType <: Shape](f: MyType => Iterable[OutType]) : ComposedShape[OutType] = ComposedShape(this.l.flatMap(f))
   def foreach[B](f: MyType => B): Unit = l.foreach(f)
+
   override def moveX(v: Double): Unit = this.foreach(s => s.moveX(v))
   override def moveY(v: Double): Unit = this.foreach(s => s.moveY(v))
   override def move(x: Double)(y: Double): Unit = this.foreach(s => s.move(x)(y))
+
   def moveXto(v: Double): Unit = this.foreach(s => s.moveXto(v))
   def moveYto(v: Double): Unit = this.foreach(s => s.moveYto(v))
   override def moveTo(x: Double)(y: Double): Unit = this.foreach(s => s.moveTo(x)(y))
+
   override def color(c: String): Unit = this.foreach(s => s.color(c))
   override def strokeWidth(sW: Double): Unit = this.foreach(s => s.strokeWidth(sW))
   override def strokeColor(sS: String): Unit = this.foreach(s => s.strokeColor(sS))
   override def fill(f: Boolean): Unit = this.foreach(s => s.fill(f))
+
   def shadowOffsetX(sO: Double): Unit = this.foreach(s => s.shadowOffsetX(sO))
   def shadowOffsetY(sO: Double): Unit = this.foreach(s => s.shadowOffsetY(sO))
   def shadowBlur(sB: Double): Unit = this.foreach(s => s.shadowBlur(sB))
   def shadowColor(sC: String): Unit = this.foreach(s => s.shadowColor(sC))
+
   override def attachImage(url: String): Unit = this.foreach(s => s.attachImage(url))
   override def change(property: CanvasElementModifier[A]): Unit = this.foreach(s => property.change(s))
 }
@@ -133,10 +151,13 @@ case class ComposedShape[MyType <: Shape](var l: List[MyType]) extends Shape {
  */
 case class Rectangle(var x: Double, var y: Double, var width: Double, var height: Double) extends SingleShape with Ordered[Rectangle] {
   type A = Rectangle
+
   def and(s: Rectangle): ComposedShape[Rectangle] = ComposedShape(List(this, s))
   def +(s: Rectangle): ComposedShape[Rectangle] = this.and(s)
+
   def and(s: ComposedShape[Rectangle]): ComposedShape[Rectangle] = ComposedShape(this::s.l)
   def +(s: ComposedShape[Rectangle]): ComposedShape[Rectangle] = this.and(s)
+
   override def isInside(x: Double)(y: Double): Boolean = x > this.x && x < this.x+this.width && y < this.y+this.height && y > this.y
   override def compare(that: Rectangle): Int = {
     if (this.x == that.x && this.y == that.y && this.width == that.width) (this.height - that.height).asInstanceOf[Int]
@@ -154,10 +175,13 @@ case class Rectangle(var x: Double, var y: Double, var width: Double, var height
  */
 case class Square(var x: Double, var y: Double, var len: Double) extends SingleShape with Ordered[Square] {
   type A = Square
+
   def and(s: Square): ComposedShape[Square] = ComposedShape(List(this, s))
   def +(s: Square): ComposedShape[Square] = this.and(s)
+
   def and(s: ComposedShape[Square]): ComposedShape[Square] = ComposedShape(this::s.l)
   def +(s: ComposedShape[Square]): ComposedShape[Square] = this.and(s)
+
   override def isInside(x: Double)(y: Double): Boolean = x > this.x && x < this.x+this.len && y < this.y+this.len && y > this.y
   override def compare(that: Square): Int = {
     if (this.x == that.x && this.y == that.y) (this.len - that.len).asInstanceOf[Int]
@@ -174,10 +198,13 @@ case class Square(var x: Double, var y: Double, var len: Double) extends SingleS
  */
 case class Circle(var x: Double, var y: Double, var radius: Double) extends SingleShape with Ordered[Circle] {
   type A = Circle
+
   def and(s: Circle): ComposedShape[Circle] = ComposedShape(List(this, s))
   def +(s: Circle): ComposedShape[Circle] = this.and(s)
+
   def and(s: ComposedShape[Circle]): ComposedShape[Circle] = ComposedShape(this::s.l)
   def +(s: ComposedShape[Circle]): ComposedShape[Circle] = this.and(s)
+
   override def isInside(x: Double)(y: Double): Boolean = Math.sqrt(Math.pow(this.x - x,2)+Math.pow(this.y - y,2)) <= this.radius
   override def compare(that: Circle): Int = {
     if (this.x == that.x && this.y == that.y) (this.radius - that.radius).asInstanceOf[Int]
