@@ -139,15 +139,10 @@ case class Rectangle(var x: Double, var y: Double, var width: Double, var height
   def +(s: ComposedShape[Rectangle]): ComposedShape[Rectangle] = this.and(s)
   override def isInside(x: Double)(y: Double): Boolean = x > this.x && x < this.x+this.width && y < this.y+this.height && y > this.y
   override def compare(that: Rectangle): Int = {
-    if (this.x == that.x && this.y == that.y && this.width == that.width) {
-      (this.height - that.height).asInstanceOf[Int]
-    } else if (this.x == that.x && this.y == that.y) {
-      (this.width - that.width).asInstanceOf[Int]
-    } else if (this.x == that.x) {
-      (this.y - that.y).asInstanceOf[Int]
-    } else {
-      (this.x - that.x).asInstanceOf[Int]
-    }
+    if (this.x == that.x && this.y == that.y && this.width == that.width) (this.height - that.height).asInstanceOf[Int]
+    else if (this.x == that.x && this.y == that.y) (this.width - that.width).asInstanceOf[Int]
+    else if (this.x == that.x) (this.y - that.y).asInstanceOf[Int]
+    else (this.x - that.x).asInstanceOf[Int]
   }
 }
 
@@ -165,13 +160,9 @@ case class Square(var x: Double, var y: Double, var len: Double) extends SingleS
   def +(s: ComposedShape[Square]): ComposedShape[Square] = this.and(s)
   override def isInside(x: Double)(y: Double): Boolean = x > this.x && x < this.x+this.len && y < this.y+this.len && y > this.y
   override def compare(that: Square): Int = {
-    if (this.x == that.x && this.y == that.y) {
-      (this.len - that.len).asInstanceOf[Int]
-    } else if (this.x == that.x) {
-      (this.y - that.y).asInstanceOf[Int]
-    } else {
-      (this.x - that.x).asInstanceOf[Int]
-    }
+    if (this.x == that.x && this.y == that.y) (this.len - that.len).asInstanceOf[Int]
+    else if (this.x == that.x) (this.y - that.y).asInstanceOf[Int]
+    else (this.x - that.x).asInstanceOf[Int]
   }
 }
 
@@ -189,13 +180,9 @@ case class Circle(var x: Double, var y: Double, var radius: Double) extends Sing
   def +(s: ComposedShape[Circle]): ComposedShape[Circle] = this.and(s)
   override def isInside(x: Double)(y: Double): Boolean = Math.sqrt(Math.pow(this.x - x,2)+Math.pow(this.y - y,2)) <= this.radius
   override def compare(that: Circle): Int = {
-    if (this.x == that.x && this.y == that.y) {
-      (this.radius - that.radius).asInstanceOf[Int]
-    } else if (this.x == that.x) {
-      (this.y - that.y).asInstanceOf[Int]
-    } else {
-      (this.x - that.x).asInstanceOf[Int]
-    }
+    if (this.x == that.x && this.y == that.y) (this.radius - that.radius).asInstanceOf[Int]
+    else if (this.x == that.x) (this.y - that.y).asInstanceOf[Int]
+    else (this.x - that.x).asInstanceOf[Int]
   }
 }
 
@@ -241,7 +228,7 @@ class Grid(length: Int, nb_row: Int, nb_col: Int, strokeColor: String, wall: Boo
    */
   def fillGridCase(unitX: Int, unitY: Int, color: String): Unit = {
     l = for(rec <- l) yield
-      if(rec == Rectangle(unitX*length, unitY*length, 1*length, 1*length)) {
+      if(rec == Rectangle(unitX * length, unitY * length, length, length)) {
         rec change Color(color)
         rec change Fill(true)
         rec
@@ -257,7 +244,7 @@ class Grid(length: Int, nb_row: Int, nb_col: Int, strokeColor: String, wall: Boo
    */
   def unFillGridCase(unitX: Int, unitY: Int): Unit = {
     l = for(rec <- l) yield
-      if(rec == Rectangle(unitX*length, unitY*length, 1*length, 1*length)){
+      if(rec == Rectangle(unitX * length, unitY * length, length, length)){
         rec change Fill(false)
         rec
       } else {
@@ -290,13 +277,15 @@ object Grid {
    * @return an IndexedSeq instance representing the grid
    */
   def build_grid(length: Int, nb_row: Int, nb_col: Int, wall: Boolean, wallColor: String): IndexedSeq[Rectangle] = {
-    for(i <- 0 to nb_row; j <-  0 to nb_col) yield {
-        val rec = Rectangle(j*length, i*length, 1*length, 1*length)
-        if (wall && (i == 0 || i == nb_row-1 || j == 0 || j == nb_col-1)) {
-          rec change Fill(true)
-          rec change Color(wallColor)
-        }
-        rec
+    for(i <- 0 to nb_row;
+        j <-  0 to nb_col;
+        rec = Rectangle(j * length, i * length, length, length))
+    yield {
+      if (wall && (i == 0 || i == nb_row-1 || j == 0 || j == nb_col-1)) {
+        rec change Fill(true)
+        rec change Color(wallColor)
       }
+      rec
+    }
   }
 }

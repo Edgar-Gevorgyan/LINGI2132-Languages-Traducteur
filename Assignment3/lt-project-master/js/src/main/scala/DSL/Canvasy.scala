@@ -52,7 +52,7 @@ class Canvasy(canvas: html.Canvas) {
         ctx.fillStyle = s.color
         s match {
           case Rectangle(x, y, width, height) =>
-            ctx.rect(x*unit, y*unit, width*unit, height*unit)
+            ctx.rect(x * unit, y * unit, width * unit, height * unit)
             if (s.filled) ctx.fill()
             if (s.imageAttached) {
               val found = imageCache.find(x => x.src eq s.imageURL)
@@ -62,7 +62,7 @@ class Canvasy(canvas: html.Canvas) {
               drawImage(img, x, y)
             }
           case Square(x, y, len) =>
-            ctx.rect(x*unit, y*unit, len*unit, len*unit)
+            ctx.rect(x * unit, y * unit, len * unit, len * unit)
             if (s.filled) ctx.fill()
             if (s.imageAttached) {
               val found = imageCache.find(x => x.src eq s.imageURL)
@@ -72,7 +72,7 @@ class Canvasy(canvas: html.Canvas) {
               drawImage(img, x, y)
             }
           case Circle(x, y, radius) =>
-            ctx.arc(x*unit, y*unit, radius*unit, 0, 2 * Math.PI)
+            ctx.arc(x * unit, y * unit, radius * unit, 0, 2 * Math.PI)
             if (s.filled) ctx.fill()
             if (s.imageAttached) {
               val found = imageCache.find(x => x.src eq s.imageURL)
@@ -86,8 +86,8 @@ class Canvasy(canvas: html.Canvas) {
             ctx.font = t.fontSize.toString + "px " + t.font
             ctx.textAlign = t.textAlign
             ctx.textBaseline = t.textAlign
-            if (t.filled) ctx.fillText(txt, x*unit, y*unit)
-            else ctx.strokeText(txt, x*unit, y*unit)
+            if (t.filled) ctx.fillText(txt, x * unit, y * unit)
+            else ctx.strokeText(txt, x * unit, y * unit)
         }
         ctx.stroke()
     }
@@ -98,7 +98,7 @@ class Canvasy(canvas: html.Canvas) {
    * @param unitX the right top corner position on the x axis
    * @param unitY the right top corner position on the y axis
    */
-  def drawImage(img: Image, unitX: Double, unitY: Double): Unit = img.draw(unitX*unit, unitY*unit, ctx)
+  def drawImage(img: Image, unitX: Double, unitY: Double): Unit = img.draw(unitX * unit, unitY * unit, ctx)
 
   /**
    *  remove all shapes/image on the screen
@@ -114,8 +114,8 @@ class Canvasy(canvas: html.Canvas) {
    * @return a Grid object
    */
   def buildGrid(length: Int = 1, strokeColor: String = "black", wall: Boolean = false, wallColor: String = "black"): Grid = {
-    val nb_row = Math.floor(canvas.height / (unit*length)).asInstanceOf[Int]
-    val nb_col = Math.floor(canvas.width / (unit*length)).asInstanceOf[Int]
+    val nb_row = Math.floor(canvas.height / (unit * length)).asInstanceOf[Int]
+    val nb_col = Math.floor(canvas.width / (unit * length)).asInstanceOf[Int]
     grid = Grid(length, nb_row, nb_col, strokeColor, wall, wallColor)
     grid
   }
