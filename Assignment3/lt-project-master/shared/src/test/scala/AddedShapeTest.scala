@@ -217,5 +217,15 @@ class AddedShapeTest extends AnyFunSuite with Matchers{
     c < c4  shouldBe true
     c2 > c  shouldBe true
   }
+  test("shadow test ") {
+    val r = newRectangle()
+    r change ShadowBlur(10)
+    r change ShadowColor("red")
+    r change ShadowOffsetX(10)
+    r.shadowBlur shouldBe 10
+    r.shadowColor shouldBe "red"
+    r.shadowOffsetX shouldBe 10
+  }
+
 
 }
