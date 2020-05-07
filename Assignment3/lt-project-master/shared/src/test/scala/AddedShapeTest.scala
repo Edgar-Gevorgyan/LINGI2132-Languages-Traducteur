@@ -109,6 +109,11 @@ class AddedShapeTest extends AnyFunSuite with Matchers{
     rec.isInside(5)(5) shouldBe true
   }
 
+  test("isInside Square"){
+    val rec = Square(0, 0, 10)
+    rec.isInside(2)(2) shouldBe true
+  }
+
   test("isInside Circle"){
     val rec = Circle(0, 0, 10)
     rec.isInside(2)(2) shouldBe true
