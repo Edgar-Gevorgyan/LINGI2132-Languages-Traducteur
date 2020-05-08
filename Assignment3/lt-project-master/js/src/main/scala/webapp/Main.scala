@@ -55,7 +55,6 @@ object Main {
     //canvasy.drawImage(ground,0,0)
 
     snakeGame(canvas)
-
   }
 
   def snakeGame(canvas: html.Canvas): Unit = {
@@ -142,7 +141,7 @@ object Main {
         newHead change Fill(true)
 
         if (snakeX < 1 || snakeX > 17  || snakeY < 3 || snakeY > 17 || snake.contains(newHead)) {
-          Timer.remove()
+          Timer.clear()
           canvasy.draw(start_layout)
           canvasy.draw(finish_text)
 

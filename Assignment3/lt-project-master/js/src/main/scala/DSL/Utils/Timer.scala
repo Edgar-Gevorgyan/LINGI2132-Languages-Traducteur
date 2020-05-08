@@ -11,7 +11,7 @@ object Timer {
   var stackTimeoutHandle: List[SetTimeoutHandle] = List()
   def remove(handle: SetIntervalHandle): Unit = RawTimers.clearInterval(handle)
   def remove(handle: SetTimeoutHandle): Unit = RawTimers.clearTimeout(handle)
-  def remove(): Unit = {
+  def clear(): Unit = {
     stackIntervalHandle.foreach(x => remove(x))
     stackTimeoutHandle.foreach(x => remove(x))
   }
