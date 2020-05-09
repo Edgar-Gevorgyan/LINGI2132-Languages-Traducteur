@@ -1,4 +1,4 @@
-package DSL.Utils
+package DSL.Utility
 
 import DSL._
 import org.scalajs.dom

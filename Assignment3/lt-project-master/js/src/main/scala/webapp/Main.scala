@@ -1,6 +1,6 @@
 package webapp
 
-import DSL.Utils._
+import DSL.Utility._
 import DSL._
 import org.scalajs.dom
 import org.scalajs.dom.{document, html}
@@ -17,42 +17,6 @@ object Main {
     val w = 608
     canvas.width = w
     canvas.height = w
-    var canvasy = Canvasy(canvas)
-    // --------- example usage Timer ---------
-    //atEach(1000) execute appendPar(document.body,"ee")
-    //atEach(500) execute appendPar(document.body,"ewa")
-    //after(5000) execute Timer.remove()
-    //after(3001) execute Timer.remove(id)
-    // --------- example usage KeyListener ---------
-    //KeyListener.onChange(Key.UP){scalaJSDemo(canvas)}
-    //val i = KeyListener.onChange(Key.DOWN){appendPar(document.body,"ee")}
-    //KeyListener.onChange(Key.RIGHT){KeyListener.remove(i)}
-    //after(3000) execute KeyListener.clear()
-    // --------- example usage Grid ---------
-    //canvasy.makeGrid(50)
-    //canvasy.addObstacle(0,0,"red")
-    //canvasy.addObstacle(5,4,"red")
-    //anvasy.removeObstacle(5,4)
-    //canvasy.drawGrid()
-    // --------- example usage Image ---------
-    //val i = Image("IMG/ground.png")
-    //canvasy.drawImg(i,0,0) // WORK
-    //after(300) execute canvasy.drawImg(i,0,0)
-    // --------- example usage Grid ---------
-    //canvasy.setUnit(32)
-    //val v = canvasy.buildGrid()
-    //v change StrokeColor("blue")
-    //v fillGridCase (2,2,"red")
-    //canvasy.draw(v)
-    // --------- example usage MouseListener ---------
-    //canvasy.setUnit(32)
-    //canvasy.draw(canvasy.buildGrid())
-    //val rec = Rectangle(2,2,1,1)
-    //MouseListener.onChangeInside(rec, canvasy.unit){ appendPar(document.body, "ewaaa" )}
-    //****************SNAKE****************
-
-    //val ground = Image("IMG/ground.png")
-    //canvasy.drawImage(ground,0,0)
 
     snakeGame(canvas)
   }
@@ -63,8 +27,6 @@ object Main {
     canvasy.setUnit(box)
 
     val ground = Image("IMG/ground.png")
-    // This also works
-    // val ground = Image("https://images-na.ssl-images-amazon.com/images/I/71N1XtP8TdL._AC_SX466_.jpg")
 
     var snake = Array(Square(9, 10, 1))
     snake change Fill(true)
@@ -157,12 +119,6 @@ object Main {
         canvasy.draw(scoreBoard)
       }
     }
-  }
-
-  def appendPar(targetNode: dom.Node, text: String): Unit = { // just to test on browser
-    val parNode = document.createElement("p")
-    parNode.textContent = text
-    targetNode.appendChild(parNode)
   }
 
   def scalaJSDemo(c: html.Canvas): Unit = {

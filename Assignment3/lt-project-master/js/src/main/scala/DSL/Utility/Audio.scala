@@ -1,4 +1,4 @@
-package DSL.Utils
+package DSL.Utility
 
 import org.scalajs.dom
 import org.scalajs.dom.raw.HTMLAudioElement

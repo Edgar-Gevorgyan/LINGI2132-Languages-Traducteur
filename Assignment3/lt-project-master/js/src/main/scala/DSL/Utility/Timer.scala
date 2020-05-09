@@ -1,4 +1,4 @@
-package DSL.Utils
+package DSL.Utility
 
 import scala.scalajs.js.timers.{RawTimers, SetIntervalHandle, SetTimeoutHandle}
 

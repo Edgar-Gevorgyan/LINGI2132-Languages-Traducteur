@@ -95,7 +95,7 @@ class AddedShapeTest extends AnyFunSuite with Matchers{
     g(0).y shouldBe expectedY
   }
 
-  test("grid test"){
+  test("Grid test"){
     val g = Grid(2, 2, 2, "black", wall = false, "black")
     g fillGridCase(0, 0, "black")
     g(0).filled shouldBe true
@@ -157,7 +157,7 @@ class AddedShapeTest extends AnyFunSuite with Matchers{
     tt.font shouldBe "hello"
   }
 
-  test("filled test") {
+  test("Filled test") {
     val r = Square(1, 1, 1)
     r.filled shouldBe false
     r change Fill(false)
@@ -166,7 +166,7 @@ class AddedShapeTest extends AnyFunSuite with Matchers{
     r.filled shouldBe false
   }
 
-  test("difference and equality for Rectangle") {
+  test("Boolean logic's for Rectangle") {
     val r  = Rectangle(1, 1, 1, 1)
     val r1 = Rectangle(1, 1, 1, 1)
     val r2 = Rectangle(1, 1, 1, 2)
@@ -185,7 +185,7 @@ class AddedShapeTest extends AnyFunSuite with Matchers{
     r2 > r  shouldBe true
     r3 > r2 shouldBe true
   }
-  test("difference and equality for Square") {
+  test("Boolean logic's for Square") {
     val r  = Square(1, 1, 1)
     val r1 = Square(1, 1, 1)
     val r2 = Square(1, 1, 2)
@@ -202,7 +202,7 @@ class AddedShapeTest extends AnyFunSuite with Matchers{
     r3 > r2 shouldBe true
   }
 
-  test("difference and equality for Circle") {
+  test("Boolean logic's for Circle") {
     val c  = Circle(1, 1, 1)
     val c1 = Circle(1, 1, 1)
     val c2 = Circle(1, 1, 2)
@@ -217,7 +217,7 @@ class AddedShapeTest extends AnyFunSuite with Matchers{
     c < c4  shouldBe true
     c2 > c  shouldBe true
   }
-  test("shadow test ") {
+  test("Shadow test ") {
     val r = newRectangle()
     r change ShadowBlur(10)
     r change ShadowColor("red")

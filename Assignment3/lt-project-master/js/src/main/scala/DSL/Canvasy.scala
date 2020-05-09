@@ -1,6 +1,6 @@
 package DSL
 
-import DSL.Utils._
+import DSL.Utility._
 import org.scalajs.dom
 import org.scalajs.dom.html
 import org.scalajs.dom.html.Canvas
