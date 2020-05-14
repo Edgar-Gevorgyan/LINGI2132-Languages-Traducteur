@@ -20,8 +20,8 @@ object Main {
     canvas.width = w
     canvas.height = w
 
-    //snakeGame(canvas)
-    pongGame(canvas)
+    snakeGame(canvas)
+    //pongGame(canvas)
   }
 
   def pongGame(canvas: html.Canvas): Unit = {
