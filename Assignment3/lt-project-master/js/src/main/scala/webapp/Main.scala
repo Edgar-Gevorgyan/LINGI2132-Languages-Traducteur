@@ -5,6 +5,8 @@ import DSL._
 import org.scalajs.dom
 import org.scalajs.dom.{document, html}
 
+import scala.util.Random
+
 
 object Main {
 
@@ -18,7 +20,102 @@ object Main {
     canvas.width = w
     canvas.height = w
 
-    snakeGame(canvas)
+    //snakeGame(canvas)
+    pongGame(canvas)
+  }
+
+  def pongGame(canvas: html.Canvas): Unit = {
+    val rand = new Random(7)
+
+    val canvasy = Canvasy(canvas)
+    val box = 32
+    canvasy.setUnit(box)
+
+    // background
+    var bord = Rectangle(0, 0, 19, 19)
+    bord change Color("lightgray")
+    bord change Fill(true)
+    canvasy += bord
+
+    // player1
+    var player1 = Rectangle(0.1, 7.5, 1, 3)
+    player1 change StrokeColor("red")
+    player1 change Color("red")
+    player1 change Fill(true)
+    canvasy += player1
+
+    // player1 listeners
+    KeyListener.onChange(Key.Q)  { player1 moveY 1}
+    KeyListener.onChange(Key.D) { player1 moveY -1}
+
+    // player1 scores
+    var score1 = 0
+    var score1_text = Text(4.5, 3, score1.toString)
+    score1_text change FontSize(70)
+    canvasy += score1_text
+
+    // player2
+    var player2 = Rectangle(17.8, 7.5, 1, 3)
+    player2 change StrokeColor("blue")
+    player2 change Color("blue")
+    player2 change Fill(true)
+    canvasy += player2
+
+    // player2 listeners
+    KeyListener.onChange(Key.LEFT)  { player2 moveY 1}
+    KeyListener.onChange(Key.RIGHT) { player2 moveY -1}
+
+    // player1 scores
+    var score2 = 0
+    var score2_text = Text(12.5, 3, score2.toString)
+    score2_text change FontSize(70)
+    canvasy += score2_text
+
+    // ball
+    var ball = Circle(9, 9, 0.5)
+    ball change Color("yellow")
+    ball change Fill(true)
+    canvasy += ball
+    var direction = 0.0 // in rad
+    val speed = 0.3
+
+    atEach(50) execute {
+      // collision with players
+      if((ball.x + ball.radius) <= 18.5 && player2.isInside(ball.x + ball.radius)(ball.y)) {
+        direction = (1 + rand.between(-0.15, 0.15)) * Math.PI
+      } else if((ball.x - ball.radius) >= 0.5 && player1.isInside(ball.x - ball.radius)(ball.y)) {
+        direction = rand.between(-0.15, 0.15)
+      }
+
+      // collision with left or right border
+      var win = false
+      if (ball.x > 19) {
+        score1 += 1
+        score1_text change Content(score1.toString)
+        win = true
+      } else if (ball.x < 0){
+        score2 += 1
+        score2_text change Content(score2.toString)
+        win = true
+      }
+      if(win) {
+        direction = 0.0
+        ball.moveTo(9)(9)
+        player1 moveYto 7.5
+        player2 moveYto 7.5
+      }
+
+      // collision with up or down border
+      if(ball.y < 0 || ball.y > 19){
+        direction = - direction
+      }
+
+      // ball move
+      ball moveX Math.cos(direction)*speed
+      ball moveY -Math.sin(direction)*speed
+
+      canvasy.draw()
+    }
   }
 
   def snakeGame(canvas: html.Canvas): Unit = {
@@ -26,11 +123,14 @@ object Main {
     val box = 32
     canvasy.setUnit(box)
 
+    // background
     val ground = Image("IMG/ground.png")
 
+    // snake
     var snake = Array(Square(9, 10, 1))
     snake change Fill(true)
 
+    // food
     var foodX = Math.floor(Math.random() * 17 + 1).asInstanceOf[Int]
     var foodY = Math.floor(Math.random() * 15 + 3).asInstanceOf[Int]
     val food = Circle(foodX + 0.5, foodY + 0.5, 0.5)
@@ -40,14 +140,17 @@ object Main {
     food change ShadowBlur(10)
     food change AttachImage("IMG/food.png")
 
+    // snake listeners
     var d = "init"
     KeyListener.onChange(Key.LEFT) {if (d != "RIGHT") d = "LEFT"}
     KeyListener.onChange(Key.RIGHT) {if (d != "LEFT") d = "RIGHT"}
     KeyListener.onChange(Key.UP) {if (d != "DOWN") d = "UP"}
     KeyListener.onChange(Key.DOWN) {if (d != "UP") d = "DOWN"}
 
+    // audio sound
     val eat = Audio("AUDIO/eat.mp3")
 
+    // score
     var score = 0
     val scoreBoard = Text(2 , 1.6, score.toString)
     scoreBoard change Fill(true)
@@ -78,8 +181,8 @@ object Main {
         canvasy.drawImage(ground,0,0)
         canvasy.draw(snake)
 
-        food.x = foodX + 0.5
-        food.y =  foodY + 0.5
+        //move food
+        food.moveTo(foodX + 0.5)(foodY + 0.5)
         canvasy.draw(food)
 
         var snakeX = snake(0).x
@@ -90,6 +193,7 @@ object Main {
         if (d eq "RIGHT") snakeX += 1
         if (d eq "DOWN") snakeY += 1
 
+        // check if snake catch some food
         if (food.isInside(snakeX+0.5)(snakeY+0.5)) {
           score += 1
           eat.play()
@@ -99,9 +203,11 @@ object Main {
           snake = snake.take(snake.length - 1)
         }
 
+        // update snake new head
         val newHead = Square(snakeX, snakeY, 1)
         newHead change Fill(true)
 
+        // check if snake touch the borders
         if (snakeX < 1 || snakeX > 17  || snakeY < 3 || snakeY > 17 || snake.contains(newHead)) {
           Timer.clear()
           canvasy.draw(start_layout)
